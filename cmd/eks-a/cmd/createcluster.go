@@ -117,8 +117,6 @@ func (cc *createClusterOptions) createCluster(ctx context.Context) error {
 	govc := executableBuilder.BuildGovcExecutable(writer)
 	docker := executables.BuildDockerExecutable()
 	flux := executableBuilder.BuildFluxExecutable()
-	troubleshoot := executableBuilder.BuildTroubleshootExecutable()
-	fmt.Println(troubleshoot.Version(ctx))
 
 	providerFactory := &factory.ProviderFactory{
 		AwsClient:            clusterawsadm,
