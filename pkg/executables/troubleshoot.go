@@ -19,11 +19,11 @@ func NewTroubleshoot(executable Executable) *Troubleshoot {
 	}
 }
 
-func (t *Troubleshoot) Version(ctx context.Context) error {
+func (t *Troubleshoot) Version(ctx context.Context) (string, error) {
 	params := []string{"version"}
-	_, err := t.executable.Execute(ctx, params...)
+	version, err := t.executable.Execute(ctx, params...)
 	if err != nil {
-		return fmt.Errorf("error executing version: %v", err)
+		return "", fmt.Errorf("error executing version: %v", err)
 	}
-	return nil
+	return version.String(), nil
 }
