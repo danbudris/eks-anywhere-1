@@ -38,8 +38,8 @@ type EksaDiagnosticBundle struct {
 	Writer           filewriter.FileWriter
 }
 
-func NewDiagnosticBundle(clusterSpec *cluster.Spec, bundleConfig string, opts EksaDiagnosticBundleOpts) (*EksaDiagnosticBundle, error) {
-	if bundleConfig == "" {
+func NewDiagnosticBundle(clusterSpec *cluster.Spec, opts EksaDiagnosticBundleOpts) (*EksaDiagnosticBundle, error) {
+	if opts.BundlePath == "" {
 		// user did not provide any bundle-config to the support-bundle command, generate one using the default collectors & analyzers
 		return NewBundleFromSpec(clusterSpec, opts), nil
 	}

@@ -106,13 +106,14 @@ func (csbo *createSupportBundleOptions) createBundle(ctx context.Context, since,
 
 	opts := support.EksaDiagnosticBundleOpts{
 		AnalyzerFactory:  support.NewAnalyzerFactory(),
+		BundlePath:       bundleConfig,
 		CollectorFactory: support.NewCollectorFactory(),
 		Client:           troubleshoot,
 		Kubeconfig:       csbo.kubeConfig(clusterSpec.Name),
 		Writer:           writer,
 	}
 
-	supportBundle, err := support.NewDiagnosticBundle(clusterSpec, bundleConfig, opts)
+	supportBundle, err := support.NewDiagnosticBundle(clusterSpec, opts)
 	if err != nil {
 		return fmt.Errorf("failed to parse collector: %v", err)
 	}
