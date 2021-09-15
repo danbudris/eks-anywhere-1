@@ -2,6 +2,8 @@ package executables
 
 import (
 	"context"
+	"encoding/json"
+	"fmt"
 	"strings"
 )
 
@@ -25,12 +27,15 @@ func (t *Troubleshoot) CollectAndAnalyze(ctx context.Context, bundlePath string,
 	if err != nil {
 		return "", "", err
 	}
-	analysis, archivePath = parseCollectAndAnalyzeOutputs(output.String())
+	analysis, archivePath, err = parseCollectAndAnalyzeOutputs(output.String())
+	if err != nil {
+		return "", "", err
+	}
 	return analysis, archivePath, nil
 }
 
-func parseCollectAndAnalyzeOutputs(tsLogs string) (analysis string, archivePath string) {
-	logStart := "logs["
+func parseCollectAndAnalyzeOutputs(tsLogs string) (analysis string, archivePath string, err error) {
+	logStart := "["
 	logsStartIndex := strings.Index(tsLogs, logStart)
 
 	logEnd := "]"
@@ -39,5 +44,12 @@ func parseCollectAndAnalyzeOutputs(tsLogs string) (analysis string, archivePath 
 	analysis = tsLogs[logsStartIndex:logsEndIndex]
 	archivePath = tsLogs[logsEndIndex:]
 
-	return archivePath, analysis
+	var i []interface{}
+	err = json.Unmarshal([]byte(analysis), &i)
+	if err != nil {
+		return "", "", err
+	}
+
+	fmt.Println(i)
+	return analysis, archivePath, nil
 }
