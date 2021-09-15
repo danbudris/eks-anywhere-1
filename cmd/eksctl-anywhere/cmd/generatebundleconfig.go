@@ -82,5 +82,9 @@ func (gsbo *generateSupportBundleOptions) generateBundleConfig() (*support.EksaD
 	if err != nil {
 		return nil, fmt.Errorf("unable to get cluster config from file: %v", err)
 	}
-	return support.NewBundleConfig(clusterSpec, support.NewAnalyzerFactory(), support.NewCollectorFactory()), nil
+	opts := support.EksaDiagnosticBundleOpts{
+		AnalyzerFactory:  support.NewAnalyzerFactory(),
+		CollectorFactory: support.NewCollectorFactory(),
+	}
+	return support.NewBundleConfig(clusterSpec, opts), nil
 }

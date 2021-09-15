@@ -13,6 +13,7 @@ import (
 	"github.com/spf13/viper"
 
 	"github.com/aws/eks-anywhere/pkg/cluster"
+	"github.com/aws/eks-anywhere/pkg/executables"
 	"github.com/aws/eks-anywhere/pkg/logger"
 	support "github.com/aws/eks-anywhere/pkg/support"
 	"github.com/aws/eks-anywhere/pkg/validations"
@@ -46,7 +47,7 @@ var supportbundleCmd = &cobra.Command{
 		if err := csbo.validate(cmd.Context()); err != nil {
 			return err
 		}
-		if err := csbo.createBundle(csbo.since, csbo.sinceTime, csbo.bundleConfig); err != nil {
+		if err := csbo.createBundle(cmd.Context(), csbo.since, csbo.sinceTime, csbo.bundleConfig); err != nil {
 			return fmt.Errorf("failed to create support bundle: %v", err)
 		}
 		return nil
@@ -87,13 +88,27 @@ func preRunSupportBundle(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
-func (csbo *createSupportBundleOptions) createBundle(since, sinceTime, bundleConfig string) error {
+func (csbo *createSupportBundleOptions) createBundle(ctx context.Context, since, sinceTime, bundleConfig string) error {
 	clusterSpec, err := cluster.NewSpec(csbo.fileName, version.Get())
 	if err != nil {
 		return fmt.Errorf("unable to get cluster config from file: %v", err)
 	}
+	eksaToolsImage := clusterSpec.VersionsBundle.Eksa.CliTools
+	image := eksaToolsImage.VersionedImage()
+	executableBuilder, err := executables.NewExecutableBuilder(ctx, image)
+	if err != nil {
+		return fmt.Errorf("unable to initialize executables: %v", err)
+	}
+	troubleshoot := executableBuilder.BuildTroubleshootExecutable()
+
+	opts := support.EksaDiagnosticBundleOpts{
+		AnalyzerFactory:  support.NewAnalyzerFactory(),
+		CollectorFactory: support.NewCollectorFactory(),
+		Client:           troubleshoot,
+	}
+
 	os.Setenv("KUBECONFIG", csbo.kubeConfig(clusterSpec.Name))
-	supportBundle, err := support.ParseBundleFromDoc(clusterSpec, bundleConfig)
+	supportBundle, err := support.ParseBundleFromDoc(clusterSpec, bundleConfig, opts)
 	if err != nil {
 		return fmt.Errorf("failed to parse collector: %v", err)
 	}
@@ -110,7 +125,7 @@ func (csbo *createSupportBundleOptions) createBundle(since, sinceTime, bundleCon
 	}
 
 	logger.Info("\r \033[36mAnalyzing support bundle\033[m")
-	err = supportBundle.AnalyzeBundle(archivePath)
+	err = supportBundle.AnalyzeBundle(ctx, archivePath)
 	if err != nil {
 		return fmt.Errorf("there is an error when analyzing: %v", err)
 	}
