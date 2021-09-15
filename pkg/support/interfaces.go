@@ -1,10 +1,17 @@
 package supportbundle
 
 import (
+	"bytes"
+	"context"
+
 	"github.com/replicatedhq/troubleshoot/pkg/apis/troubleshoot/v1beta2"
 
 	"github.com/aws/eks-anywhere/pkg/api/v1alpha1"
 )
+
+type BundleClient interface {
+	Analyze(ctx context.Context, bundlePath string) (bytes.Buffer, error)
+}
 
 type DiagnosticBundle interface {
 	PrintBundleConfig() error
