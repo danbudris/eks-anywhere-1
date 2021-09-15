@@ -43,6 +43,7 @@ func parseCollectAndAnalyzeOutputs(tsLogs string) (analysis string, archivePath 
 
 	analysis = tsLogs[logsStartIndex:logsEndIndex]
 	archivePath = tsLogs[logsEndIndex:]
+	fmt.Println(analysis)
 
 	var i []interface{}
 	err = json.Unmarshal([]byte(analysis), &i)
