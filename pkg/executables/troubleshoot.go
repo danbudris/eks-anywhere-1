@@ -25,6 +25,6 @@ func (t *Troubleshoot) CollectAndAnalyze(ctx context.Context, bundlePath string,
 	if err != nil {
 		return err
 	}
-	fmt.Println(output)
+	fmt.Println(output.String())
 	return nil
 }
