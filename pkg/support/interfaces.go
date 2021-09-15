@@ -9,7 +9,7 @@ import (
 )
 
 type BundleClient interface {
-	CollectAndAnalyze(ctx context.Context, bundlePath string, kubeconfig string) error
+	CollectAndAnalyze(ctx context.Context, bundlePath string, kubeconfig string) (analysis string, archivePath string, err error)
 }
 
 type DiagnosticBundle interface {
