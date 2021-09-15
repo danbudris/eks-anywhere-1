@@ -2,6 +2,7 @@ package executables
 
 import (
 	"context"
+	"fmt"
 )
 
 const (
@@ -19,10 +20,11 @@ func NewTroubleshoot(executable Executable) *Troubleshoot {
 }
 
 func (t *Troubleshoot) CollectAndAnalyze(ctx context.Context, bundlePath string, kubeconfig string) error {
-	params := []string{bundlePath, "--kubeconfig", kubeconfig}
-	_, err := t.executable.Execute(ctx, params...)
+	params := []string{bundlePath, "--kubeconfig", kubeconfig, "--interactive=false"}
+	output, err := t.executable.Execute(ctx, params...)
 	if err != nil {
 		return err
 	}
+	fmt.Println(output)
 	return nil
 }
