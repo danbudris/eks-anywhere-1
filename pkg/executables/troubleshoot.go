@@ -35,13 +35,12 @@ func (t *Troubleshoot) CollectAndAnalyze(ctx context.Context, bundlePath string,
 }
 
 func parseCollectAndAnalyzeOutputs(tsLogs string) (analysis string, archivePath string, err error) {
-	logStart := "logs["
-	logsStartIndex := strings.Index(tsLogs, logStart)
+	tsLogs = strings.Split(tsLogs, "logs")[1]
 
 	logEnd := "]"
 	logsEndIndex := strings.Index(tsLogs, logEnd) + 1
 
-	analysis = tsLogs[logsStartIndex:logsEndIndex]
+	analysis = tsLogs[:logsEndIndex]
 	archivePath = tsLogs[logsEndIndex:]
 	fmt.Println(analysis)
 
