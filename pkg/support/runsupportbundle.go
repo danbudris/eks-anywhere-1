@@ -1,11 +1,11 @@
 package supportbundle
 
 import (
+	"context"
 	_ "embed"
 	"fmt"
 	"time"
 
-	analyzerunner "github.com/replicatedhq/troubleshoot/pkg/analyze"
 	"github.com/replicatedhq/troubleshoot/pkg/apis/troubleshoot/v1beta2"
 	"github.com/replicatedhq/troubleshoot/pkg/k8sutil"
 	"github.com/replicatedhq/troubleshoot/pkg/supportbundle"
@@ -17,14 +17,10 @@ import (
 	"github.com/aws/eks-anywhere/pkg/logger"
 )
 
-const resultsSeparator = "\n------------\n"
-
-func ParseBundleFromDoc(clusterSpec *cluster.Spec, bundleConfig string) (*EksaDiagnosticBundle, error) {
-	af := NewAnalyzerFactory()
-	cf := NewCollectorFactory()
+func ParseBundleFromDoc(clusterSpec *cluster.Spec, bundleConfig string, opts EksaDiagnosticBundleOpts) (*EksaDiagnosticBundle, error) {
 	if bundleConfig == "" {
 		// user did not provide any bundle-config to the support-bundle command, generate one using the default collectors & analyzers
-		return NewBundleConfig(clusterSpec, af, cf), nil
+		return NewBundleConfig(clusterSpec, opts), nil
 	}
 
 	// parse bundle-config provided by the user
@@ -36,43 +32,28 @@ func ParseBundleFromDoc(clusterSpec *cluster.Spec, bundleConfig string) (*EksaDi
 	if err != nil {
 		return nil, err
 	}
-	return NewCustomBundleConfig(bundle, af, cf), nil
+	return NewCustomBundleConfig(bundle, opts), nil
 }
 
-func ParseTimeOptions(since string, sinceTime string) (*time.Time, error) {
-	var sinceTimeValue time.Time
-	var err error
-	if sinceTime == "" && since == "" {
-		return &sinceTimeValue, nil
-	} else if sinceTime != "" && since != "" {
-		return nil, fmt.Errorf("at most one of `sinceTime` or `since` could be specified")
-	} else if sinceTime != "" {
-		sinceTimeValue, err = time.Parse(time.RFC3339, sinceTime)
-		if err != nil {
-			return nil, fmt.Errorf("unable to parse --since-time option: %v", err)
-		}
-	} else if since != "" {
-		duration, err := time.ParseDuration(since)
-		if err != nil {
-			return nil, fmt.Errorf("unable to parse --since option: %v", err)
-		}
-		now := time.Now()
-		sinceTimeValue = now.Add(0 - duration)
-	}
-	return &sinceTimeValue, nil
+type EksaDiagnosticBundleOpts struct {
+	AnalyzerFactory  AnalyzerFactory
+	CollectorFactory CollectorFactory
+	Client           BundleClient
 }
 
 type EksaDiagnosticBundle struct {
 	bundle           *v1beta2.SupportBundle
 	analyzerFactory  AnalyzerFactory
 	collectorFactory CollectorFactory
+	client           BundleClient
 }
 
-func NewCustomBundleConfig(customBundle *v1beta2.SupportBundle, af AnalyzerFactory, cf CollectorFactory) *EksaDiagnosticBundle {
+func NewCustomBundleConfig(customBundle *v1beta2.SupportBundle, opts EksaDiagnosticBundleOpts) *EksaDiagnosticBundle {
 	return &EksaDiagnosticBundle{
 		bundle:           customBundle,
-		analyzerFactory:  af,
-		collectorFactory: cf,
+		analyzerFactory:  opts.AnalyzerFactory,
+		collectorFactory: opts.CollectorFactory,
+		client:           opts.Client,
 	}
 }
 
@@ -94,7 +75,7 @@ func NewDefaultBundleConfig(af AnalyzerFactory, cf CollectorFactory) *EksaDiagno
 	return b.WithDefaultAnalyzers().WithDefaultCollectors()
 }
 
-func NewBundleConfig(spec *cluster.Spec, af AnalyzerFactory, cf CollectorFactory) *EksaDiagnosticBundle {
+func NewBundleConfig(spec *cluster.Spec, opts EksaDiagnosticBundleOpts) *EksaDiagnosticBundle {
 	b := &EksaDiagnosticBundle{
 		bundle: &v1beta2.SupportBundle{
 			TypeMeta: metav1.TypeMeta{
@@ -106,8 +87,9 @@ func NewBundleConfig(spec *cluster.Spec, af AnalyzerFactory, cf CollectorFactory
 			},
 			Spec: v1beta2.SupportBundleSpec{},
 		},
-		analyzerFactory:  af,
-		collectorFactory: cf,
+		analyzerFactory:  opts.AnalyzerFactory,
+		collectorFactory: opts.CollectorFactory,
+		client:           opts.Client,
 	}
 	return b.
 		WithGitOpsConfig(spec.GitOpsConfig).
@@ -159,14 +141,12 @@ func (e *EksaDiagnosticBundle) CollectBundleFromSpec(sinceTimeValue *time.Time) 
 	return archivePath, nil
 }
 
-func (e *EksaDiagnosticBundle) AnalyzeBundle(archivePath string) error {
-	analyzeResults, err := supportbundle.AnalyzeAndExtractSupportBundle(&e.bundle.Spec, archivePath)
+func (e *EksaDiagnosticBundle) AnalyzeBundle(ctx context.Context, archivePath string) error {
+	output, err := e.client.Analyze(ctx, archivePath)
 	if err != nil {
 		return err
 	}
-	if len(analyzeResults) > 0 {
-		showAnalyzeResults(analyzeResults)
-	}
+	fmt.Println(output.String())
 	return nil
 }
 
@@ -215,22 +195,25 @@ func (e *EksaDiagnosticBundle) WithGitOpsConfig(config *v1alpha1.GitOpsConfig) *
 	return e
 }
 
-func showAnalyzeResults(analyzeResults []*analyzerunner.AnalyzeResult) {
-	results := "\n Analyze Results" + resultsSeparator
-	for _, analyzeResult := range analyzeResults {
-		result := ""
-		if analyzeResult.IsPass {
-			result = "Check PASS\n"
-		} else if analyzeResult.IsFail {
-			result = "Check FAIL\n"
+func ParseTimeOptions(since string, sinceTime string) (*time.Time, error) {
+	var sinceTimeValue time.Time
+	var err error
+	if sinceTime == "" && since == "" {
+		return &sinceTimeValue, nil
+	} else if sinceTime != "" && since != "" {
+		return nil, fmt.Errorf("at most one of `sinceTime` or `since` could be specified")
+	} else if sinceTime != "" {
+		sinceTimeValue, err = time.Parse(time.RFC3339, sinceTime)
+		if err != nil {
+			return nil, fmt.Errorf("unable to parse --since-time option: %v", err)
 		}
-		result = result + fmt.Sprintf("Title: %s\n", analyzeResult.Title)
-		result = result + fmt.Sprintf("Message: %s\n", analyzeResult.Message)
-		if analyzeResult.URI != "" {
-			result = result + fmt.Sprintf("URI: %s\n", analyzeResult.URI)
+	} else if since != "" {
+		duration, err := time.ParseDuration(since)
+		if err != nil {
+			return nil, fmt.Errorf("unable to parse --since option: %v", err)
 		}
-		result = result + resultsSeparator
-		results = results + result
+		now := time.Now()
+		sinceTimeValue = now.Add(0 - duration)
 	}
-	logger.Info(results)
+	return &sinceTimeValue, nil
 }
