@@ -25,11 +25,11 @@ func (t *Troubleshoot) CollectAndAnalyze(ctx context.Context, bundlePath string,
 	params := []string{bundlePath, "--kubeconfig", kubeconfig, "--interactive=false"}
 	output, err := t.executable.Execute(ctx, params...)
 	if err != nil {
-		return "", "", fmt.Errorf("error when executing support-bundle")
+		return "", "", fmt.Errorf("error when executing support-bundle: %s", err)
 	}
 	analysis, archivePath, err = parseCollectAndAnalyzeOutputs(output.String())
 	if err != nil {
-		return "", "", fmt.Errorf("error when parsing support-bundle output")
+		return "", "", fmt.Errorf("error when parsing support-bundle output: %v", err)
 	}
 	return analysis, archivePath, nil
 }
