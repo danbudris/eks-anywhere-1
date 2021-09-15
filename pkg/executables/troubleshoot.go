@@ -38,6 +38,8 @@ func parseCollectAndAnalyzeOutputs(tsLogs string) (analysis string, archivePath 
 	logStart := "["
 	logsStartIndex := strings.Index(tsLogs, logStart)
 
+	fmt.Println(logsStartIndex)
+
 	logEnd := "]"
 	logsEndIndex := strings.Index(tsLogs, logEnd) + 1
 
