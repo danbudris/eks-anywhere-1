@@ -111,7 +111,7 @@ func TestParseBundleFromDoc(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			_, err := support.ParseBundleFromDoc(spec, tt.args.bundleConfig)
+			_, err := support.ParseBundleFromDoc(spec, tt.args.bundleConfig, getOpts(t))
 			if (err != nil) != tt.wantErr {
 				t.Errorf("ParseBundleFromDoc() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -152,7 +152,12 @@ func TestGenerateBundleConfigWithExternalEtcd(t *testing.T) {
 		c := givenMockCollectorsFactory(t)
 		c.EXPECT().DefaultCollectors().Return(nil)
 
-		_ = support.NewBundleConfig(spec, a, c)
+		opts := support.EksaDiagnosticBundleOpts{
+			AnalyzerFactory:  a,
+			CollectorFactory: c,
+		}
+
+		_ = support.NewBundleConfig(spec, opts)
 	})
 }
 
@@ -187,7 +192,12 @@ func TestGenerateBundleConfigWithOidc(t *testing.T) {
 		c := givenMockCollectorsFactory(t)
 		c.EXPECT().DefaultCollectors().Return(nil)
 
-		_ = support.NewBundleConfig(spec, a, c)
+		opts := support.EksaDiagnosticBundleOpts{
+			AnalyzerFactory:  a,
+			CollectorFactory: c,
+		}
+
+		_ = support.NewBundleConfig(spec, opts)
 	})
 }
 
@@ -222,7 +232,12 @@ func TestGenerateBundleConfigWithGitOps(t *testing.T) {
 		c := givenMockCollectorsFactory(t)
 		c.EXPECT().DefaultCollectors().Return(nil)
 
-		_ = support.NewBundleConfig(spec, a, c)
+		opts := support.EksaDiagnosticBundleOpts{
+			AnalyzerFactory:  a,
+			CollectorFactory: c,
+		}
+
+		_ = support.NewBundleConfig(spec, opts)
 	})
 }
 
@@ -247,10 +262,7 @@ func TestGenerateCustomBundle(t *testing.T) {
 	}
 
 	t.Run(t.Name(), func(t *testing.T) {
-		a := givenMockAnalyzerFactory(t)
-		c := givenMockCollectorsFactory(t)
-
-		_ = support.NewCustomBundleConfig(bundle, a, c)
+		_ = support.NewCustomBundleConfig(bundle, getOpts(t))
 	})
 }
 
@@ -262,4 +274,11 @@ func givenMockAnalyzerFactory(t *testing.T) *mocks.MockAnalyzerFactory {
 func givenMockCollectorsFactory(t *testing.T) *mocks.MockCollectorFactory {
 	ctrl := gomock.NewController(t)
 	return mocks.NewMockCollectorFactory(ctrl)
+}
+
+func getOpts(t *testing.T) support.EksaDiagnosticBundleOpts {
+	return support.EksaDiagnosticBundleOpts{
+		AnalyzerFactory:  givenMockAnalyzerFactory(t),
+		CollectorFactory: givenMockCollectorsFactory(t),
+	}
 }
