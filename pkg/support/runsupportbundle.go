@@ -14,46 +14,45 @@ import (
 
 	"github.com/aws/eks-anywhere/pkg/api/v1alpha1"
 	"github.com/aws/eks-anywhere/pkg/cluster"
+	"github.com/aws/eks-anywhere/pkg/filewriter"
 	"github.com/aws/eks-anywhere/pkg/logger"
 )
 
-func ParseBundleFromDoc(clusterSpec *cluster.Spec, bundleConfig string, opts EksaDiagnosticBundleOpts) (*EksaDiagnosticBundle, error) {
-	if bundleConfig == "" {
-		// user did not provide any bundle-config to the support-bundle command, generate one using the default collectors & analyzers
-		return NewBundleConfig(clusterSpec, opts), nil
-	}
-
-	// parse bundle-config provided by the user
-	collectorContent, err := supportbundle.LoadSupportBundleSpec(bundleConfig)
-	if err != nil {
-		return nil, err
-	}
-	bundle, err := supportbundle.ParseSupportBundleFromDoc(collectorContent)
-	if err != nil {
-		return nil, err
-	}
-	return NewCustomBundleConfig(bundle, opts), nil
-}
-
 type EksaDiagnosticBundleOpts struct {
 	AnalyzerFactory  AnalyzerFactory
+	BundlePath       string
 	CollectorFactory CollectorFactory
 	Client           BundleClient
+	Kubeconfig       string
+	Writer           filewriter.FileWriter
 }
 
 type EksaDiagnosticBundle struct {
 	bundle           *v1beta2.SupportBundle
+	bundlePath       string
+	Spec             *cluster.Spec
 	analyzerFactory  AnalyzerFactory
 	collectorFactory CollectorFactory
 	client           BundleClient
+	kubeconfig       string
+	Writer           filewriter.FileWriter
 }
 
-func NewCustomBundleConfig(customBundle *v1beta2.SupportBundle, opts EksaDiagnosticBundleOpts) *EksaDiagnosticBundle {
+func NewDiagnosticBundle(clusterSpec *cluster.Spec, bundleConfig string, opts EksaDiagnosticBundleOpts) (*EksaDiagnosticBundle, error) {
+	if bundleConfig == "" {
+		// user did not provide any bundle-config to the support-bundle command, generate one using the default collectors & analyzers
+		return NewBundleFromSpec(clusterSpec, opts), nil
+	}
+	return NewCustomBundleConfig(opts), nil
+}
+
+func NewCustomBundleConfig(opts EksaDiagnosticBundleOpts) *EksaDiagnosticBundle {
 	return &EksaDiagnosticBundle{
-		bundle:           customBundle,
+		bundlePath:       opts.BundlePath,
 		analyzerFactory:  opts.AnalyzerFactory,
 		collectorFactory: opts.CollectorFactory,
 		client:           opts.Client,
+		kubeconfig:       opts.Kubeconfig,
 	}
 }
 
@@ -75,7 +74,7 @@ func NewDefaultBundleConfig(af AnalyzerFactory, cf CollectorFactory) *EksaDiagno
 	return b.WithDefaultAnalyzers().WithDefaultCollectors()
 }
 
-func NewBundleConfig(spec *cluster.Spec, opts EksaDiagnosticBundleOpts) *EksaDiagnosticBundle {
+func NewBundleFromSpec(spec *cluster.Spec, opts EksaDiagnosticBundleOpts) *EksaDiagnosticBundle {
 	b := &EksaDiagnosticBundle{
 		bundle: &v1beta2.SupportBundle{
 			TypeMeta: metav1.TypeMeta{
@@ -90,6 +89,7 @@ func NewBundleConfig(spec *cluster.Spec, opts EksaDiagnosticBundleOpts) *EksaDia
 		analyzerFactory:  opts.AnalyzerFactory,
 		collectorFactory: opts.CollectorFactory,
 		client:           opts.Client,
+		kubeconfig:       opts.Kubeconfig,
 	}
 	return b.
 		WithGitOpsConfig(spec.GitOpsConfig).
@@ -98,6 +98,14 @@ func NewBundleConfig(spec *cluster.Spec, opts EksaDiagnosticBundleOpts) *EksaDia
 		WithDatacenterConfig(spec.Spec.DatacenterRef).
 		WithDefaultAnalyzers().
 		WithDefaultCollectors()
+}
+
+func (e *EksaDiagnosticBundle) CollectAndAnalyze(ctx context.Context) error {
+	err := e.client.CollectAndAnalyze(ctx, e.bundlePath, e.kubeconfig)
+	if err != nil {
+		return fmt.Errorf("failed to collect and analyze support bundle")
+	}
+	return nil
 }
 
 func (e *EksaDiagnosticBundle) CollectBundleFromSpec(sinceTimeValue *time.Time) (string, error) {
@@ -139,15 +147,6 @@ func (e *EksaDiagnosticBundle) CollectBundleFromSpec(sinceTimeValue *time.Time) 
 		return "", err
 	}
 	return archivePath, nil
-}
-
-func (e *EksaDiagnosticBundle) AnalyzeBundle(ctx context.Context, archivePath string) error {
-	output, err := e.client.Analyze(ctx, archivePath)
-	if err != nil {
-		return err
-	}
-	fmt.Println(output.String())
-	return nil
 }
 
 func (e *EksaDiagnosticBundle) PrintBundleConfig() error {

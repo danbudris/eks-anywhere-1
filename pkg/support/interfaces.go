@@ -1,7 +1,6 @@
 package supportbundle
 
 import (
-	"bytes"
 	"context"
 
 	"github.com/replicatedhq/troubleshoot/pkg/apis/troubleshoot/v1beta2"
@@ -10,7 +9,7 @@ import (
 )
 
 type BundleClient interface {
-	Analyze(ctx context.Context, bundlePath string) (bytes.Buffer, error)
+	CollectAndAnalyze(ctx context.Context, bundlePath string, kubeconfig string) error
 }
 
 type DiagnosticBundle interface {

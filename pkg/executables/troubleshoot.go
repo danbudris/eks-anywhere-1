@@ -1,7 +1,6 @@
 package executables
 
 import (
-	"bytes"
 	"context"
 )
 
@@ -19,11 +18,11 @@ func NewTroubleshoot(executable Executable) *Troubleshoot {
 	}
 }
 
-func (t *Troubleshoot) Analyze(ctx context.Context, bundlePath string) (bytes.Buffer, error) {
-	params := []string{"analyze", "--bundle", bundlePath, "--output", "json"}
-	output, err := t.executable.Execute(ctx, params...)
+func (t *Troubleshoot) CollectAndAnalyze(ctx context.Context, bundlePath string, kubeconfig string) error {
+	params := []string{bundlePath, "--kubeconfig", kubeconfig}
+	_, err := t.executable.Execute(ctx, params...)
 	if err != nil {
-		return bytes.Buffer{}, err
+		return err
 	}
-	return output, nil
+	return nil
 }

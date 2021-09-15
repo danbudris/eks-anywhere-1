@@ -4,9 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"os"
 	"path/filepath"
-	"time"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
@@ -14,7 +12,7 @@ import (
 
 	"github.com/aws/eks-anywhere/pkg/cluster"
 	"github.com/aws/eks-anywhere/pkg/executables"
-	"github.com/aws/eks-anywhere/pkg/logger"
+	"github.com/aws/eks-anywhere/pkg/filewriter"
 	support "github.com/aws/eks-anywhere/pkg/support"
 	"github.com/aws/eks-anywhere/pkg/validations"
 	"github.com/aws/eks-anywhere/pkg/version"
@@ -101,35 +99,28 @@ func (csbo *createSupportBundleOptions) createBundle(ctx context.Context, since,
 	}
 	troubleshoot := executableBuilder.BuildTroubleshootExecutable()
 
+	writer, err := filewriter.NewWriter(clusterSpec.Name)
+	if err != nil {
+		return fmt.Errorf("unable to write: %v", err)
+	}
+
 	opts := support.EksaDiagnosticBundleOpts{
 		AnalyzerFactory:  support.NewAnalyzerFactory(),
 		CollectorFactory: support.NewCollectorFactory(),
 		Client:           troubleshoot,
+		Kubeconfig:       csbo.kubeConfig(clusterSpec.Name),
+		Writer:           writer,
 	}
 
-	os.Setenv("KUBECONFIG", csbo.kubeConfig(clusterSpec.Name))
-	supportBundle, err := support.ParseBundleFromDoc(clusterSpec, bundleConfig, opts)
+	supportBundle, err := support.NewDiagnosticBundle(clusterSpec, bundleConfig, opts)
 	if err != nil {
 		return fmt.Errorf("failed to parse collector: %v", err)
 	}
 
-	var sinceTimeValue *time.Time
-	sinceTimeValue, err = support.ParseTimeOptions(since, sinceTime)
-	if err != nil {
-		return fmt.Errorf("failed parse since time: %v", err)
-	}
-
-	archivePath, err := supportBundle.CollectBundleFromSpec(sinceTimeValue)
-	if err != nil {
-		return fmt.Errorf("run collectors: %v", err)
-	}
-
-	logger.Info("\r \033[36mAnalyzing support bundle\033[m")
-	err = supportBundle.AnalyzeBundle(ctx, archivePath)
+	err = supportBundle.CollectAndAnalyze(ctx)
 	if err != nil {
 		return fmt.Errorf("there is an error when analyzing: %v", err)
 	}
 
-	logger.Info("a support bundle has been created in the current directory:", "path", archivePath)
 	return nil
 }

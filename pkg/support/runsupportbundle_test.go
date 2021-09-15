@@ -4,7 +4,6 @@ import (
 	"testing"
 
 	"github.com/golang/mock/gomock"
-	"github.com/replicatedhq/troubleshoot/pkg/apis/troubleshoot/v1beta2"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 	eksav1alpha1 "github.com/aws/eks-anywhere/pkg/api/v1alpha1"
@@ -75,51 +74,6 @@ func TestParseTimeOptions(t *testing.T) {
 	}
 }
 
-func TestParseBundleFromDoc(t *testing.T) {
-	type args struct {
-		bundleConfig string
-	}
-	tests := []struct {
-		name    string
-		args    args
-		wantErr bool
-	}{
-		{
-			name: "Good bundle config",
-			args: args{
-				bundleConfig: "testdata/support-bundle-test1.yaml",
-			},
-			wantErr: false,
-		},
-		{
-			name: "Wrong bundle config",
-			args: args{
-				bundleConfig: "testdata/support-bundle-test2.yaml",
-			},
-			wantErr: true,
-		},
-	}
-
-	spec := &cluster.Spec{
-		Cluster: &eksav1alpha1.Cluster{
-			TypeMeta:   metav1.TypeMeta{},
-			ObjectMeta: metav1.ObjectMeta{},
-			Spec:       eksav1alpha1.ClusterSpec{},
-			Status:     eksav1alpha1.ClusterStatus{},
-		},
-	}
-
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			_, err := support.ParseBundleFromDoc(spec, tt.args.bundleConfig, getOpts(t))
-			if (err != nil) != tt.wantErr {
-				t.Errorf("ParseBundleFromDoc() error = %v, wantErr %v", err, tt.wantErr)
-				return
-			}
-		})
-	}
-}
-
 func TestGenerateBundleConfigWithExternalEtcd(t *testing.T) {
 	spec := &cluster.Spec{
 		Cluster: &eksav1alpha1.Cluster{
@@ -157,7 +111,7 @@ func TestGenerateBundleConfigWithExternalEtcd(t *testing.T) {
 			CollectorFactory: c,
 		}
 
-		_ = support.NewBundleConfig(spec, opts)
+		_ = support.NewBundleFromSpec(spec, opts)
 	})
 }
 
@@ -197,7 +151,7 @@ func TestGenerateBundleConfigWithOidc(t *testing.T) {
 			CollectorFactory: c,
 		}
 
-		_ = support.NewBundleConfig(spec, opts)
+		_ = support.NewBundleFromSpec(spec, opts)
 	})
 }
 
@@ -237,7 +191,7 @@ func TestGenerateBundleConfigWithGitOps(t *testing.T) {
 			CollectorFactory: c,
 		}
 
-		_ = support.NewBundleConfig(spec, opts)
+		_ = support.NewBundleFromSpec(spec, opts)
 	})
 }
 
@@ -254,15 +208,8 @@ func TestGenerateDefaultBundle(t *testing.T) {
 }
 
 func TestGenerateCustomBundle(t *testing.T) {
-	bundle := &v1beta2.SupportBundle{
-		TypeMeta:   metav1.TypeMeta{},
-		ObjectMeta: metav1.ObjectMeta{},
-		Spec:       v1beta2.SupportBundleSpec{},
-		Status:     v1beta2.SupportBundleStatus{},
-	}
-
 	t.Run(t.Name(), func(t *testing.T) {
-		_ = support.NewCustomBundleConfig(bundle, getOpts(t))
+		_ = support.NewCustomBundleConfig(getOpts(t))
 	})
 }
 
