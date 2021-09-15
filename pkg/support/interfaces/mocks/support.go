@@ -5,6 +5,8 @@
 package mocks
 
 import (
+	bytes "bytes"
+	context "context"
 	reflect "reflect"
 
 	v1alpha1 "github.com/aws/eks-anywhere/pkg/api/v1alpha1"
@@ -12,6 +14,44 @@ import (
 	gomock "github.com/golang/mock/gomock"
 	v1beta2 "github.com/replicatedhq/troubleshoot/pkg/apis/troubleshoot/v1beta2"
 )
+
+// MockBundleClient is a mock of BundleClient interface.
+type MockBundleClient struct {
+	ctrl     *gomock.Controller
+	recorder *MockBundleClientMockRecorder
+}
+
+// MockBundleClientMockRecorder is the mock recorder for MockBundleClient.
+type MockBundleClientMockRecorder struct {
+	mock *MockBundleClient
+}
+
+// NewMockBundleClient creates a new mock instance.
+func NewMockBundleClient(ctrl *gomock.Controller) *MockBundleClient {
+	mock := &MockBundleClient{ctrl: ctrl}
+	mock.recorder = &MockBundleClientMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockBundleClient) EXPECT() *MockBundleClientMockRecorder {
+	return m.recorder
+}
+
+// Analyze mocks base method.
+func (m *MockBundleClient) Analyze(ctx context.Context, bundlePath string) (bytes.Buffer, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Analyze", ctx, bundlePath)
+	ret0, _ := ret[0].(bytes.Buffer)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Analyze indicates an expected call of Analyze.
+func (mr *MockBundleClientMockRecorder) Analyze(ctx, bundlePath interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Analyze", reflect.TypeOf((*MockBundleClient)(nil).Analyze), ctx, bundlePath)
+}
 
 // MockDiagnosticBundle is a mock of DiagnosticBundle interface.
 type MockDiagnosticBundle struct {
