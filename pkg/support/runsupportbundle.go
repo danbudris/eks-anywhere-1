@@ -14,6 +14,8 @@ import (
 	"github.com/aws/eks-anywhere/pkg/filewriter"
 )
 
+const troulbeshootApiVersion = "troubleshoot.sh/v1beta2"
+
 type EksaDiagnosticBundleOpts struct {
 	AnalyzerFactory  AnalyzerFactory
 	BundlePath       string
@@ -57,7 +59,8 @@ func NewDiagnosticBundleFromSpec(opts EksaDiagnosticBundleOpts) *EksaDiagnosticB
 	b := &EksaDiagnosticBundle{
 		bundle: &supportBundle{
 			TypeMeta: metav1.TypeMeta{
-				Kind: "SupportBundle",
+				Kind:       "SupportBundle",
+				APIVersion: troulbeshootApiVersion,
 			},
 			ObjectMeta: metav1.ObjectMeta{
 				Name: fmt.Sprintf("%sBundle", opts.ClusterSpec.Name),
@@ -84,7 +87,7 @@ func NewDiagnosticBundleDefault(af AnalyzerFactory, cf CollectorFactory) *EksaDi
 		bundle: &supportBundle{
 			TypeMeta: metav1.TypeMeta{
 				Kind:       "SupportBundle",
-				APIVersion: "troubleshoot.sh/v1beta2",
+				APIVersion: troulbeshootApiVersion,
 			},
 			ObjectMeta: metav1.ObjectMeta{
 				Name: "defaultBundle",
