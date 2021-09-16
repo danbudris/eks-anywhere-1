@@ -25,7 +25,7 @@ func (t *Troubleshoot) Collect(ctx context.Context, bundlePath string, kubeconfi
 	params := []string{bundlePath, "--kubeconfig", kubeconfig, "--interactive=false"}
 	output, err := t.executable.Execute(ctx, params...)
 	if err != nil {
-		return "", fmt.Errorf("error when executing support-bundle: %s", err)
+		return "", fmt.Errorf("error when executing support-bundle: %v", err)
 	}
 	archivePath, err = parseCollectOutput(output.String())
 	if err != nil {
@@ -35,15 +35,15 @@ func (t *Troubleshoot) Collect(ctx context.Context, bundlePath string, kubeconfi
 }
 
 func (t *Troubleshoot) Analyze(ctx context.Context, bundleSpecPath string, archivePath string) ([]*SupportBundleAnalysis, error) {
-	params := []string{"analyze", bundleSpecPath, "--bundle", archivePath}
+	params := []string{"analyze", bundleSpecPath, "--bundle", archivePath, "--output", "json"}
 	output, err := t.executable.Execute(ctx, params...)
 	if err != nil {
-		return nil, fmt.Errorf("error when analyzing support bundle %s with analyzers %s", archivePath, bundleSpecPath)
+		return nil, fmt.Errorf("error when analyzing support bundle %s with analyzers %s: %v", archivePath, bundleSpecPath, err)
 	}
 	var analysisOutput []*SupportBundleAnalysis
 	err = json.Unmarshal(output.Bytes(), &analysisOutput)
 	if err != nil {
-		return nil, fmt.Errorf("error unmarshalling support-bundle analyze output: %s", err)
+		return nil, fmt.Errorf("error unmarshalling support-bundle analyze output: %v", err)
 	}
 	return analysisOutput, err
 }

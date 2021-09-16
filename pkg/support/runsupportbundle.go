@@ -105,6 +105,7 @@ func (e *EksaDiagnosticBundle) CollectAndAnalyze(ctx context.Context) error {
 	if err != nil {
 		return fmt.Errorf("failed to collect and analyze support bundle: %v", err)
 	}
+	fmt.Println(archivePath)
 	analysis, err := e.client.Analyze(ctx, e.bundlePath, archivePath)
 	if err != nil {
 		return err
