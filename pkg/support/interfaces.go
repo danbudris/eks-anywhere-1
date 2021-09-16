@@ -3,8 +3,6 @@ package supportbundle
 import (
 	"context"
 
-	"github.com/replicatedhq/troubleshoot/pkg/apis/troubleshoot/v1beta2"
-
 	"github.com/aws/eks-anywhere/pkg/api/v1alpha1"
 	"github.com/aws/eks-anywhere/pkg/executables"
 )
@@ -25,13 +23,13 @@ type DiagnosticBundle interface {
 }
 
 type AnalyzerFactory interface {
-	DefaultAnalyzers() []*v1beta2.Analyze
-	EksaGitopsAnalyzers() []*v1beta2.Analyze
-	EksaOidcAnalyzers() []*v1beta2.Analyze
-	EksaExternalEtcdAnalyzers() []*v1beta2.Analyze
-	DataCenterConfigAnalyzers(datacenter v1alpha1.Ref) []*v1beta2.Analyze
+	DefaultAnalyzers() []*Analyze
+	EksaGitopsAnalyzers() []*Analyze
+	EksaOidcAnalyzers() []*Analyze
+	EksaExternalEtcdAnalyzers() []*Analyze
+	DataCenterConfigAnalyzers(datacenter v1alpha1.Ref) []*Analyze
 }
 
 type CollectorFactory interface {
-	DefaultCollectors() []*v1beta2.Collect
+	DefaultCollectors() []*Collect
 }

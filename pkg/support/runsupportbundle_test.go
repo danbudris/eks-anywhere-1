@@ -109,9 +109,10 @@ func TestGenerateBundleConfigWithExternalEtcd(t *testing.T) {
 		opts := support.EksaDiagnosticBundleOpts{
 			AnalyzerFactory:  a,
 			CollectorFactory: c,
+			ClusterSpec:      spec,
 		}
 
-		_ = support.NewBundleFromSpec(spec, opts)
+		_ = support.NewDiagnosticBundleFromSpec(opts)
 	})
 }
 
@@ -149,9 +150,10 @@ func TestGenerateBundleConfigWithOidc(t *testing.T) {
 		opts := support.EksaDiagnosticBundleOpts{
 			AnalyzerFactory:  a,
 			CollectorFactory: c,
+			ClusterSpec:      spec,
 		}
 
-		_ = support.NewBundleFromSpec(spec, opts)
+		_ = support.NewDiagnosticBundleFromSpec(opts)
 	})
 }
 
@@ -189,9 +191,10 @@ func TestGenerateBundleConfigWithGitOps(t *testing.T) {
 		opts := support.EksaDiagnosticBundleOpts{
 			AnalyzerFactory:  a,
 			CollectorFactory: c,
+			ClusterSpec:      spec,
 		}
 
-		_ = support.NewBundleFromSpec(spec, opts)
+		_ = support.NewDiagnosticBundleFromSpec(opts)
 	})
 }
 
@@ -203,13 +206,13 @@ func TestGenerateDefaultBundle(t *testing.T) {
 		c := givenMockCollectorsFactory(t)
 		c.EXPECT().DefaultCollectors().Return(nil)
 
-		_ = support.NewDefaultBundleConfig(a, c)
+		_ = support.NewDiagnosticBundleDefault(a, c)
 	})
 }
 
 func TestGenerateCustomBundle(t *testing.T) {
 	t.Run(t.Name(), func(t *testing.T) {
-		_ = support.NewCustomBundleConfig(getOpts(t))
+		_ = support.NewDiagnosticBundleCustom(getOpts(t))
 	})
 }
 

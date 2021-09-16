@@ -5,14 +5,13 @@
 package mocks
 
 import (
-	bytes "bytes"
 	context "context"
 	reflect "reflect"
 
 	v1alpha1 "github.com/aws/eks-anywhere/pkg/api/v1alpha1"
+	executables "github.com/aws/eks-anywhere/pkg/executables"
 	supportbundle "github.com/aws/eks-anywhere/pkg/support"
 	gomock "github.com/golang/mock/gomock"
-	v1beta2 "github.com/replicatedhq/troubleshoot/pkg/apis/troubleshoot/v1beta2"
 )
 
 // MockBundleClient is a mock of BundleClient interface.
@@ -39,18 +38,33 @@ func (m *MockBundleClient) EXPECT() *MockBundleClientMockRecorder {
 }
 
 // Analyze mocks base method.
-func (m *MockBundleClient) Analyze(ctx context.Context, bundlePath string) (bytes.Buffer, error) {
+func (m *MockBundleClient) Analyze(ctx context.Context, bundleSpecPath, archivePath string) ([]*executables.SupportBundleAnalysis, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Analyze", ctx, bundlePath)
-	ret0, _ := ret[0].(bytes.Buffer)
+	ret := m.ctrl.Call(m, "Analyze", ctx, bundleSpecPath, archivePath)
+	ret0, _ := ret[0].([]*executables.SupportBundleAnalysis)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Analyze indicates an expected call of Analyze.
-func (mr *MockBundleClientMockRecorder) Analyze(ctx, bundlePath interface{}) *gomock.Call {
+func (mr *MockBundleClientMockRecorder) Analyze(ctx, bundleSpecPath, archivePath interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Analyze", reflect.TypeOf((*MockBundleClient)(nil).Analyze), ctx, bundlePath)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Analyze", reflect.TypeOf((*MockBundleClient)(nil).Analyze), ctx, bundleSpecPath, archivePath)
+}
+
+// Collect mocks base method.
+func (m *MockBundleClient) Collect(ctx context.Context, bundlePath, kubeconfig string) (string, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Collect", ctx, bundlePath, kubeconfig)
+	ret0, _ := ret[0].(string)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Collect indicates an expected call of Collect.
+func (mr *MockBundleClientMockRecorder) Collect(ctx, bundlePath, kubeconfig interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Collect", reflect.TypeOf((*MockBundleClient)(nil).Collect), ctx, bundlePath, kubeconfig)
 }
 
 // MockDiagnosticBundle is a mock of DiagnosticBundle interface.
@@ -198,10 +212,10 @@ func (m *MockAnalyzerFactory) EXPECT() *MockAnalyzerFactoryMockRecorder {
 }
 
 // DataCenterConfigAnalyzers mocks base method.
-func (m *MockAnalyzerFactory) DataCenterConfigAnalyzers(datacenter v1alpha1.Ref) []*v1beta2.Analyze {
+func (m *MockAnalyzerFactory) DataCenterConfigAnalyzers(datacenter v1alpha1.Ref) []*supportbundle.Analyze {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "DataCenterConfigAnalyzers", datacenter)
-	ret0, _ := ret[0].([]*v1beta2.Analyze)
+	ret0, _ := ret[0].([]*supportbundle.Analyze)
 	return ret0
 }
 
@@ -212,10 +226,10 @@ func (mr *MockAnalyzerFactoryMockRecorder) DataCenterConfigAnalyzers(datacenter 
 }
 
 // DefaultAnalyzers mocks base method.
-func (m *MockAnalyzerFactory) DefaultAnalyzers() []*v1beta2.Analyze {
+func (m *MockAnalyzerFactory) DefaultAnalyzers() []*supportbundle.Analyze {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "DefaultAnalyzers")
-	ret0, _ := ret[0].([]*v1beta2.Analyze)
+	ret0, _ := ret[0].([]*supportbundle.Analyze)
 	return ret0
 }
 
@@ -226,10 +240,10 @@ func (mr *MockAnalyzerFactoryMockRecorder) DefaultAnalyzers() *gomock.Call {
 }
 
 // EksaExternalEtcdAnalyzers mocks base method.
-func (m *MockAnalyzerFactory) EksaExternalEtcdAnalyzers() []*v1beta2.Analyze {
+func (m *MockAnalyzerFactory) EksaExternalEtcdAnalyzers() []*supportbundle.Analyze {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "EksaExternalEtcdAnalyzers")
-	ret0, _ := ret[0].([]*v1beta2.Analyze)
+	ret0, _ := ret[0].([]*supportbundle.Analyze)
 	return ret0
 }
 
@@ -240,10 +254,10 @@ func (mr *MockAnalyzerFactoryMockRecorder) EksaExternalEtcdAnalyzers() *gomock.C
 }
 
 // EksaGitopsAnalyzers mocks base method.
-func (m *MockAnalyzerFactory) EksaGitopsAnalyzers() []*v1beta2.Analyze {
+func (m *MockAnalyzerFactory) EksaGitopsAnalyzers() []*supportbundle.Analyze {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "EksaGitopsAnalyzers")
-	ret0, _ := ret[0].([]*v1beta2.Analyze)
+	ret0, _ := ret[0].([]*supportbundle.Analyze)
 	return ret0
 }
 
@@ -254,10 +268,10 @@ func (mr *MockAnalyzerFactoryMockRecorder) EksaGitopsAnalyzers() *gomock.Call {
 }
 
 // EksaOidcAnalyzers mocks base method.
-func (m *MockAnalyzerFactory) EksaOidcAnalyzers() []*v1beta2.Analyze {
+func (m *MockAnalyzerFactory) EksaOidcAnalyzers() []*supportbundle.Analyze {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "EksaOidcAnalyzers")
-	ret0, _ := ret[0].([]*v1beta2.Analyze)
+	ret0, _ := ret[0].([]*supportbundle.Analyze)
 	return ret0
 }
 
@@ -291,10 +305,10 @@ func (m *MockCollectorFactory) EXPECT() *MockCollectorFactoryMockRecorder {
 }
 
 // DefaultCollectors mocks base method.
-func (m *MockCollectorFactory) DefaultCollectors() []*v1beta2.Collect {
+func (m *MockCollectorFactory) DefaultCollectors() []*supportbundle.Collect {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "DefaultCollectors")
-	ret0, _ := ret[0].([]*v1beta2.Collect)
+	ret0, _ := ret[0].([]*supportbundle.Collect)
 	return ret0
 }
 

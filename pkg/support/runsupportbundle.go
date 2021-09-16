@@ -6,16 +6,12 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/replicatedhq/troubleshoot/pkg/apis/troubleshoot/v1beta2"
-	"github.com/replicatedhq/troubleshoot/pkg/k8sutil"
-	"github.com/replicatedhq/troubleshoot/pkg/supportbundle"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"sigs.k8s.io/yaml"
 
 	"github.com/aws/eks-anywhere/pkg/api/v1alpha1"
 	"github.com/aws/eks-anywhere/pkg/cluster"
 	"github.com/aws/eks-anywhere/pkg/filewriter"
-	"github.com/aws/eks-anywhere/pkg/logger"
 )
 
 type EksaDiagnosticBundleOpts struct {
@@ -23,14 +19,15 @@ type EksaDiagnosticBundleOpts struct {
 	BundlePath       string
 	CollectorFactory CollectorFactory
 	Client           BundleClient
+	ClusterSpec      *cluster.Spec
 	Kubeconfig       string
 	Writer           filewriter.FileWriter
 }
 
 type EksaDiagnosticBundle struct {
-	bundle           *v1beta2.SupportBundle
+	bundle           *supportBundle
 	bundlePath       string
-	Spec             *cluster.Spec
+	clusterSpec      *cluster.Spec
 	analyzerFactory  AnalyzerFactory
 	collectorFactory CollectorFactory
 	client           BundleClient
@@ -38,15 +35,15 @@ type EksaDiagnosticBundle struct {
 	Writer           filewriter.FileWriter
 }
 
-func NewDiagnosticBundle(clusterSpec *cluster.Spec, opts EksaDiagnosticBundleOpts) (*EksaDiagnosticBundle, error) {
-	if opts.BundlePath == "" {
+func NewDiagnosticBundle(opts EksaDiagnosticBundleOpts) (*EksaDiagnosticBundle, error) {
+	if opts.BundlePath == "" && opts.ClusterSpec != nil {
 		// user did not provide any bundle-config to the support-bundle command, generate one using the default collectors & analyzers
-		return NewBundleFromSpec(clusterSpec, opts), nil
+		return NewDiagnosticBundleFromSpec(opts), nil
 	}
-	return NewCustomBundleConfig(opts), nil
+	return NewDiagnosticBundleCustom(opts), nil
 }
 
-func NewCustomBundleConfig(opts EksaDiagnosticBundleOpts) *EksaDiagnosticBundle {
+func NewDiagnosticBundleCustom(opts EksaDiagnosticBundleOpts) *EksaDiagnosticBundle {
 	return &EksaDiagnosticBundle{
 		bundlePath:       opts.BundlePath,
 		analyzerFactory:  opts.AnalyzerFactory,
@@ -56,9 +53,35 @@ func NewCustomBundleConfig(opts EksaDiagnosticBundleOpts) *EksaDiagnosticBundle 
 	}
 }
 
-func NewDefaultBundleConfig(af AnalyzerFactory, cf CollectorFactory) *EksaDiagnosticBundle {
+func NewDiagnosticBundleFromSpec(opts EksaDiagnosticBundleOpts) *EksaDiagnosticBundle {
 	b := &EksaDiagnosticBundle{
-		bundle: &v1beta2.SupportBundle{
+		bundle: &supportBundle{
+			TypeMeta: metav1.TypeMeta{
+				Kind:       "SupportBundle",
+			},
+			ObjectMeta: metav1.ObjectMeta{
+				Name: fmt.Sprintf("%sBundle", opts.ClusterSpec.Name),
+			},
+			Spec: supportBundleSpec{},
+		},
+		analyzerFactory:  opts.AnalyzerFactory,
+		collectorFactory: opts.CollectorFactory,
+		client:           opts.Client,
+		clusterSpec:      opts.ClusterSpec,
+		kubeconfig:       opts.Kubeconfig,
+	}
+	return b.
+		WithGitOpsConfig(opts.ClusterSpec.GitOpsConfig).
+		WithOidcConfig(opts.ClusterSpec.OIDCConfig).
+		WithExternalEtcd(opts.ClusterSpec.Spec.ExternalEtcdConfiguration).
+		WithDatacenterConfig(opts.ClusterSpec.Spec.DatacenterRef).
+		WithDefaultAnalyzers().
+		WithDefaultCollectors()
+}
+
+func NewDiagnosticBundleDefault(af AnalyzerFactory, cf CollectorFactory) *EksaDiagnosticBundle {
+	b := &EksaDiagnosticBundle{
+		bundle: &supportBundle{
 			TypeMeta: metav1.TypeMeta{
 				Kind:       "SupportBundle",
 				APIVersion: "troubleshoot.sh/v1beta2",
@@ -66,7 +89,7 @@ func NewDefaultBundleConfig(af AnalyzerFactory, cf CollectorFactory) *EksaDiagno
 			ObjectMeta: metav1.ObjectMeta{
 				Name: "defaultBundle",
 			},
-			Spec: v1beta2.SupportBundleSpec{},
+			Spec: supportBundleSpec{},
 		},
 		analyzerFactory:  af,
 		collectorFactory: cf,
@@ -74,89 +97,25 @@ func NewDefaultBundleConfig(af AnalyzerFactory, cf CollectorFactory) *EksaDiagno
 	return b.WithDefaultAnalyzers().WithDefaultCollectors()
 }
 
-func NewBundleFromSpec(spec *cluster.Spec, opts EksaDiagnosticBundleOpts) *EksaDiagnosticBundle {
-	b := &EksaDiagnosticBundle{
-		bundle: &v1beta2.SupportBundle{
-			TypeMeta: metav1.TypeMeta{
-				Kind:       "SupportBundle",
-				APIVersion: "troubleshoot.sh/v1beta2",
-			},
-			ObjectMeta: metav1.ObjectMeta{
-				Name: fmt.Sprintf("%sBundle", spec.Name),
-			},
-			Spec: v1beta2.SupportBundleSpec{},
-		},
-		analyzerFactory:  opts.AnalyzerFactory,
-		collectorFactory: opts.CollectorFactory,
-		client:           opts.Client,
-		kubeconfig:       opts.Kubeconfig,
-	}
-	return b.
-		WithGitOpsConfig(spec.GitOpsConfig).
-		WithOidcConfig(spec.OIDCConfig).
-		WithExternalEtcd(spec.Spec.ExternalEtcdConfiguration).
-		WithDatacenterConfig(spec.Spec.DatacenterRef).
-		WithDefaultAnalyzers().
-		WithDefaultCollectors()
-}
-
 func (e *EksaDiagnosticBundle) CollectAndAnalyze(ctx context.Context) error {
 	archivePath, err := e.client.Collect(ctx, e.bundlePath, e.kubeconfig)
 	if err != nil {
-		return fmt.Errorf("failed to collect and analyze support bundle: %v", err)
+		return fmt.Errorf("failed to Collect and Analyze support bundle: %v", err)
 	}
-	fmt.Println(archivePath)
+
 	analysis, err := e.client.Analyze(ctx, e.bundlePath, archivePath)
 	if err != nil {
 		return err
 	}
+
 	yamlAnalysis, err := yaml.Marshal(analysis)
 	if err != nil {
 		return err
 	}
+
+	fmt.Printf("Support bundle archive created: %s", archivePath)
 	fmt.Println(string(yamlAnalysis))
 	return nil
-}
-
-func (e *EksaDiagnosticBundle) CollectBundleFromSpec(sinceTimeValue *time.Time) (string, error) {
-	k8sConfig, err := k8sutil.GetRESTConfig()
-	if err != nil {
-		return "", fmt.Errorf("failed to convert kube flags to rest config: %v", err)
-	}
-
-	progressChan := make(chan interface{})
-	go func() {
-		var lastMsg string
-		for {
-			msg := <-progressChan
-			switch msg := msg.(type) {
-			case error:
-				logger.Info(fmt.Sprintf("\r * %v", msg))
-			case string:
-				if lastMsg != msg {
-					logger.Info(fmt.Sprintf("\r \033[36mCollecting support bundle\033[m %v", msg))
-					lastMsg = msg
-				}
-			}
-		}
-	}()
-
-	collectorCB := func(c chan interface{}, msg string) {
-		c <- msg
-	}
-	additionalRedactors := &v1beta2.Redactor{}
-	createOpts := supportbundle.SupportBundleCreateOpts{
-		CollectorProgressCallback: collectorCB,
-		KubernetesRestConfig:      k8sConfig,
-		ProgressChan:              progressChan,
-		SinceTime:                 sinceTimeValue,
-	}
-
-	archivePath, err := supportbundle.CollectSupportBundleFromSpec(&e.bundle.Spec, additionalRedactors, createOpts)
-	if err != nil {
-		return "", err
-	}
-	return archivePath, nil
 }
 
 func (e *EksaDiagnosticBundle) PrintBundleConfig() error {
