@@ -48,6 +48,7 @@ func NewDiagnosticBundle(opts EksaDiagnosticBundleOpts) (*EksaDiagnosticBundle, 
 		if err != nil {
 			return nil, err
 		}
+		return bundle, nil
 	}
 	return NewDiagnosticBundleCustom(opts), nil
 }
