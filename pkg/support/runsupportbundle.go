@@ -26,7 +26,7 @@ type EksaDiagnosticBundleOpts struct {
 	Client           BundleClient
 	ClusterSpec      *cluster.Spec
 	Kubeconfig       string
-	Writer           *filewriter.FileWriter
+	Writer           filewriter.FileWriter
 }
 
 type EksaDiagnosticBundle struct {
@@ -37,7 +37,7 @@ type EksaDiagnosticBundle struct {
 	collectorFactory CollectorFactory
 	client           BundleClient
 	kubeconfig       string
-	writer           *filewriter.FileWriter
+	writer           filewriter.FileWriter
 }
 
 func NewDiagnosticBundle(opts EksaDiagnosticBundleOpts) (*EksaDiagnosticBundle, error) {
