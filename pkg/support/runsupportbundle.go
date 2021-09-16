@@ -110,7 +110,11 @@ func (e *EksaDiagnosticBundle) CollectAndAnalyze(ctx context.Context) error {
 	if err != nil {
 		return err
 	}
-	fmt.Println(analysis)
+	analysisYaml, err := yaml.Marshal(analysis)
+	if err != nil {
+		return err
+	}
+	fmt.Println(analysisYaml)
 	return nil
 }
 
