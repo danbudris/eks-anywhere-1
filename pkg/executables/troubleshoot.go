@@ -35,31 +35,44 @@ func (t *Troubleshoot) CollectAndAnalyze(ctx context.Context, bundlePath string,
 }
 
 func parseCollectAndAnalyzeOutputs(tsLogs string) (analysis string, archivePath string, err error) {
-	fmt.Println(tsLogs)
-
-	logs := strings.Split(tsLogs, "logs")
-	fmt.Println(logs[0])
-	fmt.Println(logs[1])
-	fmt.Println(len(logs))
-
 	logStart := "logs["
 	logsStartIndex := strings.Index(tsLogs, logStart) + 4
-
-	fmt.Println(logsStartIndex)
 
 	logEnd := "]"
 	logsEndIndex := strings.Index(tsLogs, logEnd) + 1
 
 	analysis = tsLogs[logsStartIndex:logsEndIndex]
 	archivePath = tsLogs[logsEndIndex:]
-	fmt.Println(analysis)
 
-	var i []interface{}
-	err = json.Unmarshal([]byte(analysis), &i)
+	var analysisStruct []TsAnalysisOutput
+	err = json.Unmarshal([]byte(analysis), &analysisStruct)
 	if err != nil {
 		return "", "", err
 	}
 
-	fmt.Println(i)
+	fmt.Println(analysisStruct)
+
 	return analysis, archivePath, nil
+}
+
+type TsAnalysisOutput struct {
+	Name         string    `json:"name"`
+	Labels       TsLabels  `json:"labels"`
+	Insight      tsInsight `json:":insight"`
+	Severity     string    `json:"severity"`
+	AnalyzerSpec string    `json:"analyzerSpec"`
+}
+
+type TsLabels struct {
+	DesiredPosition string `json:"desiredPosition"`
+	IconKey         string `json:"iconKey"`
+	IconUri         string `json:"iconUri"`
+}
+
+type tsInsight struct {
+	Name    string   `json:"name"`
+	Labels  TsLabels `json:"labels"`
+	Primary string   `json:"primary"`
+	Detail  string   `json:"detail"`
+	Debug   string   `json:"debug"`
 }
