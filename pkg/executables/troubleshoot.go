@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"strings"
+	"regexp"
 )
 
 const (
@@ -49,11 +49,14 @@ func (t *Troubleshoot) Analyze(ctx context.Context, bundleSpecPath string, archi
 }
 
 func parseCollectOutput(tsLogs string) (archivePath string, err error) {
-	// output parsing logic to be modified once upstream PR to make output more machine-readable is completed
-	// https://github.com/replicatedhq/troubleshoot/pull/419
-	logEnd := "]"
-	logsEndIndex := strings.Index(tsLogs, logEnd) + 1
-	archivePath = tsLogs[logsEndIndex:]
+	r, err := regexp.Compile(`support-bundle-([0-9]+(-[0-9]+)+)T([0-9]+(_[0-9]+)+)\.tar\.gz`)
+	if err != nil {
+		return "", fmt.Errorf("error parsing support-bundle output: %v", err)
+	}
+	archivePath = r.FindString(tsLogs)
+	if archivePath == "" {
+		return "", fmt.Errorf("error parsing support-bundle output: could not find archive path in output")
+	}
 	return archivePath, nil
 }
 
