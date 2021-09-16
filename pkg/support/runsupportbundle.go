@@ -3,7 +3,6 @@ package supportbundle
 import (
 	"context"
 	_ "embed"
-	"encoding/json"
 	"fmt"
 	"time"
 
@@ -111,12 +110,11 @@ func (e *EksaDiagnosticBundle) CollectAndAnalyze(ctx context.Context) error {
 	if err != nil {
 		return err
 	}
-	fmt.Println(analysis[0])
-	analysisJson, err := json.Marshal(analysis)
+	yamlAnalysis, err := yaml.Marshal(analysis)
 	if err != nil {
 		return err
 	}
-	fmt.Println(string(analysisJson))
+	fmt.Println(string(yamlAnalysis))
 	return nil
 }
 
