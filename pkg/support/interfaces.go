@@ -6,10 +6,12 @@ import (
 	"github.com/replicatedhq/troubleshoot/pkg/apis/troubleshoot/v1beta2"
 
 	"github.com/aws/eks-anywhere/pkg/api/v1alpha1"
+	"github.com/aws/eks-anywhere/pkg/executables"
 )
 
 type BundleClient interface {
-	CollectAndAnalyze(ctx context.Context, bundlePath string, kubeconfig string) (analysis string, archivePath string, err error)
+	Collect(ctx context.Context, bundlePath string, kubeconfig string) (archivePath string, err error)
+	Analyze(ctx context.Context, bundleSpecPath string, archivePath string) ([]*executables.SupportBundleAnalysis, error)
 }
 
 type DiagnosticBundle interface {

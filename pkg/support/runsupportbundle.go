@@ -101,12 +101,15 @@ func NewBundleFromSpec(spec *cluster.Spec, opts EksaDiagnosticBundleOpts) *EksaD
 }
 
 func (e *EksaDiagnosticBundle) CollectAndAnalyze(ctx context.Context) error {
-	analysis, archivePath, err := e.client.CollectAndAnalyze(ctx, e.bundlePath, e.kubeconfig)
+	archivePath, err := e.client.Collect(ctx, e.bundlePath, e.kubeconfig)
 	if err != nil {
 		return fmt.Errorf("failed to collect and analyze support bundle: %v", err)
 	}
+	analysis, err := e.client.Analyze(ctx, e.bundlePath, archivePath)
+	if err != nil {
+		return err
+	}
 	fmt.Println(analysis)
-	fmt.Println(archivePath)
 	return nil
 }
 
