@@ -8,7 +8,8 @@ import (
 )
 
 const (
-	troulbeshootPath = "support-bundle"
+	troulbeshootPath          = "support-bundle"
+	supportBundleArchiveRegex = `support-bundle-([0-9]+(-[0-9]+)+)T([0-9]+(_[0-9]+)+)\.tar\.gz`
 )
 
 type Troubleshoot struct {
@@ -49,7 +50,7 @@ func (t *Troubleshoot) Analyze(ctx context.Context, bundleSpecPath string, archi
 }
 
 func parseCollectOutput(tsLogs string) (archivePath string, err error) {
-	r, err := regexp.Compile(`support-bundle-([0-9]+(-[0-9]+)+)T([0-9]+(_[0-9]+)+)\.tar\.gz`)
+	r, err := regexp.Compile(supportBundleArchiveRegex)
 	if err != nil {
 		return "", fmt.Errorf("error parsing support-bundle output: %v", err)
 	}
@@ -61,10 +62,10 @@ func parseCollectOutput(tsLogs string) (archivePath string, err error) {
 }
 
 type SupportBundleAnalysis struct {
+	Title   string `json:"title"`
 	IsPass  bool   `json:"isPass"`
 	IsFail  bool   `json:"isFail"`
 	IsWarn  bool   `json:"isWarn"`
-	Title   string `json:"title"`
 	Message string `json:"message"`
 	Uri     string `json:"URI"`
 }

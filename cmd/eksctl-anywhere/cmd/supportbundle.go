@@ -91,6 +91,7 @@ func (csbo *createSupportBundleOptions) createBundle(ctx context.Context, since,
 	if err != nil {
 		return fmt.Errorf("unable to get cluster config from file: %v", err)
 	}
+
 	eksaToolsImage := clusterSpec.VersionsBundle.Eksa.CliTools
 	image := eksaToolsImage.VersionedImage()
 	executableBuilder, err := executables.NewExecutableBuilder(ctx, image)
@@ -109,11 +110,12 @@ func (csbo *createSupportBundleOptions) createBundle(ctx context.Context, since,
 		BundlePath:       bundleConfig,
 		CollectorFactory: support.NewCollectorFactory(),
 		Client:           troubleshoot,
+		ClusterSpec:      clusterSpec,
 		Kubeconfig:       csbo.kubeConfig(clusterSpec.Name),
 		Writer:           writer,
 	}
 
-	supportBundle, err := support.NewDiagnosticBundle(clusterSpec, opts)
+	supportBundle, err := support.NewDiagnosticBundle(opts)
 	if err != nil {
 		return fmt.Errorf("failed to parse collector: %v", err)
 	}
