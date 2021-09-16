@@ -58,7 +58,7 @@ func parseCollectAndAnalyzeOutputs(tsLogs string) (analysis string, archivePath 
 type TsAnalysisOutput struct {
 	Name         string    `json:"name"`
 	Labels       TsLabels  `json:"labels"`
-	Insight      tsInsight `json:":insight"`
+	Insight      TsInsight `json:"insight"`
 	Severity     string    `json:"severity"`
 	AnalyzerSpec string    `json:"analyzerSpec"`
 }
@@ -69,7 +69,7 @@ type TsLabels struct {
 	IconUri         string `json:"iconUri"`
 }
 
-type tsInsight struct {
+type TsInsight struct {
 	Name    string   `json:"name"`
 	Labels  TsLabels `json:"labels"`
 	Primary string   `json:"primary"`
