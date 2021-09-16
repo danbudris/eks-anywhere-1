@@ -57,7 +57,7 @@ func NewDiagnosticBundleFromSpec(opts EksaDiagnosticBundleOpts) *EksaDiagnosticB
 	b := &EksaDiagnosticBundle{
 		bundle: &supportBundle{
 			TypeMeta: metav1.TypeMeta{
-				Kind:       "SupportBundle",
+				Kind: "SupportBundle",
 			},
 			ObjectMeta: metav1.ObjectMeta{
 				Name: fmt.Sprintf("%sBundle", opts.ClusterSpec.Name),
