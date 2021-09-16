@@ -116,12 +116,12 @@ func (e *EksaDiagnosticBundle) CollectAndAnalyze(ctx context.Context) error {
 
 	analysis, err := e.client.Analyze(ctx, e.bundlePath, archivePath)
 	if err != nil {
-		return err
+		return fmt.Errorf("error when analyzing bundle: %v", err)
 	}
 
 	yamlAnalysis, err := yaml.Marshal(analysis)
 	if err != nil {
-		return err
+		return fmt.Errorf("error while analyzing bundle: %v", err)
 	}
 
 	fmt.Printf("Support bundle archive created: %s\n", archivePath)
@@ -144,7 +144,9 @@ func (e *EksaDiagnosticBundle) WriteBundleConfig() error {
 		return fmt.Errorf("error outputing yaml: %v", err)
 	}
 	timestamp := time.Now().Format(time.RFC3339)
-	e.bundlePath, err = e.writer.Write(fmt.Sprintf(generatedBundleNameFormat, e.clusterSpec.Name, timestamp), bundleYaml)
+	filename := fmt.Sprintf(generatedBundleNameFormat, e.clusterSpec.Name, timestamp)
+	e.bundlePath, err = e.writer.Write(filename, bundleYaml)
+	fmt.Printf("---\n\n%s\n\n---", e.bundlePath)
 	if err != nil {
 		return err
 	}
