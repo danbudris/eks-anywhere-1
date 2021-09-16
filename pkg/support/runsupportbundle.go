@@ -14,7 +14,10 @@ import (
 	"github.com/aws/eks-anywhere/pkg/filewriter"
 )
 
-const troulbeshootApiVersion = "troubleshoot.sh/v1beta2"
+const (
+	troulbeshootApiVersion    = "troubleshoot.sh/v1beta2"
+	generatedBundleNameFormat = "%s-%s-bundle.yaml"
+)
 
 type EksaDiagnosticBundleOpts struct {
 	AnalyzerFactory  AnalyzerFactory
@@ -40,19 +43,13 @@ type EksaDiagnosticBundle struct {
 func NewDiagnosticBundle(opts EksaDiagnosticBundleOpts) (*EksaDiagnosticBundle, error) {
 	if opts.BundlePath == "" && opts.ClusterSpec != nil {
 		// user did not provide any bundle-config to the support-bundle command, generate one using the default collectors & analyzers
-		return NewDiagnosticBundleFromSpec(opts), nil
+		bundle := NewDiagnosticBundleFromSpec(opts)
+		err := bundle.WriteBundleConfig()
+		if err != nil {
+			return nil, err
+		}
 	}
 	return NewDiagnosticBundleCustom(opts), nil
-}
-
-func NewDiagnosticBundleCustom(opts EksaDiagnosticBundleOpts) *EksaDiagnosticBundle {
-	return &EksaDiagnosticBundle{
-		bundlePath:       opts.BundlePath,
-		analyzerFactory:  opts.AnalyzerFactory,
-		collectorFactory: opts.CollectorFactory,
-		client:           opts.Client,
-		kubeconfig:       opts.Kubeconfig,
-	}
 }
 
 func NewDiagnosticBundleFromSpec(opts EksaDiagnosticBundleOpts) *EksaDiagnosticBundle {
@@ -100,6 +97,16 @@ func NewDiagnosticBundleDefault(af AnalyzerFactory, cf CollectorFactory) *EksaDi
 	return b.WithDefaultAnalyzers().WithDefaultCollectors()
 }
 
+func NewDiagnosticBundleCustom(opts EksaDiagnosticBundleOpts) *EksaDiagnosticBundle {
+	return &EksaDiagnosticBundle{
+		bundlePath:       opts.BundlePath,
+		analyzerFactory:  opts.AnalyzerFactory,
+		collectorFactory: opts.CollectorFactory,
+		client:           opts.Client,
+		kubeconfig:       opts.Kubeconfig,
+	}
+}
+
 func (e *EksaDiagnosticBundle) CollectAndAnalyze(ctx context.Context) error {
 	archivePath, err := e.client.Collect(ctx, e.bundlePath, e.kubeconfig)
 	if err != nil {
@@ -116,7 +123,7 @@ func (e *EksaDiagnosticBundle) CollectAndAnalyze(ctx context.Context) error {
 		return err
 	}
 
-	fmt.Printf("Support bundle archive created: %s", archivePath)
+	fmt.Printf("Support bundle archive created: %s\n", archivePath)
 	fmt.Println(string(yamlAnalysis))
 	return nil
 }
@@ -127,6 +134,19 @@ func (e *EksaDiagnosticBundle) PrintBundleConfig() error {
 		return fmt.Errorf("error outputting yaml: %v", err)
 	}
 	fmt.Println(string(bundleYaml))
+	return nil
+}
+
+func (e *EksaDiagnosticBundle) WriteBundleConfig() error {
+	bundleYaml, err := yaml.Marshal(e.bundle)
+	if err != nil {
+		return fmt.Errorf("error outputing yaml: %v", err)
+	}
+	timestamp := time.Now().Format(time.RFC3339)
+	e.bundlePath, err = e.Writer.Write(fmt.Sprintf(generatedBundleNameFormat, e.clusterSpec.Name, timestamp), bundleYaml)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
