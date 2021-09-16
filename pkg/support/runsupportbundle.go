@@ -26,7 +26,7 @@ type EksaDiagnosticBundleOpts struct {
 	Client           BundleClient
 	ClusterSpec      *cluster.Spec
 	Kubeconfig       string
-	Writer           filewriter.FileWriter
+	Writer           *filewriter.FileWriter
 }
 
 type EksaDiagnosticBundle struct {
@@ -37,7 +37,7 @@ type EksaDiagnosticBundle struct {
 	collectorFactory CollectorFactory
 	client           BundleClient
 	kubeconfig       string
-	Writer           filewriter.FileWriter
+	writer           *filewriter.FileWriter
 }
 
 func NewDiagnosticBundle(opts EksaDiagnosticBundleOpts) (*EksaDiagnosticBundle, error) {
@@ -69,6 +69,7 @@ func NewDiagnosticBundleFromSpec(opts EksaDiagnosticBundleOpts) *EksaDiagnosticB
 		client:           opts.Client,
 		clusterSpec:      opts.ClusterSpec,
 		kubeconfig:       opts.Kubeconfig,
+		writer:           opts.Writer,
 	}
 	return b.
 		WithGitOpsConfig(opts.ClusterSpec.GitOpsConfig).
@@ -143,7 +144,7 @@ func (e *EksaDiagnosticBundle) WriteBundleConfig() error {
 		return fmt.Errorf("error outputing yaml: %v", err)
 	}
 	timestamp := time.Now().Format(time.RFC3339)
-	e.bundlePath, err = e.Writer.Write(fmt.Sprintf(generatedBundleNameFormat, e.clusterSpec.Name, timestamp), bundleYaml)
+	e.bundlePath, err = e.writer.Write(fmt.Sprintf(generatedBundleNameFormat, e.clusterSpec.Name, timestamp), bundleYaml)
 	if err != nil {
 		return err
 	}
