@@ -126,7 +126,7 @@ func (e *EksaDiagnosticBundle) CollectAndAnalyze(ctx context.Context, sinceTimeV
 		return fmt.Errorf("error while analyzing bundle: %v", err)
 	}
 
-	fmt.Printf("Support bundle archive created: %s\n", archivePath)
+	logger.Info("Support bundle archive created", "archivePath", archivePath)
 	fmt.Println(string(yamlAnalysis))
 	return nil
 }
@@ -148,7 +148,7 @@ func (e *EksaDiagnosticBundle) WriteBundleConfig() error {
 	timestamp := time.Now().Format(time.RFC3339)
 	filename := fmt.Sprintf(generatedBundleNameFormat, e.clusterSpec.Name, timestamp)
 	e.bundlePath, err = e.writer.Write(filename, bundleYaml)
-	logger.Info("wrote bundle config", "path", e.bundlePath)
+	logger.V(3).Info("bundle config written", "path", e.bundlePath)
 	if err != nil {
 		return err
 	}
@@ -201,7 +201,7 @@ func ParseTimeOptions(since string, sinceTime string) (*time.Time, error) {
 	} else if sinceTime != "" {
 		sinceTimeValue, err = time.Parse(time.RFC3339, sinceTime)
 		if err != nil {
-			return nil, fmt.Errorf("unable to parse --since-time option: %v", err)
+			return nil, fmt.Errorf("unable to parse --since-time option, ensure since-time is RFC3339 formatted. error: %v", err)
 		}
 	} else if since != "" {
 		duration, err := time.ParseDuration(since)

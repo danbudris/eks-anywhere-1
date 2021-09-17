@@ -1,6 +1,11 @@
 package supportbundle
 
-import "github.com/replicatedhq/troubleshoot/pkg/multitype"
+type Analyze struct {
+	CustomResourceDefinition *customResourceDefinition `json:"customResourceDefinition,omitempty" yaml:"customResourceDefinition,omitempty"`
+	Secret                   *analyzeSecret            `json:"secret,omitempty" yaml:"secret,omitempty"`
+	ImagePullSecret          *imagePullSecret          `json:"imagePullSecret,omitempty" yaml:"imagePullSecret,omitempty"`
+	DeploymentStatus         *deploymentStatus         `json:"deploymentStatus,omitempty" yaml:"deploymentStatus,omitempty"`
+}
 
 type customResourceDefinition struct {
 	analyzeMeta                  `json:",inline" yaml:",inline"`
@@ -30,13 +35,6 @@ type deploymentStatus struct {
 }
 
 type analyzeMeta struct {
-	CheckName string                 `json:"checkName,omitempty" yaml:"checkName,omitempty"`
-	Exclude   multitype.BoolOrString `json:"exclude,omitempty" yaml:"exclude,omitempty"`
-}
-
-type Analyze struct {
-	CustomResourceDefinition *customResourceDefinition `json:"customResourceDefinition,omitempty" yaml:"customResourceDefinition,omitempty"`
-	Secret                   *analyzeSecret            `json:"secret,omitempty" yaml:"secret,omitempty"`
-	ImagePullSecret          *imagePullSecret          `json:"imagePullSecret,omitempty" yaml:"imagePullSecret,omitempty"`
-	DeploymentStatus         *deploymentStatus         `json:"deploymentStatus,omitempty" yaml:"deploymentStatus,omitempty"`
+	CheckName string `json:"checkName,omitempty" yaml:"checkName,omitempty"`
+	Exclude   bool   `json:"exclude,omitempty" yaml:"exclude,omitempty"`
 }

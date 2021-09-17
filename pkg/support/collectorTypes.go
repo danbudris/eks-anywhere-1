@@ -1,7 +1,6 @@
 package supportbundle
 
 import (
-	"github.com/replicatedhq/troubleshoot/pkg/multitype"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -45,6 +44,5 @@ type logs struct {
 
 type collectorMeta struct {
 	CollectorName string `json:"collectorName,omitempty" yaml:"collectorName,omitempty"`
-	// +optional
-	Exclude multitype.BoolOrString `json:"exclude,omitempty" yaml:"exclude,omitempty"`
+	Exclude       bool   `json:"exclude,omitempty" yaml:"exclude,omitempty"`
 }
