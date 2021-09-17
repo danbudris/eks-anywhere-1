@@ -24,7 +24,11 @@ func NewTroubleshoot(executable Executable) *Troubleshoot {
 }
 
 func (t *Troubleshoot) Collect(ctx context.Context, bundlePath string, sinceTime *time.Time, kubeconfig string) (archivePath string, err error) {
-	params := []string{bundlePath, "--kubeconfig", kubeconfig, "--interactive=false", "--since-time", sinceTime.String()}
+	marshalledTime, err := sinceTime.MarshalText()
+	if err != nil {
+		return "", fmt.Errorf("could not marshal sinceTime for Collect paramaters: %v", err)
+	}
+	params := []string{bundlePath, "--kubeconfig", kubeconfig, "--interactive=false", "--since-time", string(marshalledTime)}
 
 	output, err := t.executable.Execute(ctx, params...)
 	if err != nil {
