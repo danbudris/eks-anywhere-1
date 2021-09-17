@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"path/filepath"
+	"time"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
@@ -105,6 +106,12 @@ func (csbo *createSupportBundleOptions) createBundle(ctx context.Context, since,
 		return fmt.Errorf("unable to write: %v", err)
 	}
 
+	var sinceTimeValue *time.Time
+	sinceTimeValue, err = support.ParseTimeOptions(since, sinceTime)
+	if err != nil {
+		return fmt.Errorf("failed parse since time: %v", err)
+	}
+
 	opts := support.EksaDiagnosticBundleOpts{
 		AnalyzerFactory:  support.NewAnalyzerFactory(),
 		BundlePath:       bundleConfig,
@@ -120,7 +127,7 @@ func (csbo *createSupportBundleOptions) createBundle(ctx context.Context, since,
 		return fmt.Errorf("failed to parse collector: %v", err)
 	}
 
-	err = supportBundle.CollectAndAnalyze(ctx)
+	err = supportBundle.CollectAndAnalyze(ctx, sinceTimeValue)
 	if err != nil {
 		return fmt.Errorf("error while collecting and analyzing bundle: %v", err)
 	}

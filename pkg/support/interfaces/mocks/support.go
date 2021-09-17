@@ -7,6 +7,7 @@ package mocks
 import (
 	context "context"
 	reflect "reflect"
+	time "time"
 
 	v1alpha1 "github.com/aws/eks-anywhere/pkg/api/v1alpha1"
 	executables "github.com/aws/eks-anywhere/pkg/executables"
@@ -53,18 +54,18 @@ func (mr *MockBundleClientMockRecorder) Analyze(ctx, bundleSpecPath, archivePath
 }
 
 // Collect mocks base method.
-func (m *MockBundleClient) Collect(ctx context.Context, bundlePath, kubeconfig string) (string, error) {
+func (m *MockBundleClient) Collect(ctx context.Context, bundlePath string, sinceTime *time.Time, kubeconfig string) (string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Collect", ctx, bundlePath, kubeconfig)
+	ret := m.ctrl.Call(m, "Collect", ctx, bundlePath, sinceTime, kubeconfig)
 	ret0, _ := ret[0].(string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Collect indicates an expected call of Collect.
-func (mr *MockBundleClientMockRecorder) Collect(ctx, bundlePath, kubeconfig interface{}) *gomock.Call {
+func (mr *MockBundleClientMockRecorder) Collect(ctx, bundlePath, sinceTime, kubeconfig interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Collect", reflect.TypeOf((*MockBundleClient)(nil).Collect), ctx, bundlePath, kubeconfig)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Collect", reflect.TypeOf((*MockBundleClient)(nil).Collect), ctx, bundlePath, sinceTime, kubeconfig)
 }
 
 // MockDiagnosticBundle is a mock of DiagnosticBundle interface.

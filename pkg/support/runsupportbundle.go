@@ -12,6 +12,7 @@ import (
 	"github.com/aws/eks-anywhere/pkg/api/v1alpha1"
 	"github.com/aws/eks-anywhere/pkg/cluster"
 	"github.com/aws/eks-anywhere/pkg/filewriter"
+	"github.com/aws/eks-anywhere/pkg/logger"
 )
 
 const (
@@ -109,8 +110,8 @@ func NewDiagnosticBundleCustom(opts EksaDiagnosticBundleOpts) *EksaDiagnosticBun
 	}
 }
 
-func (e *EksaDiagnosticBundle) CollectAndAnalyze(ctx context.Context) error {
-	archivePath, err := e.client.Collect(ctx, e.bundlePath, e.kubeconfig)
+func (e *EksaDiagnosticBundle) CollectAndAnalyze(ctx context.Context, sinceTimeValue *time.Time) error {
+	archivePath, err := e.client.Collect(ctx, e.bundlePath, sinceTimeValue, e.kubeconfig)
 	if err != nil {
 		return fmt.Errorf("failed to Collect and Analyze support bundle: %v", err)
 	}
@@ -147,7 +148,7 @@ func (e *EksaDiagnosticBundle) WriteBundleConfig() error {
 	timestamp := time.Now().Format(time.RFC3339)
 	filename := fmt.Sprintf(generatedBundleNameFormat, e.clusterSpec.Name, timestamp)
 	e.bundlePath, err = e.writer.Write(filename, bundleYaml)
-	fmt.Printf("---\n\n%s\n\n---", e.bundlePath)
+	logger.Info("wrote bundle config", "path", e.bundlePath)
 	if err != nil {
 		return err
 	}

@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"regexp"
+	"time"
 )
 
 const (
@@ -22,8 +23,8 @@ func NewTroubleshoot(executable Executable) *Troubleshoot {
 	}
 }
 
-func (t *Troubleshoot) Collect(ctx context.Context, bundlePath string, kubeconfig string) (archivePath string, err error) {
-	params := []string{bundlePath, "--kubeconfig", kubeconfig, "--interactive=false"}
+func (t *Troubleshoot) Collect(ctx context.Context, bundlePath string, sinceTime *time.Time, kubeconfig string) (archivePath string, err error) {
+	params := []string{bundlePath, "--kubeconfig", kubeconfig, "--interactive=false, --since-time", sinceTime.String()}
 	output, err := t.executable.Execute(ctx, params...)
 	if err != nil {
 		return "", fmt.Errorf("error when executing support-bundle: %v", err)
