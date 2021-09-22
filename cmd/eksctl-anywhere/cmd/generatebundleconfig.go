@@ -114,9 +114,8 @@ func (gsbo *generateSupportBundleOptions) generateBundleConfig(ctx context.Conte
 		VSphereGovcClient:    govc,
 		VSphereKubectlClient: kubectl,
 		Writer:               writer,
-		SkipIpCheck:          cc.skipIpCheck,
 	}
-	provider, err := providerFactory.BuildProvider(cc.fileName, clusterSpec.Cluster)
+	provider, err := providerFactory.BuildProvider(gsbo.fileName, clusterSpec.Cluster)
 	if err != nil {
 		return nil, err
 	}
