@@ -83,6 +83,9 @@ func (cc *createClusterOptions) createCluster(ctx context.Context) error {
 		WithClusterManager().
 		WithProvider(cc.fileName, clusterSpec.Cluster, cc.skipIpCheck).
 		WithFluxAddonClient(ctx, clusterSpec.Cluster, clusterSpec.GitOpsConfig).
+		WithCollectorFactory().
+		WithAnalyzerFactory().
+		WithTroubleshoot().
 		WithWriter().
 		Build()
 	if err != nil {
@@ -94,6 +97,9 @@ func (cc *createClusterOptions) createCluster(ctx context.Context) error {
 		deps.Provider,
 		deps.ClusterManager,
 		deps.FluxAddonClient,
+		deps.Troubleshoot,
+		deps.AnalyzerFactory,
+		deps.CollectorFactory,
 		deps.Writer,
 	)
 	err = createCluster.Run(ctx, clusterSpec, cc.forceClean)

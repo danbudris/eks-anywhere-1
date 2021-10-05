@@ -6,6 +6,7 @@ import (
 
 	"github.com/aws/eks-anywhere/pkg/cluster"
 	"github.com/aws/eks-anywhere/pkg/clustermarshaller"
+	"github.com/aws/eks-anywhere/pkg/diagnostics"
 	"github.com/aws/eks-anywhere/pkg/filewriter"
 	"github.com/aws/eks-anywhere/pkg/logger"
 	"github.com/aws/eks-anywhere/pkg/providers"
@@ -16,21 +17,28 @@ import (
 )
 
 type Create struct {
-	bootstrapper   interfaces.Bootstrapper
-	provider       providers.Provider
-	clusterManager interfaces.ClusterManager
-	addonManager   interfaces.AddonManager
-	writer         filewriter.FileWriter
+	bootstrapper        interfaces.Bootstrapper
+	provider            providers.Provider
+	clusterManager      interfaces.ClusterManager
+	addonManager        interfaces.AddonManager
+	diagnosticCollector interfaces.DiagnosticBundle
+	analyzerFactory     diagnostics.AnalyzerFactory
+	collectorFactory    diagnostics.CollectorFactory
+	writer              filewriter.FileWriter
 }
 
 func NewCreate(bootstrapper interfaces.Bootstrapper, provider providers.Provider,
-	clusterManager interfaces.ClusterManager, addonManager interfaces.AddonManager, writer filewriter.FileWriter) *Create {
+	clusterManager interfaces.ClusterManager, addonManager interfaces.AddonManager,
+	diagnosticCollector interfaces.DiagnosticBundle, analyzerFactory diagnostics.AnalyzerFactory, collectorFactory diagnostics.CollectorFactory, writer filewriter.FileWriter) *Create {
 	return &Create{
-		bootstrapper:   bootstrapper,
-		provider:       provider,
-		clusterManager: clusterManager,
-		addonManager:   addonManager,
-		writer:         writer,
+		bootstrapper:        bootstrapper,
+		provider:            provider,
+		clusterManager:      clusterManager,
+		addonManager:        addonManager,
+		diagnosticCollector: diagnosticCollector,
+		analyzerFactory:     analyzerFactory,
+		collectorFactory:    collectorFactory,
+		writer:              writer,
 	}
 }
 
@@ -43,13 +51,14 @@ func (c *Create) Run(ctx context.Context, clusterSpec *cluster.Spec, forceCleanu
 		}
 	}
 	commandContext := &task.CommandContext{
-		Bootstrapper:   c.bootstrapper,
-		Provider:       c.provider,
-		ClusterManager: c.clusterManager,
-		AddonManager:   c.addonManager,
-		ClusterSpec:    clusterSpec,
-		Rollback:       false,
-		Writer:         c.writer,
+		Bootstrapper:        c.bootstrapper,
+		Provider:            c.provider,
+		ClusterManager:      c.clusterManager,
+		AddonManager:        c.addonManager,
+		DiagnosticCollector: c.diagnosticCollector,
+		ClusterSpec:         clusterSpec,
+		Rollback:            false,
+		Writer:              c.writer,
 	}
 	err := task.NewTaskRunner(&SetAndValidateTask{}).RunTask(ctx, commandContext)
 	if err != nil {
@@ -77,6 +86,10 @@ type MoveClusterManagementTask struct{}
 type WriteClusterConfigTask struct{}
 
 type DeleteBootstrapClusterTask struct{}
+
+type DiagnoseBootstrapClusterTask struct{}
+
+type DiagnoseAndDeleteBootstrapClusterTask struct{}
 
 // CreateBootStrapClusterTask implementation
 
@@ -171,7 +184,7 @@ func (s *CreateWorkloadClusterTask) Run(ctx context.Context, commandContext *tas
 	workloadCluster, err := commandContext.ClusterManager.CreateWorkloadCluster(ctx, commandContext.BootstrapCluster, commandContext.ClusterSpec, commandContext.Provider)
 	if err != nil {
 		commandContext.SetError(err)
-		return nil
+		return &DiagnoseBootstrapClusterTask{}
 	}
 	commandContext.WorkloadCluster = workloadCluster
 
@@ -179,28 +192,28 @@ func (s *CreateWorkloadClusterTask) Run(ctx context.Context, commandContext *tas
 	err = commandContext.ClusterManager.InstallNetworking(ctx, workloadCluster, commandContext.ClusterSpec)
 	if err != nil {
 		commandContext.SetError(err)
-		return nil
+		return &DiagnoseBootstrapClusterTask{}
 	}
 
 	logger.Info("Installing storage class on workload cluster")
 	err = commandContext.ClusterManager.InstallStorageClass(ctx, workloadCluster, commandContext.Provider)
 	if err != nil {
 		commandContext.SetError(err)
-		return nil
+		return &DiagnoseBootstrapClusterTask{}
 	}
 
 	logger.Info("Installing cluster-api providers on workload cluster")
 	err = commandContext.ClusterManager.InstallCAPI(ctx, commandContext.ClusterSpec, commandContext.WorkloadCluster, commandContext.Provider)
 	if err != nil {
 		commandContext.SetError(err)
-		return nil
+		return &DiagnoseBootstrapClusterTask{}
 	}
 
 	logger.V(4).Info("Installing machine health checks on bootstrap cluster")
 	err = commandContext.ClusterManager.InstallMachineHealthChecks(ctx, commandContext.BootstrapCluster, commandContext.Provider)
 	if err != nil {
 		commandContext.SetError(err)
-		return nil
+		return &DiagnoseBootstrapClusterTask{}
 	}
 
 	return &MoveClusterManagementTask{}
@@ -217,7 +230,7 @@ func (s *MoveClusterManagementTask) Run(ctx context.Context, commandContext *tas
 	err := commandContext.ClusterManager.MoveCAPI(ctx, commandContext.BootstrapCluster, commandContext.WorkloadCluster, types.WithNodeRef())
 	if err != nil {
 		commandContext.SetError(err)
-		return nil
+		return &DiagnoseBootstrapClusterTask{}
 	}
 
 	return &InstallEksaComponentsTask{}
@@ -308,4 +321,38 @@ func (s *DeleteBootstrapClusterTask) Run(ctx context.Context, commandContext *ta
 
 func (s *DeleteBootstrapClusterTask) Name() string {
 	return "delete-kind-cluster"
+}
+
+// DiagnoseBootstrapClusterTask implementation
+
+func (s *DiagnoseBootstrapClusterTask) Run(ctx context.Context, commandContext *task.CommandContext) task.Task {
+	logger.Info("Collecting diagnostics from bootstrap cluster")
+	opts := diagnostics.EksaDiagnosticBundleOpts{
+		AnalyzerFactory:  commandContext.AnalyzerFactory,
+		Client:           commandContext.DiagnosticCollector,
+		CollectorFactory: commandContext.CollectorFactory,
+		Writer:           commandContext.Writer,
+	}
+	bundle, err := diagnostics.NewDiagnosticBundleKindCluster(commandContext.BootstrapCluster.KubeconfigFile, opts)
+	if err != nil {
+		commandContext.SetError(err)
+		return nil
+	}
+
+	since, err := diagnostics.ParseTimeOptions("1h", "")
+	if err != nil {
+		commandContext.SetError(err)
+		return nil
+	}
+
+	err = bundle.CollectAndAnalyze(ctx, since)
+	if err != nil {
+		commandContext.SetError(err)
+		return nil
+	}
+	return nil
+}
+
+func (s *DiagnoseBootstrapClusterTask) Name() string {
+	return "diagnose-bootstrap-cluster"
 }

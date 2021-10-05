@@ -9,6 +9,9 @@ import (
 	"github.com/aws/eks-anywhere/internal/test"
 	"github.com/aws/eks-anywhere/pkg/bootstrapper"
 	"github.com/aws/eks-anywhere/pkg/cluster"
+	diagnosticMocks "github.com/aws/eks-anywhere/pkg/diagnostics/interfaces/mocks"
+	"github.com/aws/eks-anywhere/pkg/executables"
+	mockexecutables "github.com/aws/eks-anywhere/pkg/executables/mocks"
 	writermocks "github.com/aws/eks-anywhere/pkg/filewriter/mocks"
 	"github.com/aws/eks-anywhere/pkg/providers"
 	providermocks "github.com/aws/eks-anywhere/pkg/providers/mocks"
@@ -40,10 +43,13 @@ func newCreateTest(t *testing.T) *createTestSetup {
 	clusterManager := mocks.NewMockClusterManager(mockCtrl)
 	addonManager := mocks.NewMockAddonManager(mockCtrl)
 	provider := providermocks.NewMockProvider(mockCtrl)
+	diagnosticBundle, _, _, _ := newTroubleshoot(t)
+	analyzerFactory := diagnosticMocks.NewMockAnalyzerFactory(mockCtrl)
+	collectorFactory := diagnosticMocks.NewMockCollectorFactory(mockCtrl)
 	writer := writermocks.NewMockFileWriter(mockCtrl)
 	datacenterConfig := providermocks.NewMockDatacenterConfig(mockCtrl)
 	machineConfigs := []providers.MachineConfig{providermocks.NewMockMachineConfig(mockCtrl)}
-	workflow := workflows.NewCreate(bootstrapper, provider, clusterManager, addonManager, writer)
+	workflow := workflows.NewCreate(bootstrapper, provider, clusterManager, addonManager, diagnosticBundle, analyzerFactory, collectorFactory, writer)
 
 	return &createTestSetup{
 		t:                t,
@@ -200,4 +206,18 @@ func TestCreateRunSuccessForceCleanup(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Create.Run() err = %v, want err = nil", err)
 	}
+}
+
+func newTroubleshoot(t *testing.T) (*executables.Troubleshoot, context.Context, *types.Cluster, *mockexecutables.MockExecutable) {
+	kubeconfigFile := "c.kubeconfig"
+	cluster := &types.Cluster{
+		KubeconfigFile: kubeconfigFile,
+		Name:           "test-cluster",
+	}
+
+	ctx := context.Background()
+	ctrl := gomock.NewController(t)
+	executable := mockexecutables.NewMockExecutable(ctrl)
+
+	return executables.NewTroubleshoot(executable), ctx, cluster, executable
 }

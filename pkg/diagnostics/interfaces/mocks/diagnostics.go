@@ -11,7 +11,6 @@ import (
 
 	v1alpha1 "github.com/aws/eks-anywhere/pkg/api/v1alpha1"
 	diagnostics "github.com/aws/eks-anywhere/pkg/diagnostics"
-	executables "github.com/aws/eks-anywhere/pkg/executables"
 	providers "github.com/aws/eks-anywhere/pkg/providers"
 	gomock "github.com/golang/mock/gomock"
 )
@@ -40,10 +39,10 @@ func (m *MockBundleClient) EXPECT() *MockBundleClientMockRecorder {
 }
 
 // Analyze mocks base method.
-func (m *MockBundleClient) Analyze(ctx context.Context, bundleSpecPath, archivePath string) ([]*executables.SupportBundleAnalysis, error) {
+func (m *MockBundleClient) Analyze(ctx context.Context, bundleSpecPath, archivePath string) ([]*diagnostics.SupportBundleAnalysis, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Analyze", ctx, bundleSpecPath, archivePath)
-	ret0, _ := ret[0].([]*executables.SupportBundleAnalysis)
+	ret0, _ := ret[0].([]*diagnostics.SupportBundleAnalysis)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

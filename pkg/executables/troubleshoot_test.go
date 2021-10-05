@@ -9,6 +9,7 @@ import (
 
 	"github.com/golang/mock/gomock"
 
+	"github.com/aws/eks-anywhere/pkg/diagnostics"
 	"github.com/aws/eks-anywhere/pkg/executables"
 	mockexecutables "github.com/aws/eks-anywhere/pkg/executables/mocks"
 	"github.com/aws/eks-anywhere/pkg/types"
@@ -37,8 +38,8 @@ func TestTroubleshootCollectSuccess(t *testing.T) {
 
 func TestTroubleshootAnalyzeSuccess(t *testing.T) {
 	ts, ctx, _, e := newTroubleshoot(t)
-	var returnValues []*executables.SupportBundleAnalysis
-	returnValues = append(returnValues, &executables.SupportBundleAnalysis{})
+	var returnValues []*diagnostics.SupportBundleAnalysis
+	returnValues = append(returnValues, &diagnostics.SupportBundleAnalysis{})
 	returnJson, err := json.Marshal(returnValues)
 	if err != nil {
 		return

@@ -102,6 +102,32 @@ func NewDiagnosticBundleDefault(af AnalyzerFactory, cf CollectorFactory) *EksaDi
 	return b.WithDefaultAnalyzers().WithDefaultCollectors()
 }
 
+func NewDiagnosticBundleKindCluster(kubeconfig string, opts EksaDiagnosticBundleOpts) (*EksaDiagnosticBundle, error) {
+	b := &EksaDiagnosticBundle{
+		bundle: &supportBundle{
+			TypeMeta: metav1.TypeMeta{
+				Kind:       "SupportBundle",
+				APIVersion: troubleshootApiVersion,
+			},
+			ObjectMeta: metav1.ObjectMeta{
+				Name: "KindClusterBundle",
+			},
+			Spec: supportBundleSpec{},
+		},
+		analyzerFactory:  opts.AnalyzerFactory,
+		collectorFactory: opts.CollectorFactory,
+		client:           opts.Client,
+		kubeconfig:       kubeconfig,
+		writer:           opts.Writer,
+	}
+
+	err := b.WriteBundleConfig()
+	if err != nil {
+		return nil, fmt.Errorf("error writing bundle config: %v", err)
+	}
+	return b, nil
+}
+
 func NewDiagnosticBundleCustom(kubeconfig string, bundlePath string, opts EksaDiagnosticBundleOpts) *EksaDiagnosticBundle {
 	return &EksaDiagnosticBundle{
 		bundlePath:       bundlePath,

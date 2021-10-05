@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"regexp"
 	"time"
+
+	"github.com/aws/eks-anywhere/pkg/diagnostics"
 )
 
 const (
@@ -41,13 +43,13 @@ func (t *Troubleshoot) Collect(ctx context.Context, bundlePath string, sinceTime
 	return archivePath, nil
 }
 
-func (t *Troubleshoot) Analyze(ctx context.Context, bundleSpecPath string, archivePath string) ([]*SupportBundleAnalysis, error) {
+func (t *Troubleshoot) Analyze(ctx context.Context, bundleSpecPath string, archivePath string) ([]*diagnostics.SupportBundleAnalysis, error) {
 	params := []string{"analyze", bundleSpecPath, "--bundle", archivePath, "--output", "json"}
 	output, err := t.executable.Execute(ctx, params...)
 	if err != nil {
 		return nil, fmt.Errorf("error when analyzing support bundle %s with analyzers %s: %v", archivePath, bundleSpecPath, err)
 	}
-	var analysisOutput []*SupportBundleAnalysis
+	var analysisOutput []*diagnostics.SupportBundleAnalysis
 	err = json.Unmarshal(output.Bytes(), &analysisOutput)
 	if err != nil {
 		return nil, fmt.Errorf("error unmarshalling support-bundle analyze output: %v", err)
@@ -65,13 +67,4 @@ func parseArchivePathFromCollectOutput(tsLogs string) (archivePath string, err e
 		return "", fmt.Errorf("error parsing support-bundle output: could not find archive path in output")
 	}
 	return archivePath, nil
-}
-
-type SupportBundleAnalysis struct {
-	Title   string `json:"title"`
-	IsPass  bool   `json:"isPass"`
-	IsFail  bool   `json:"isFail"`
-	IsWarn  bool   `json:"isWarn"`
-	Message string `json:"message"`
-	Uri     string `json:"URI"`
 }

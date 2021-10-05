@@ -25,3 +25,12 @@ type outcome struct {
 	Warn *singleOutcome `json:"warn,omitempty"`
 	Pass *singleOutcome `json:"pass,omitempty"`
 }
+
+type SupportBundleAnalysis struct {
+	Title   string `json:"title"`
+	IsPass  bool   `json:"isPass"`
+	IsFail  bool   `json:"isFail"`
+	IsWarn  bool   `json:"isWarn"`
+	Message string `json:"message"`
+	Uri     string `json:"URI"`
+}

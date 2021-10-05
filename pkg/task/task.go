@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/aws/eks-anywhere/pkg/cluster"
+	"github.com/aws/eks-anywhere/pkg/diagnostics"
 	"github.com/aws/eks-anywhere/pkg/filewriter"
 	"github.com/aws/eks-anywhere/pkg/logger"
 	"github.com/aws/eks-anywhere/pkg/providers"
@@ -20,18 +21,21 @@ type Task interface {
 
 // Command context maintains the mutable and shared entities
 type CommandContext struct {
-	Bootstrapper     interfaces.Bootstrapper
-	Provider         providers.Provider
-	ClusterManager   interfaces.ClusterManager
-	AddonManager     interfaces.AddonManager
-	Validations      interfaces.Validator
-	Writer           filewriter.FileWriter
-	ClusterSpec      *cluster.Spec
-	BootstrapCluster *types.Cluster
-	WorkloadCluster  *types.Cluster
-	Profiler         *Profiler
-	Rollback         bool
-	OriginalError    error
+	Bootstrapper        interfaces.Bootstrapper
+	Provider            providers.Provider
+	ClusterManager      interfaces.ClusterManager
+	AddonManager        interfaces.AddonManager
+	DiagnosticCollector interfaces.DiagnosticBundle
+	CollectorFactory    diagnostics.CollectorFactory
+	AnalyzerFactory     diagnostics.AnalyzerFactory
+	Validations         interfaces.Validator
+	Writer              filewriter.FileWriter
+	ClusterSpec         *cluster.Spec
+	BootstrapCluster    *types.Cluster
+	WorkloadCluster     *types.Cluster
+	Profiler            *Profiler
+	Rollback            bool
+	OriginalError       error
 }
 
 func (c *CommandContext) SetError(err error) {

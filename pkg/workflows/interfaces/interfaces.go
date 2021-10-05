@@ -2,9 +2,11 @@ package interfaces
 
 import (
 	"context"
+	"time"
 
 	"github.com/aws/eks-anywhere/pkg/bootstrapper"
 	"github.com/aws/eks-anywhere/pkg/cluster"
+	"github.com/aws/eks-anywhere/pkg/diagnostics"
 	"github.com/aws/eks-anywhere/pkg/providers"
 	"github.com/aws/eks-anywhere/pkg/types"
 	"github.com/aws/eks-anywhere/pkg/validations"
@@ -44,4 +46,9 @@ type AddonManager interface {
 
 type Validator interface {
 	PreflightValidations(ctx context.Context) error
+}
+
+type DiagnosticBundle interface {
+	Collect(ctx context.Context, bundlePath string, sinceTime *time.Time, kubeconfig string) (archivePath string, err error)
+	Analyze(ctx context.Context, bundleSpecPath string, archivePath string) ([]*diagnostics.SupportBundleAnalysis, error)
 }
