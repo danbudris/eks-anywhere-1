@@ -89,8 +89,6 @@ type DeleteBootstrapClusterTask struct{}
 
 type DiagnoseBootstrapClusterTask struct{}
 
-type DiagnoseAndDeleteBootstrapClusterTask struct{}
-
 // CreateBootStrapClusterTask implementation
 
 func (s *CreateBootStrapClusterTask) Run(ctx context.Context, commandContext *task.CommandContext) task.Task {

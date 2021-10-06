@@ -125,6 +125,7 @@ func (pr *taskRunner) RunTask(ctx context.Context, commandContext *CommandContex
 		logger.V(4).Info("Task start", "task_name", task.Name())
 		commandContext.Profiler.SetStartTask(task.Name())
 		nextTask := task.Run(ctx, commandContext)
+		logger.Info("NEXT TASK", "task", nextTask.Name())
 		commandContext.Profiler.MarkDoneTask(task.Name())
 		commandContext.Profiler.logProfileSummary(task.Name())
 		task = nextTask
