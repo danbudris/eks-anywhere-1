@@ -102,7 +102,7 @@ func NewDiagnosticBundleDefault(af AnalyzerFactory, cf CollectorFactory) *EksaDi
 	return b.WithDefaultAnalyzers().WithDefaultCollectors()
 }
 
-func NewDiagnosticBundleKindCluster(kubeconfig string, opts EksaDiagnosticBundleOpts) (*EksaDiagnosticBundle, error) {
+func NewDiagnosticBundleKindCluster(spec *cluster.Spec, kubeconfig string, opts EksaDiagnosticBundleOpts) (*EksaDiagnosticBundle, error) {
 	b := &EksaDiagnosticBundle{
 		bundle: &supportBundle{
 			TypeMeta: metav1.TypeMeta{
@@ -118,6 +118,7 @@ func NewDiagnosticBundleKindCluster(kubeconfig string, opts EksaDiagnosticBundle
 		collectorFactory: opts.CollectorFactory,
 		client:           opts.Client,
 		kubeconfig:       kubeconfig,
+		clusterSpec:      spec,
 		writer:           opts.Writer,
 	}
 

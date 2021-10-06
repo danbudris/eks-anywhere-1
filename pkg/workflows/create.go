@@ -331,7 +331,7 @@ func (s *DiagnoseBootstrapClusterTask) Run(ctx context.Context, commandContext *
 		CollectorFactory: commandContext.CollectorFactory,
 		Writer:           commandContext.Writer,
 	}
-	bundle, err := diagnostics.NewDiagnosticBundleKindCluster(commandContext.BootstrapCluster.KubeconfigFile, opts)
+	bundle, err := diagnostics.NewDiagnosticBundleKindCluster(commandContext.ClusterSpec, commandContext.BootstrapCluster.KubeconfigFile, opts)
 	if err != nil {
 		commandContext.SetError(err)
 		return nil
