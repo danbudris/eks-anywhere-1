@@ -24,9 +24,9 @@ func TestTaskRunnerRunTask(t *testing.T) {
 	cleanTaskA.EXPECT().Run(ctx, cmdContext).Return(cleanTaskB).Times(1)
 	cleanTaskA.EXPECT().Name().Return("taskA").Times(5)
 	cleanTaskB.EXPECT().Run(ctx, cmdContext).Return(cleanTaskC).Times(1)
-	cleanTaskB.EXPECT().Name().Return("taskB").Times(5)
+	cleanTaskB.EXPECT().Name().Return("taskB").Times(6)
 	cleanTaskC.EXPECT().Run(ctx, cmdContext).Return(nil).Times(1)
-	cleanTaskC.EXPECT().Name().Return("taskC").Times(5)
+	cleanTaskC.EXPECT().Name().Return("taskC").Times(6)
 
 	type fields struct {
 		tasks []task.Task
@@ -71,7 +71,7 @@ func TestTaskRunnerRunTaskRollback(t *testing.T) {
 	cleanTaskA.EXPECT().Run(ctx, cmdContext).Return(cleanTaskB).Times(1)
 	cleanTaskA.EXPECT().Name().Return("taskA").Times(4)
 	cleanTaskB.EXPECT().Run(ctx, cmdContext).Return(nil).Times(0)
-	cleanTaskB.EXPECT().Name().Return("taskB").Times(0)
+	cleanTaskB.EXPECT().Name().Return("taskB").Times(1)
 
 	runner := task.NewTaskRunner(cleanTaskA)
 	err := runner.RunTask(ctx, cmdContext)
