@@ -57,7 +57,7 @@ func (c *Create) Run(ctx context.Context, clusterSpec *cluster.Spec, forceCleanu
 		AddonManager:        c.addonManager,
 		DiagnosticCollector: c.diagnosticCollector,
 		ClusterSpec:         clusterSpec,
-		Rollback:            false,
+		Rollback:            true,
 		Writer:              c.writer,
 	}
 	err := task.NewTaskRunner(&SetAndValidateTask{}).RunTask(ctx, commandContext)
