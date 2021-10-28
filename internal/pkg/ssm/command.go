@@ -117,16 +117,18 @@ func Run(session *session.Session, jobId string, instanceId string, command stri
 			logger.V(2).Info("SSM command finished", "status", status, "jobId", jobId, "instanceId", instanceId, "command", command)
 			// TODO: these outputs might be truncated (8000 chars max). Get the logs from s3 with StandardErrorUrl and StandardOutputContent instead
 
+			jobIdLog := fmt.Sprintf("jobId: %s", jobId)
+
 			var commandOutput []string
-			commandOutput = append(commandOutput, fmt.Sprintf("%s: Command stdout:", jobId))
+			commandOutput = append(commandOutput, fmt.Sprintf("%s Command stdout:", jobIdLog))
 			for _, line := range strings.Split(*commandOut.StandardOutputContent, "\n") {
-				commandOutput = append(commandOutput, fmt.Sprintf("%s: %s", jobId, line))
+				commandOutput = append(commandOutput, fmt.Sprintf("%s %s", jobIdLog, line))
 			}
 			commandOutput = append(commandOutput, divider)
 
-			commandOutput = append(commandOutput, fmt.Sprintf("%s: Command stderr:", jobId))
+			commandOutput = append(commandOutput, fmt.Sprintf("%s Command stderr:", jobIdLog))
 			for _, line := range strings.Split(*commandOut.StandardErrorContent, "\n") {
-				commandOutput = append(commandOutput, fmt.Sprintf("%s: %s", jobId, line))
+				commandOutput = append(commandOutput, fmt.Sprintf("%s %s", jobIdLog, line))
 			}
 			commandOutput = append(commandOutput, divider)
 
