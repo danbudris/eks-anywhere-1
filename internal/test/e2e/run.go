@@ -117,6 +117,7 @@ func (e *E2ESession) runTests(regex string) error {
 
 	err := ssm.Run(
 		e.session,
+		e.jobId,
 		e.instanceId,
 		command,
 	)

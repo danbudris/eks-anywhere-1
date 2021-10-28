@@ -15,11 +15,13 @@ import (
 	"github.com/aws/eks-anywhere/pkg/retrier"
 )
 
+const divider = "------"
+
 var initE2EDirCommand = "mkdir -p /home/e2e/bin && cd /home/e2e"
 
-func WaitForSSMReady(session *session.Session, instanceId string) error {
+func WaitForSSMReady(session *session.Session, instanceId string, jobId string) error {
 	err := retrier.Retry(10, 20*time.Second, func() error {
-		return Run(session, instanceId, "ls")
+		return Run(session, instanceId, jobId, "ls")
 	})
 	if err != nil {
 		return fmt.Errorf("error waiting for ssm to be ready: %v", err)
@@ -42,7 +44,7 @@ var nonFinalStatuses = map[string]struct{}{
 }
 
 // TODO: cleanup this method
-func Run(session *session.Session, instanceId string, command string, opts ...CommandOpt) error {
+func Run(session *session.Session, jobId string, instanceId string, command string, opts ...CommandOpt) error {
 	service := ssm.New(session)
 	c := &ssm.SendCommandInput{
 		DocumentName: aws.String("AWS-RunShellScript"),
@@ -112,20 +114,23 @@ func Run(session *session.Session, instanceId string, command string, opts ...Co
 
 		status := *commandOut.Status
 		if isFinalStatus(status) {
-			logger.V(2).Info("SSM command finished", "status", status)
+			logger.V(2).Info("SSM command finished", "status", status, "jobId", jobId, "instanceId", instanceId, "command", command)
 			// TODO: these outputs might be truncated (8000 chars max). Get the logs from s3 with StandardErrorUrl and StandardOutputContent instead
-			// When running concurrently, the output of the command results can become intermingled.
-			// Append the instance ID to the start of the line to allow for querying and sorting
-			fmt.Println("Command stdout:")
+
+			var commandOutput []string
+			commandOutput = append(commandOutput, fmt.Sprintf("%s: Command stdout:", jobId))
 			for _, line := range strings.Split(*commandOut.StandardOutputContent, "\n") {
-				fmt.Printf("%s: %s", instanceId, line)
+				commandOutput = append(commandOutput, fmt.Sprintf("%s: %s", jobId, line))
 			}
-			printDivider()
-			fmt.Println("Command stderr")
+			commandOutput = append(commandOutput, divider)
+
+			commandOutput = append(commandOutput, fmt.Sprintf("%s: Command stderr:", jobId))
 			for _, line := range strings.Split(*commandOut.StandardErrorContent, "\n") {
-				fmt.Printf("%s: %s", instanceId, line)
+				commandOutput = append(commandOutput, fmt.Sprintf("%s: %s", jobId, line))
 			}
-			printDivider()
+			commandOutput = append(commandOutput, divider)
+
+			fmt.Println(strings.Join(commandOutput, "\n"))
 
 			return nil
 		}
@@ -146,8 +151,4 @@ func Run(session *session.Session, instanceId string, command string, opts ...Co
 func isFinalStatus(status string) bool {
 	_, nonFinalStatus := nonFinalStatuses[status]
 	return !nonFinalStatus
-}
-
-func printDivider() {
-	fmt.Println("------")
 }
