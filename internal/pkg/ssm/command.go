@@ -3,6 +3,7 @@ package ssm
 import (
 	"errors"
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -113,11 +114,17 @@ func Run(session *session.Session, instanceId string, command string, opts ...Co
 		if isFinalStatus(status) {
 			logger.V(2).Info("SSM command finished", "status", status)
 			// TODO: these outputs might be truncated (8000 chars max). Get the logs from s3 with StandardErrorUrl and StandardOutputContent instead
+			// When running concurrently, the output of the command results can become intermingled.
+			// Append the instance ID to the start of the line to allow for querying and sorting
 			fmt.Println("Command stdout:")
-			fmt.Println(*commandOut.StandardOutputContent)
+			for _, line := range strings.Split(*commandOut.StandardOutputContent, "\n") {
+				fmt.Printf("%s: %s", instanceId, line)
+			}
 			printDivider()
 			fmt.Println("Command stderr")
-			fmt.Println(*commandOut.StandardErrorContent)
+			for _, line := range strings.Split(*commandOut.StandardErrorContent, "\n") {
+				fmt.Printf("%s: %s", instanceId, line)
+			}
 			printDivider()
 
 			return nil
