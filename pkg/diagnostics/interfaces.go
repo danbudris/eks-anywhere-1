@@ -11,7 +11,7 @@ import (
 )
 
 type BundleClient interface {
-	Collect(ctx context.Context, bundlePath string, sinceTime *time.Time, kubeconfig string) (archivePath string, err error)
+	Collect(ctx context.Context, bundlePath string, sinceTime *time.Time, redact bool, kubeconfig string) (archivePath string, err error)
 	Analyze(ctx context.Context, bundleSpecPath string, archivePath string) ([]*executables.SupportBundleAnalysis, error)
 }
 
@@ -28,7 +28,7 @@ type DiagnosticBundle interface {
 	WriteBundleConfig() error
 	PrintAnalysis() error
 	WriteAnalysisToFile() (path string, err error)
-	CollectAndAnalyze(ctx context.Context, sinceTimeValue *time.Time) error
+	CollectAndAnalyze(ctx context.Context, sinceTimeValue *time.Time, redact bool) error
 	WithDefaultAnalyzers() *EksaDiagnosticBundle
 	WithDefaultCollectors() *EksaDiagnosticBundle
 	WithDatacenterConfig(config v1alpha1.Ref) *EksaDiagnosticBundle

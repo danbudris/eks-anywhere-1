@@ -25,6 +25,7 @@ type createSupportBundleOptions struct {
 	sinceTime        string
 	bundleConfig     string
 	hardwareFileName string
+	redact           bool
 }
 
 func (csbo *createSupportBundleOptions) kubeConfig(clusterName string) string {
@@ -60,6 +61,7 @@ func init() {
 	supportbundleCmd.Flags().StringVarP(&csbo.bundleConfig, "bundle-config", "", "", "Bundle Config file to use when generating support bundle")
 	supportbundleCmd.Flags().StringVarP(&csbo.fileName, "filename", "f", "", "Filename that contains EKS-A cluster configuration")
 	supportbundleCmd.Flags().StringVarP(&csbo.wConfig, "w-config", "w", "", "Kubeconfig file to use when creating support bundle for a workload cluster")
+	supportbundleCmd.Flags().BoolVarP(&csbo.redact, "redact", "", true, "Include default redactors; defaults to True")
 	err := supportbundleCmd.MarkFlagRequired("filename")
 	if err != nil {
 		log.Fatalf("Error marking flag as required: %v", err)
@@ -113,7 +115,7 @@ func (csbo *createSupportBundleOptions) createBundle(ctx context.Context, since,
 		return fmt.Errorf("failed parse since time: %v", err)
 	}
 
-	err = supportBundle.CollectAndAnalyze(ctx, sinceTimeValue)
+	err = supportBundle.CollectAndAnalyze(ctx, sinceTimeValue, csbo.redact)
 	if err != nil {
 		return fmt.Errorf("error while collecting and analyzing bundle: %v", err)
 	}

@@ -685,7 +685,7 @@ func collectDiagnosticBundle(ctx context.Context, bundle diagnostics.DiagnosticB
 		return nil
 	}
 
-	err = bundle.CollectAndAnalyze(ctx, sinceTimeValue)
+	err = bundle.CollectAndAnalyze(ctx, sinceTimeValue, true)
 	if err != nil {
 		logger.V(5).Info("Error collecting and saving logs", "error", err)
 	}

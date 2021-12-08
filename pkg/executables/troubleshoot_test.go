@@ -26,11 +26,11 @@ func TestTroubleshootCollectSuccess(t *testing.T) {
 	if err != nil {
 		t.Errorf("Troubleshoot.Collect() error: failed to parse time: %v", err)
 	}
-	expectedParams := []string{bundlePath, "--kubeconfig", cluster.KubeconfigFile, "--interactive=false", "--since-time", sinceTimeString}
+	expectedParams := []string{bundlePath, "--kubeconfig", cluster.KubeconfigFile, "--interactive=false", "--since-time", sinceTimeString, "--redact", "true"}
 	returnBuffer := bytes.Buffer{}
 	returnBuffer.Write([]byte(archivePath))
 	e.EXPECT().Execute(ctx, gomock.Eq(expectedParams)).Return(returnBuffer, nil)
-	if _, err := ts.Collect(ctx, bundlePath, &sinceTime, cluster.KubeconfigFile); err != nil {
+	if _, err := ts.Collect(ctx, bundlePath, &sinceTime, true, cluster.KubeconfigFile); err != nil {
 		t.Errorf("Troubleshoot.Collect() error = %v, want nil", err)
 	}
 }

@@ -149,11 +149,11 @@ func newDiagnosticBundleCustom(af AnalyzerFactory, cf CollectorFactory, client B
 	}
 }
 
-func (e *EksaDiagnosticBundle) CollectAndAnalyze(ctx context.Context, sinceTimeValue *time.Time) error {
+func (e *EksaDiagnosticBundle) CollectAndAnalyze(ctx context.Context, sinceTimeValue *time.Time, redact bool) error {
 	e.createDiagnosticNamespaceAndRoles(ctx)
 
 	logger.Info("⏳ Collecting support bundle from cluster, this can take a while", "cluster", e.clusterName(), "bundle", e.bundlePath, "since", sinceTimeValue, "kubeconfig", e.kubeconfig)
-	archivePath, err := e.client.Collect(ctx, e.bundlePath, sinceTimeValue, e.kubeconfig)
+	archivePath, err := e.client.Collect(ctx, e.bundlePath, sinceTimeValue, redact, e.kubeconfig)
 	if err != nil {
 		return fmt.Errorf("failed to Collect support bundle: %v", err)
 	}

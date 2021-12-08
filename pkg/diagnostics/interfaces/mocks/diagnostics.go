@@ -56,18 +56,18 @@ func (mr *MockBundleClientMockRecorder) Analyze(ctx, bundleSpecPath, archivePath
 }
 
 // Collect mocks base method.
-func (m *MockBundleClient) Collect(ctx context.Context, bundlePath string, sinceTime *time.Time, kubeconfig string) (string, error) {
+func (m *MockBundleClient) Collect(ctx context.Context, bundlePath string, sinceTime *time.Time, redact bool, kubeconfig string) (string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Collect", ctx, bundlePath, sinceTime, kubeconfig)
+	ret := m.ctrl.Call(m, "Collect", ctx, bundlePath, sinceTime, redact, kubeconfig)
 	ret0, _ := ret[0].(string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Collect indicates an expected call of Collect.
-func (mr *MockBundleClientMockRecorder) Collect(ctx, bundlePath, sinceTime, kubeconfig interface{}) *gomock.Call {
+func (mr *MockBundleClientMockRecorder) Collect(ctx, bundlePath, sinceTime, redact, kubeconfig interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Collect", reflect.TypeOf((*MockBundleClient)(nil).Collect), ctx, bundlePath, sinceTime, kubeconfig)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Collect", reflect.TypeOf((*MockBundleClient)(nil).Collect), ctx, bundlePath, sinceTime, redact, kubeconfig)
 }
 
 // MockDiagnosticBundleFactory is a mock of DiagnosticBundleFactory interface.
@@ -190,17 +190,17 @@ func (m *MockDiagnosticBundle) EXPECT() *MockDiagnosticBundleMockRecorder {
 }
 
 // CollectAndAnalyze mocks base method.
-func (m *MockDiagnosticBundle) CollectAndAnalyze(ctx context.Context, sinceTimeValue *time.Time) error {
+func (m *MockDiagnosticBundle) CollectAndAnalyze(ctx context.Context, sinceTimeValue *time.Time, redact bool) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CollectAndAnalyze", ctx, sinceTimeValue)
+	ret := m.ctrl.Call(m, "CollectAndAnalyze", ctx, sinceTimeValue, redact)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // CollectAndAnalyze indicates an expected call of CollectAndAnalyze.
-func (mr *MockDiagnosticBundleMockRecorder) CollectAndAnalyze(ctx, sinceTimeValue interface{}) *gomock.Call {
+func (mr *MockDiagnosticBundleMockRecorder) CollectAndAnalyze(ctx, sinceTimeValue, redact interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CollectAndAnalyze", reflect.TypeOf((*MockDiagnosticBundle)(nil).CollectAndAnalyze), ctx, sinceTimeValue)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CollectAndAnalyze", reflect.TypeOf((*MockDiagnosticBundle)(nil).CollectAndAnalyze), ctx, sinceTimeValue, redact)
 }
 
 // PrintAnalysis mocks base method.

@@ -338,7 +338,7 @@ func TestBundleFromSpecComplete(t *testing.T) {
 
 		tc := givenTroubleshootClient(t)
 		mockArchivePath := "/tmp/archive/path"
-		tc.EXPECT().Collect(ctx, gomock.Any(), gomock.Any(), gomock.Any()).Return(mockArchivePath, nil)
+		tc.EXPECT().Collect(ctx, gomock.Any(), gomock.Any(), true, gomock.Any()).Return(mockArchivePath, nil)
 		tc.EXPECT().Analyze(ctx, gomock.Any(), mockArchivePath).Return(returnAnalysis, nil)
 
 		opts := diagnostics.EksaDiagnosticBundleFactoryOpts{
@@ -358,7 +358,7 @@ func TestBundleFromSpecComplete(t *testing.T) {
 
 		f := diagnostics.NewFactory(opts)
 		b, _ := f.DiagnosticBundleFromSpec(spec, p, kubeconfig)
-		err = b.CollectAndAnalyze(ctx, sinceTimeValue)
+		err = b.CollectAndAnalyze(ctx, sinceTimeValue, true)
 		if err != nil {
 			t.Errorf("CollectAndAnalyze() error = %v, wantErr nil", err)
 			return
