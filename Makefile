@@ -8,7 +8,20 @@ export JOB_ID?=${PROW_JOB_ID}
 GO_TEST ?= go test
 GIT_VERSION?=$(shell git describe --tag)
 
+## ensure local execution uses the 'release-0.5' branch bundle
+CODEBUILD_SOURCE_VERSION?=release-0.5
+ifeq (,$(findstring $(CODEBUILD_SOURCE_VERSION),main))
+## use the branch-specific bundle manifest if the branch is not 'main'
+BUNDLE_MANIFEST_URL?=https://dev-release-prod-pdx.s3.us-west-2.amazonaws.com/${CODEBUILD_SOURCE_VERSION}/bundle-release.yaml
+$(info    Using branch-specific BUNDLE_RELEASE_MANIFEST_URL $(BUNDLE_MANIFEST_URL))
+else
+## use the standard bundle manifest if the branch is 'main'
+BUNDLE_MANIFEST_URL?=https://dev-release-prod-pdx.s3.us-west-2.amazonaws.com/bundle-release.yaml
+$(info    Using standard BUNDLE_RELEASE_MANIFEST_URL $(BUNDLE_MANIFEST_URL))
+endif
+
 RELEASE_MANIFEST_URL?=https://dev-release-prod-pdx.s3.us-west-2.amazonaws.com/eks-a-release.yaml
+
 DEV_GIT_VERSION:=v0.0.0-dev
 
 BIN_DIR := bin
