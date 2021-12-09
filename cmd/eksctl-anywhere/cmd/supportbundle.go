@@ -61,7 +61,7 @@ func init() {
 	supportbundleCmd.Flags().StringVarP(&csbo.bundleConfig, "bundle-config", "", "", "Bundle Config file to use when generating support bundle")
 	supportbundleCmd.Flags().StringVarP(&csbo.fileName, "filename", "f", "", "Filename that contains EKS-A cluster configuration")
 	supportbundleCmd.Flags().StringVarP(&csbo.wConfig, "w-config", "w", "", "Kubeconfig file to use when creating support bundle for a workload cluster")
-	supportbundleCmd.Flags().BoolVarP(&csbo.redact, "redact", "", true, "Include default redactors; defaults to True")
+	supportbundleCmd.Flags().BoolVarP(&csbo.redact, "redact", "r", true, "Include default redactors")
 	err := supportbundleCmd.MarkFlagRequired("filename")
 	if err != nil {
 		log.Fatalf("Error marking flag as required: %v", err)
