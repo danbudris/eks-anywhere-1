@@ -3,6 +3,7 @@ package ec2
 import (
 	"encoding/base64"
 	"fmt"
+	"math/rand"
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -28,10 +29,13 @@ systemctl restart docker --no-block
 func CreateInstance(session *session.Session, amiId, key, tag, instanceProfileName, subnetId, name string) (string, error) {
 	r := retrier.New(180*time.Minute, retrier.WithRetryPolicy(func(totalRetries int, err error) (retry bool, wait time.Duration) {
 		// EC2 Request token bucket has a refill rate of 2 request tokens
-		// per second, so 10 seconds wait per retry should be sufficient
+		// per second, so waiting between 10 and 15 seconds per retry should be sufficient
 		if isThrottleError(err) && totalRetries < 50 {
 			fmt.Println("Throttled, retrying")
-			return true, 10 * time.Second
+			minWait := 10
+			maxWait := 15
+			waitWithJitter := time.Duration(rand.Intn(maxWait-minWait)+minWait) * time.Second
+			return true, waitWithJitter
 		}
 		return false, 0
 	}))
