@@ -10,23 +10,22 @@ import (
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
 
-	"github.com/aws/eks-anywhere/pkg/cluster"
 	"github.com/aws/eks-anywhere/pkg/constants"
 	"github.com/aws/eks-anywhere/pkg/executables"
 	"github.com/aws/eks-anywhere/pkg/logger"
 	"github.com/aws/eks-anywhere/pkg/networkutils"
-	"github.com/aws/eks-anywhere/pkg/version"
 )
 
 type importImagesOptions struct {
-	fileName string
+	clusterOptions
 }
 
-var opts = &importImagesOptions{}
+var iio = &importImagesOptions{}
 
 func init() {
 	rootCmd.AddCommand(importImagesCmd)
-	importImagesCmd.Flags().StringVarP(&opts.fileName, "filename", "f", "", "Filename that contains EKS-A cluster configuration")
+	importImagesCmd.Flags().StringVarP(&iio.fileName, "filename", "f", "", "Filename that contains EKS-A cluster configuration")
+	importImagesCmd.Flags().StringVar(&iio.bundlesOverride, "bundles-override", "", "Override default Bundles manifest (not recommended)")
 	err := importImagesCmd.MarkFlagRequired("filename")
 	if err != nil {
 		log.Fatalf("Error marking filename flag as required: %v", err)
@@ -40,15 +39,15 @@ var importImagesCmd = &cobra.Command{
 	PreRunE:      preRunImportImagesCmd,
 	SilenceUsage: true,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		if err := importImages(cmd.Context(), opts.fileName); err != nil {
+		if err := importImages(cmd.Context()); err != nil {
 			return err
 		}
 		return nil
 	},
 }
 
-func importImages(context context.Context, spec string) error {
-	clusterSpec, err := cluster.NewSpecFromClusterConfig(spec, version.Get())
+func importImages(context context.Context) error {
+	clusterSpec, err := newClusterSpec(iio.clusterOptions)
 	if err != nil {
 		return err
 	}
@@ -67,7 +66,7 @@ func importImages(context context.Context, spec string) error {
 		return fmt.Errorf("registry mirror port %s is invalid, please provide a valid port", clusterSpec.Spec.RegistryMirrorConfiguration.Port)
 	}
 
-	images, err := getImages(spec)
+	images, err := getImages(clusterSpec)
 	if err != nil {
 		return err
 	}
