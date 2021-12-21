@@ -160,6 +160,10 @@ func (e *ClusterE2ETest) GenerateClusterConfig(opts ...CommandOpt) {
 
 func (e *ClusterE2ETest) ImportImages(opts ...CommandOpt) {
 	importImagesArgs := []string{"import-images", "-f", e.ClusterConfigLocation}
+	if getBundlesOverride() == "true" {
+		importImagesArgs = append(importImagesArgs, "--bundles-override", defaultBundleReleaseManifestFile)
+	}
+
 	e.RunEKSA(importImagesArgs, opts...)
 }
 
