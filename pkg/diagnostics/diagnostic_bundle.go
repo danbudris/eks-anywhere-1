@@ -372,5 +372,5 @@ func ParseTimeOptions(since string, sinceTime string) (*time.Time, error) {
 }
 
 func (e *EksaDiagnosticBundle) clusterName() string {
-	return e.bundle.Name
+	return e.clusterSpec.Name
 }
