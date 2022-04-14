@@ -572,11 +572,14 @@ func validateGitOps(clusterConfig *Cluster) error {
 	if gitOpsRef == nil {
 		return nil
 	}
-	if gitOpsRef.Kind != GitOpsConfigKind {
-		return errors.New("only GitOpsConfig Kind is supported at this time")
+	if gitOpsRef.Kind != GitOpsConfigKind && gitOpsRef.Kind != FluxConfigKind {
+		return errors.New("only FluxConfig and GitOpsConfig Kind are supported at this time")
+	}
+	if gitOpsRef.Kind == GitOpsConfigKind {
+		logger.Info("Deprecated: GitOpsConfig kind is deprecated and will be removed; use FluxConfig instead.")
 	}
 	if gitOpsRef.Name == "" {
-		return errors.New("GitOpsConfig name can't be empty; specify a valid name for GitOpsConfig")
+		return errors.New("GitOpsRef name can't be empty; specify a valid FluxConfig or GitOpsConfig name")
 	}
 	return nil
 }
