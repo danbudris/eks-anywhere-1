@@ -17,18 +17,14 @@ import (
 )
 
 type GoGithub struct {
-	Opts   Options
+	Auth   git.TokenAuth
 	Client Client
 }
 
-type Options struct {
-	Auth git.TokenAuth
-}
-
-func New(ctx context.Context, opts Options) *GoGithub {
+func New(ctx context.Context, auth git.TokenAuth) *GoGithub {
 	return &GoGithub{
-		Opts:   opts,
-		Client: newClient(ctx, opts),
+		Auth:   auth,
+		Client: newClient(ctx, auth),
 	}
 }
 
@@ -212,8 +208,8 @@ func (g *GoGithub) DeleteRepo(ctx context.Context, opts git.DeleteRepoOpts) erro
 	return nil
 }
 
-func newClient(ctx context.Context, opts Options) Client {
-	ts := oauth2.StaticTokenSource(&oauth2.Token{AccessToken: opts.Auth.Token})
+func newClient(ctx context.Context, auth git.TokenAuth) Client {
+	ts := oauth2.StaticTokenSource(&oauth2.Token{AccessToken: auth.Token})
 	tc := oauth2.NewClient(ctx, ts)
 	return &githubClient{goGithub.NewClient(tc)}
 }

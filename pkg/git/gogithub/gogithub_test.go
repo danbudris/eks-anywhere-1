@@ -22,7 +22,7 @@ const repoPermissions = "repo"
 
 func TestGoGithubCreateRepo(t *testing.T) {
 	type fields struct {
-		opts gogithub.Options
+		auth git.TokenAuth
 	}
 	type args struct {
 		opts git.CreateRepoOpts
@@ -36,7 +36,7 @@ func TestGoGithubCreateRepo(t *testing.T) {
 		{
 			name: "create public repo with organizational owner",
 			fields: fields{
-				opts: gogithub.Options{},
+				auth: git.TokenAuth{},
 			},
 			args: args{
 				opts: git.CreateRepoOpts{
@@ -50,7 +50,7 @@ func TestGoGithubCreateRepo(t *testing.T) {
 		{
 			name: "create personal repo",
 			fields: fields{
-				opts: gogithub.Options{},
+				auth: git.TokenAuth{},
 			},
 			args: args{
 				opts: git.CreateRepoOpts{
@@ -85,7 +85,7 @@ func TestGoGithubCreateRepo(t *testing.T) {
 				returnRepo, nil, nil)
 
 			g := &gogithub.GoGithub{
-				Opts:   tt.fields.opts,
+				Auth:   tt.fields.auth,
 				Client: client,
 			}
 			gotRepository, err := g.CreateRepo(ctx, tt.args.opts)
@@ -112,7 +112,7 @@ func TestGoGithubCreateRepo(t *testing.T) {
 
 func TestGoGithubGetRepo(t *testing.T) {
 	type fields struct {
-		opts gogithub.Options
+		auth git.TokenAuth
 	}
 	type args struct {
 		opts     git.GetRepoOpts
@@ -194,7 +194,7 @@ func TestGoGithubGetRepo(t *testing.T) {
 				Return(returnRepo, nil, tt.throwError)
 
 			g := &gogithub.GoGithub{
-				Opts:   tt.fields.opts,
+				Auth:   tt.fields.auth,
 				Client: client,
 			}
 			got, err := g.GetRepo(ctx, tt.args.opts)
@@ -232,7 +232,7 @@ func TestGoGithubGetRepo(t *testing.T) {
 
 func TestGoGithubDeleteRepoSuccess(t *testing.T) {
 	type fields struct {
-		opts gogithub.Options
+		auth git.TokenAuth
 	}
 
 	tests := []struct {
@@ -259,7 +259,7 @@ func TestGoGithubDeleteRepoSuccess(t *testing.T) {
 			client.EXPECT().DeleteRepo(ctx, tt.args.Owner, tt.args.Repository).Return(nil, tt.wantErr)
 
 			g := &gogithub.GoGithub{
-				Opts:   tt.fields.opts,
+				Auth:   tt.fields.auth,
 				Client: client,
 			}
 			err := g.DeleteRepo(ctx, tt.args)
@@ -272,7 +272,7 @@ func TestGoGithubDeleteRepoSuccess(t *testing.T) {
 
 func TestGoGithubDeleteRepoFail(t *testing.T) {
 	type fields struct {
-		opts gogithub.Options
+		auth git.TokenAuth
 	}
 
 	tests := []struct {
@@ -301,7 +301,7 @@ func TestGoGithubDeleteRepoFail(t *testing.T) {
 			client.EXPECT().DeleteRepo(ctx, tt.args.Owner, tt.args.Repository).Return(nil, tt.throwErr)
 
 			g := &gogithub.GoGithub{
-				Opts:   tt.fields.opts,
+				Auth:   tt.fields.auth,
 				Client: client,
 			}
 			err := g.DeleteRepo(ctx, tt.args)
@@ -314,7 +314,7 @@ func TestGoGithubDeleteRepoFail(t *testing.T) {
 
 func TestGoGithub_CheckAccessTokenPermissions(t *testing.T) {
 	type fields struct {
-		opts gogithub.Options
+		auth git.TokenAuth
 	}
 	tests := []struct {
 		name           string
@@ -326,7 +326,7 @@ func TestGoGithub_CheckAccessTokenPermissions(t *testing.T) {
 			name:           "token with repo permissions",
 			allPermissions: "admin, repo",
 			fields: fields{
-				opts: gogithub.Options{},
+				auth: git.TokenAuth{},
 			},
 			wantErr: nil,
 		},
@@ -334,7 +334,7 @@ func TestGoGithub_CheckAccessTokenPermissions(t *testing.T) {
 			name:           "token without repo permissions",
 			allPermissions: "admin, workflow",
 			fields: fields{
-				opts: gogithub.Options{},
+				auth: git.TokenAuth{},
 			},
 			wantErr: errors.New("github access token does not have repo permissions"),
 		},
@@ -342,7 +342,7 @@ func TestGoGithub_CheckAccessTokenPermissions(t *testing.T) {
 			name:           "token with repo permissions",
 			allPermissions: "",
 			fields: fields{
-				opts: gogithub.Options{},
+				auth: git.TokenAuth{},
 			},
 			wantErr: errors.New("github access token does not have repo permissions"),
 		},
@@ -353,7 +353,7 @@ func TestGoGithub_CheckAccessTokenPermissions(t *testing.T) {
 			client := mockGoGithub.NewMockClient(mockCtrl)
 
 			g := &gogithub.GoGithub{
-				Opts:   tt.fields.opts,
+				Auth:   git.TokenAuth{},
 				Client: client,
 			}
 
@@ -399,7 +399,7 @@ func TestPathExistsItDoesNot(t *testing.T) {
 type gogithubTest struct {
 	*WithT
 	g      *gogithub.GoGithub
-	opts   gogithub.Options
+	auth   git.TokenAuth
 	client *mockGoGithub.MockClient
 	ctx    context.Context
 }
@@ -409,22 +409,20 @@ func newTest(t *testing.T) *gogithubTest {
 	ctx := context.Background()
 	ctrl := gomock.NewController(t)
 	client := mockGoGithub.NewMockClient(ctrl)
-	opts := gogithub.Options{
-		Auth: git.TokenAuth{
-			Username: "user",
-			Token:    "token",
-		},
+	auth := git.TokenAuth{
+		Username: "user",
+		Token:    "token",
 	}
 
 	g := &gogithub.GoGithub{
-		Opts:   opts,
+		Auth:   auth,
 		Client: client,
 	}
 
 	return &gogithubTest{
 		WithT:  withT,
 		g:      g,
-		opts:   opts,
+		auth:   auth,
 		client: client,
 		ctx:    ctx,
 	}

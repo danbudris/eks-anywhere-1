@@ -47,9 +47,13 @@ func (g *gitProviderFactory) buildGitHubProvider(ctx context.Context, repository
 	if err != nil {
 		return nil, nil, err
 	}
-	auth := git.TokenAuth{Token: token, Username: owner}
-	gogithubOpts := gogithub.Options{Auth: auth}
-	githubProviderClient := gogithub.New(ctx, gogithubOpts)
+
+	auth := git.TokenAuth{
+		Token:    token,
+		Username: owner,
+	}
+
+	githubProviderClient := gogithub.New(ctx, auth)
 	githubProviderOpts := github.Options{
 		Repository: repository,
 		Owner:      owner,
