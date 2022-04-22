@@ -8,6 +8,7 @@ import (
 	"github.com/golang/mock/gomock"
 
 	"github.com/aws/eks-anywhere/pkg/api/v1alpha1"
+	"github.com/aws/eks-anywhere/pkg/filewriter"
 	gitFactory "github.com/aws/eks-anywhere/pkg/git/factory"
 	"github.com/aws/eks-anywhere/pkg/git/providers/github"
 	githubMocks "github.com/aws/eks-anywhere/pkg/git/providers/github/mocks"
@@ -50,10 +51,13 @@ func TestGitFactoryHappyPath(t *testing.T) {
 
 			githubProviderClient := githubMocks.NewMockGitClient(mockCtrl)
 			githubProviderClient.EXPECT().SetTokenAuth(gomock.Any(), fluxConfig.Spec.Github.Owner)
-			opts := gitFactory.Options{GithubGitClient: githubProviderClient}
-			factory := gitFactory.New(opts)
+			writer, err := filewriter.NewWriter("")
+			if err != nil {
+				t.Errorf("failed to build writer for GitFactory")
+			}
+			factory := gitFactory.New(githubProviderClient, writer)
 
-			_, err := factory.BuildProvider(context.Background(), &fluxConfig.Spec)
+			_, _, err = factory.BuildProvider(context.Background(), &fluxConfig.Spec)
 			if err != nil {
 				t.Errorf("gitfactory.BuldProvider returned err, wanted nil. err: %v", err)
 			}

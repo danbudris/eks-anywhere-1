@@ -73,9 +73,8 @@ func NewGitOptions(ctx context.Context, cluster *v1alpha1.Cluster, fluxConfig *v
 		RepositoryDirectory: localGitRepoPath,
 	}
 	gitClient := gitclient.New(gitClientOptions)
-	gitProviderFactoryOptions := gitFactory.Options{GithubGitClient: gitClient}
-	gitProviderFactory := gitFactory.New(gitProviderFactoryOptions)
-	gitProvider, err := gitProviderFactory.BuildProvider(ctx, &fluxConfig.Spec)
+	gitProviderFactory := gitFactory.New(gitClient, writer)
+	gitProvider, gitwriter, err := gitProviderFactory.BuildProvider(ctx, &fluxConfig.Spec)
 	if err != nil {
 		return nil, fmt.Errorf("creating Git provider: %v", err)
 	}
@@ -83,12 +82,6 @@ func NewGitOptions(ctx context.Context, cluster *v1alpha1.Cluster, fluxConfig *v
 	if err != nil {
 		return nil, err
 	}
-	localGitWriterPath := filepath.Join("git", fluxConfig.Spec.Github.Repository)
-	gitwriter, err := writer.WithDir(localGitWriterPath)
-	if err != nil {
-		return nil, fmt.Errorf("creating file writer: %v", err)
-	}
-	gitwriter.CleanUpTemp()
 	return &GitOptions{
 		Git:    gitProvider,
 		Writer: gitwriter,

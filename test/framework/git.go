@@ -24,13 +24,10 @@ func (e *ClusterE2ETest) NewGitOptions(ctx context.Context, cluster *v1alpha1.Cl
 	}
 
 	var localGitRepoPath string
-	var localGitWriterPath string
 	if repoPath == "" {
 		localGitRepoPath = filepath.Join(cluster.Name, "git", fluxConfig.Spec.Github.Repository)
-		localGitWriterPath = filepath.Join("git", fluxConfig.Spec.Github.Repository)
 	} else {
 		localGitRepoPath = repoPath
-		localGitWriterPath = repoPath
 	}
 
 	gogitOptions := gitclient.Options{
@@ -38,9 +35,8 @@ func (e *ClusterE2ETest) NewGitOptions(ctx context.Context, cluster *v1alpha1.Cl
 	}
 	goGit := gitclient.New(gogitOptions)
 
-	gitProviderFactoryOptions := gitFactory.Options{GithubGitClient: goGit}
-	gitProviderFactory := gitFactory.New(gitProviderFactoryOptions)
-	gitProvider, err := gitProviderFactory.BuildProvider(ctx, &fluxConfig.Spec)
+	gitProviderFactory := gitFactory.New(goGit, writer)
+	gitProvider, gitwriter, err := gitProviderFactory.BuildProvider(ctx, &fluxConfig.Spec)
 	if err != nil {
 		return nil, fmt.Errorf("creating Git provider: %v", err)
 	}
@@ -48,11 +44,6 @@ func (e *ClusterE2ETest) NewGitOptions(ctx context.Context, cluster *v1alpha1.Cl
 	if err != nil {
 		return nil, err
 	}
-	gitwriter, err := writer.WithDir(localGitWriterPath)
-	if err != nil {
-		return nil, fmt.Errorf("creating file writer: %v", err)
-	}
-	gitwriter.CleanUpTemp()
 	return &GitOptions{
 		Git:    gitProvider,
 		Writer: gitwriter,
