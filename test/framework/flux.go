@@ -802,15 +802,39 @@ func (e *ClusterE2ETest) writeEKSASpec(s *cluster.Spec, datacenterConfig provide
 }
 
 func (e *ClusterE2ETest) gitRepoName() string {
-	return e.GitOpsConfig.Spec.Flux.Github.Repository
+	if e.FluxConfig != nil {
+		if e.FluxConfig.Spec.Github != nil {
+			return e.FluxConfig.Spec.Github.Repository
+		}
+		if e.FluxConfig.Spec.Git != nil {
+			r := e.FluxConfig.Spec.Git.RepositoryUrl
+			return path.Base(strings.TrimSuffix(r, filepath.Ext(r)))
+		}
+	}
+	if e.GitOpsConfig != nil {
+		return e.GitOpsConfig.Spec.Flux.Github.Repository
+	}
+	return ""
 }
 
 func (e *ClusterE2ETest) gitBranch() string {
-	return e.GitOpsConfig.Spec.Flux.Github.Branch
+	if e.GitOpsConfig != nil {
+		return e.GitOpsConfig.Spec.Flux.Github.Branch
+	}
+	if e.FluxConfig != nil {
+		return e.FluxConfig.Spec.Branch
+	}
+	return ""
 }
 
 func (e *ClusterE2ETest) clusterConfGitPath() string {
-	p := e.GitOpsConfig.Spec.Flux.Github.ClusterConfigPath
+	var p string
+	if e.GitOpsConfig != nil {
+		p = e.GitOpsConfig.Spec.Flux.Github.ClusterConfigPath
+	}
+	if e.FluxConfig != nil {
+		p = e.FluxConfig.Spec.ClusterConfigPath
+	}
 	if len(p) == 0 {
 		p = path.Join("clusters", e.ClusterName)
 	}
