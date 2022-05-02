@@ -9,6 +9,7 @@ import (
 	anywherev1 "github.com/aws/eks-anywhere/pkg/api/v1alpha1"
 	"github.com/aws/eks-anywhere/pkg/types"
 	"github.com/aws/eks-anywhere/pkg/validations"
+	"github.com/aws/eks-anywhere/pkg/validations/createvalidations"
 )
 
 func (u *UpgradeValidations) PreflightValidations(ctx context.Context) (err error) {
@@ -58,6 +59,11 @@ func (u *UpgradeValidations) PreflightValidations(ctx context.Context) (err erro
 			Name:        "validate immutable fields",
 			Remediation: "",
 			Err:         ValidateImmutableFields(ctx, k, targetCluster, u.Opts.Spec, u.Opts.Provider),
+		},
+		{
+			Name:        "validate GitOps",
+			Remediation: "",
+			Err:         createvalidations.ValidateGitOps(ctx, k, targetCluster, u.Opts.Spec, u.Opts.CliConfig),
 		},
 	}
 
