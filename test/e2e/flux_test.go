@@ -49,6 +49,7 @@ func TestDockerKubernetes120GitFlux(t *testing.T) {
 		framework.NewDocker(t),
 		framework.WithFluxGit(),
 		framework.WithClusterFiller(api.WithKubernetesVersion(v1alpha1.Kube120)),
+		framework.WithEnvVar("GENERIC_GIT_PROVIDER_SUPPORT", "true"),
 	)
 	runFluxFlow(test)
 }
