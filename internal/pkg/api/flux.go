@@ -53,24 +53,36 @@ func WithSystemNamespace(namespace string) FluxConfigOpt {
 
 func WithGithubOwner(owner string) FluxConfigOpt {
 	return func(c *v1alpha1.FluxConfig) {
+		if c.Spec.Github == nil {
+			c.Spec.Github = &v1alpha1.GithubProviderConfig{}
+		}
 		c.Spec.Github.Owner = owner
 	}
 }
 
 func WithGithubRepository(repository string) FluxConfigOpt {
 	return func(c *v1alpha1.FluxConfig) {
+		if c.Spec.Github == nil {
+			c.Spec.Github = &v1alpha1.GithubProviderConfig{}
+		}
 		c.Spec.Github.Repository = repository
 	}
 }
 
 func WithPersonalGithubRepository(personal bool) FluxConfigOpt {
 	return func(c *v1alpha1.FluxConfig) {
+		if c.Spec.Github == nil {
+			c.Spec.Github = &v1alpha1.GithubProviderConfig{}
+		}
 		c.Spec.Github.Personal = personal
 	}
 }
 
 func WithGitRepositoryUrl(url string) FluxConfigOpt {
 	return func(c *v1alpha1.FluxConfig) {
+		if c.Spec.Git == nil {
+			c.Spec.Git = &v1alpha1.GitProviderConfig{}
+		}
 		c.Spec.Git.RepositoryUrl = url
 	}
 }
