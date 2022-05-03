@@ -5,7 +5,6 @@ import (
 	"context"
 	"fmt"
 	"io/ioutil"
-	"os"
 	"path"
 	"path/filepath"
 	"reflect"
@@ -68,8 +67,6 @@ func WithFluxGit(opts ...api.FluxConfigOpt) ClusterE2ETestOpt {
 		for _, opt := range opts {
 			opt(e.FluxConfig)
 		}
-		// Setting GitRepo cleanup since GitOps configured
-		e.T.Cleanup(e.CleanUpGitRepo)
 	}
 }
 
@@ -255,49 +252,6 @@ func (e *ClusterE2ETest) ValidateFlux() {
 		e.T.Errorf("Error configuring git client for e2e test: %v", err)
 	}
 	e.validateGitopsRepoContent(gitTools)
-}
-
-func (e *ClusterE2ETest) CleanUpGitRepo() {
-	c := e.clusterConfig()
-	writer, err := filewriter.NewWriter(e.cluster().Name)
-	if err != nil {
-		e.T.Errorf("configuring filewriter for e2e test: %v", err)
-	}
-	ctx := context.Background()
-	repoName := e.gitRepoName()
-	gitTools, err := e.NewGitTools(ctx, c, e.FluxConfig, writer, fmt.Sprintf("%s/%s", e.ClusterName, repoName))
-	if err != nil {
-		e.T.Errorf("configuring git client for e2e test: %v", err)
-	}
-	dirEntries, err := os.ReadDir(gitTools.RepositoryDirectory)
-	if err != nil {
-		e.T.Errorf("reading repository directories")
-	}
-
-	for _, entry := range dirEntries {
-		if entry.Name() == ".git" {
-			continue
-		}
-		if entry.IsDir() {
-			err = os.RemoveAll(entry.Name())
-			if err != nil {
-				continue
-			}
-		}
-		if !entry.IsDir() {
-			err = os.Remove(entry.Name())
-			if err != nil {
-				continue
-			}
-		}
-	}
-
-	if err = gitTools.Client.Add("*"); err != nil {
-		e.T.Errorf("cleaning up git repo")
-	}
-	if err = gitTools.Client.Push(context.Background()); err != nil {
-		e.T.Errorf("pushing to repo after cleanup")
-	}
 }
 
 func (e *ClusterE2ETest) CleanUpGithubRepo() {
