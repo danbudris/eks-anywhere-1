@@ -53,8 +53,7 @@ func repoPath(config *v1alpha1.FluxConfig) string {
 		p = config.Spec.Github.Repository
 	}
 	if config.Spec.Git != nil {
-		p =  path.Base(strings.Trim(config.Spec.Git.RepositoryUrl, filepath.Ext(config.Spec.Git.RepositoryUrl)))
+		p = path.Base(strings.Trim(config.Spec.Git.RepositoryUrl, filepath.Ext(config.Spec.Git.RepositoryUrl)))
 	}
 	return p
 }
-
