@@ -53,15 +53,16 @@ var fluxGitRequiredEnvVars = []string{
 func WithFluxGit(opts ...api.FluxConfigOpt) ClusterE2ETestOpt {
 	return func(e *ClusterE2ETest) {
 		checkRequiredEnvVars(e.T, fluxGitRequiredEnvVars)
-		fluxConfigName := fluxConfigName()
-		e.FluxConfig = api.NewFluxConfig(fluxConfigName,
-			api.WithStringFromEnvVarFluxConfig(gitRepoSshUrl, api.WithGitRepositoryUrl),
+		configName := fluxConfigName()
+		e.FluxConfig = api.NewFluxConfig(configName,
 			api.WithSystemNamespace("default"),
 			api.WithClusterConfigPath("path2"),
 			api.WithBranch("main"),
+			api.WithGitConfig(),
+			api.WithStringFromEnvVarFluxConfig(gitRepoSshUrl, api.WithGitRepositoryUrl),
 		)
 		e.clusterFillers = append(e.clusterFillers,
-			api.WithGitOpsRef(fluxConfigName, v1alpha1.FluxConfigKind),
+			api.WithGitOpsRef(configName, v1alpha1.FluxConfigKind),
 		)
 		// apply the rest of the opts passed into the function
 		for _, opt := range opts {
@@ -75,8 +76,8 @@ func WithFluxGit(opts ...api.FluxConfigOpt) ClusterE2ETestOpt {
 func WithFluxGithub(opts ...api.FluxConfigOpt) ClusterE2ETestOpt {
 	return func(e *ClusterE2ETest) {
 		checkRequiredEnvVars(e.T, fluxGithubRequiredEnvVars)
-		fluxConfigName := fluxConfigName()
-		e.FluxConfig = api.NewFluxConfig(fluxConfigName,
+		configName := fluxConfigName()
+		e.FluxConfig = api.NewFluxConfig(configName,
 			api.WithPersonalGithubRepository(true),
 			api.WithStringFromEnvVarFluxConfig(gitRepositoryVar, api.WithGithubRepository),
 			api.WithSystemNamespace("default"),
@@ -84,7 +85,7 @@ func WithFluxGithub(opts ...api.FluxConfigOpt) ClusterE2ETestOpt {
 			api.WithBranch("main"),
 		)
 		e.clusterFillers = append(e.clusterFillers,
-			api.WithGitOpsRef(fluxConfigName, v1alpha1.FluxConfigKind),
+			api.WithGitOpsRef(configName, v1alpha1.FluxConfigKind),
 		)
 		// apply the rest of the opts passed into the function
 		for _, opt := range opts {
@@ -249,7 +250,7 @@ func (e *ClusterE2ETest) ValidateFlux() {
 		e.T.Errorf("Error configuring filewriter for e2e test: %v", err)
 	}
 	repoName := e.gitRepoName()
-	gitTools, err := e.NewGitTools(ctx, c, e.GitOpsConfig.ConvertToFluxConfig(), writer, e.validateGitopsRepoContentPath(repoName))
+	gitTools, err := e.NewGitTools(ctx, c, e.FluxConfig, writer, e.validateGitopsRepoContentPath(repoName))
 	if err != nil {
 		e.T.Errorf("Error configuring git client for e2e test: %v", err)
 	}

@@ -90,3 +90,9 @@ func WithGitRepositoryUrl(url string) FluxConfigOpt {
 func WithStringFromEnvVarFluxConfig(envVar string, opt func(string) FluxConfigOpt) FluxConfigOpt {
 	return opt(os.Getenv(envVar))
 }
+
+func WithGitConfig() FluxConfigOpt {
+	return func(c *v1alpha1.FluxConfig) {
+		c.Spec.Git = &v1alpha1.GitProviderConfig{}
+	}
+}
