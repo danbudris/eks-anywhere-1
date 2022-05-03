@@ -221,7 +221,11 @@ func (e *ClusterE2ETest) ValidateFlux() {
 		e.T.Errorf("Error configuring filewriter for e2e test: %v", err)
 	}
 	ctx := context.Background()
-	g, err := e.NewGitTools(ctx, c, e.GitOpsConfig.ConvertToFluxConfig(), writer, "")
+	if e.GitOpsConfig != nil {
+		e.FluxConfig = e.GitOpsConfig.ConvertToFluxConfig()
+	}
+
+	g, err := e.NewGitTools(ctx, c, e.FluxConfig, writer, "")
 	if err != nil {
 		e.T.Errorf("Error configuring git client for e2e test: %v", err)
 	}

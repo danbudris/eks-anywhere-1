@@ -119,7 +119,7 @@ func TestVSphereKubernetes121UbuntuTo122WithFluxLegacyUpgrade(t *testing.T) {
 		framework.WithClusterFiller(api.WithControlPlaneCount(1)),
 		framework.WithClusterFiller(api.WithWorkerNodeCount(1)),
 	)
-	runUpgradeFlowWithFlux(
+	runUpgradeFlowWithFluxLegacy(
 		test,
 		v1alpha1.Kube122,
 		framework.WithClusterUpgrade(api.WithKubernetesVersion(v1alpha1.Kube122)),
@@ -138,7 +138,7 @@ func TestVSphereKubernetes121UbuntuTo122DifferentNamespaceWithFluxLegacyUpgrade(
 		framework.WithClusterFiller(api.WithControlPlaneCount(1)),
 		framework.WithClusterFiller(api.WithWorkerNodeCount(1)),
 	)
-	runUpgradeFlowWithFlux(
+	runUpgradeFlowWithFluxLegacy(
 		test,
 		v1alpha1.Kube122,
 		framework.WithClusterUpgrade(api.WithKubernetesVersion(v1alpha1.Kube122)),
@@ -230,7 +230,7 @@ func TestVSphereKubernetes121BottlerocketTo122WithFluxLegacyUpgrade(t *testing.T
 		framework.WithClusterFiller(api.WithControlPlaneCount(1)),
 		framework.WithClusterFiller(api.WithWorkerNodeCount(1)),
 	)
-	runUpgradeFlowWithFlux(
+	runUpgradeFlowWithFluxLegacy(
 		test,
 		v1alpha1.Kube122,
 		framework.WithClusterUpgrade(api.WithKubernetesVersion(v1alpha1.Kube122)),
@@ -249,7 +249,7 @@ func TestVSphereKubernetes121BottlerocketTo122DifferentNamespaceWithFluxLegacyUp
 		framework.WithClusterFiller(api.WithControlPlaneCount(1)),
 		framework.WithClusterFiller(api.WithWorkerNodeCount(1)),
 	)
-	runUpgradeFlowWithFlux(
+	runUpgradeFlowWithFluxLegacy(
 		test,
 		v1alpha1.Kube122,
 		framework.WithClusterUpgrade(api.WithKubernetesVersion(v1alpha1.Kube122)),
