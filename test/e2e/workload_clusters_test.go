@@ -183,6 +183,46 @@ func TestDockerUpgradeWorkloadClusterWithGithubFlux(t *testing.T) {
 	)
 }
 
+func TestDockerUpgradeWorkloadClusterWithGitFlux(t *testing.T) {
+	provider := framework.NewDocker(t)
+	test := framework.NewMulticlusterE2ETest(
+		t,
+		framework.NewClusterE2ETest(
+			t,
+			provider,
+			framework.WithFluxGit(),
+			framework.WithClusterFiller(
+				api.WithKubernetesVersion(v1alpha1.Kube121),
+				api.WithControlPlaneCount(1),
+				api.WithWorkerNodeCount(1),
+			),
+			framework.WithEnvVar(features.GenericGitProviderEnvVar, "true"),
+		),
+		framework.NewClusterE2ETest(
+			t,
+			provider,
+			framework.WithFluxGit(),
+			framework.WithClusterFiller(
+				api.WithKubernetesVersion(v1alpha1.Kube121),
+				api.WithControlPlaneCount(1),
+				api.WithWorkerNodeCount(1),
+			),
+			framework.WithEnvVar(features.GenericGitProviderEnvVar, "true"),
+		),
+	)
+	runWorkloadClusterFlowWithGitOps(
+		test,
+		framework.WithClusterUpgradeGit(
+			api.WithKubernetesVersion(v1alpha1.Kube122),
+			api.WithControlPlaneCount(2),
+			api.WithWorkerNodeCount(2),
+		),
+		// Needed in order to replace the DockerDatacenterConfig namespace field with the value specified
+		// compared to when it was initially created without it.
+		provider.WithProviderUpgradeGit(),
+	)
+}
+
 func TestVSphereUpgradeMulticlusterWorkloadClusterWithGithubFlux(t *testing.T) {
 	provider := framework.NewVSphere(t, framework.WithUbuntu121())
 	test := framework.NewMulticlusterE2ETest(

@@ -1,0 +1,17 @@
+2022-05-06T15:45:35.652Z	V4	e2e	Logger init completed	{"vlevel": 4}
+=== RUN   TestVSphereDownloadArtifacts
+2022-05-06T15:45:35.652Z	V2	e2e	Pulling docker image	{"image": "public.ecr.aws/l0g8r8j6/eks-anywhere-cli-tools:v0.7.2-eks-a-v0.0.0-dev-build.1864"}
+2022-05-06T15:45:44.890Z	V3	e2e	Initializing long running container	{"name": "eksa_1651851935652763499", "image": "public.ecr.aws/l0g8r8j6/eks-anywhere-cli-tools:v0.7.2-eks-a-v0.0.0-dev-build.1864"}
+2022-05-06T15:45:49.074Z	V2	e2e	Pulling docker image	{"image": "public.ecr.aws/l0g8r8j6/eks-anywhere-cli-tools:v0.7.2-eks-a-v0.0.0-dev-build.1864"}
+2022-05-06T15:45:50.079Z	V3	e2e	Initializing long running container	{"name": "eksa_1651851949074114233", "image": "public.ecr.aws/l0g8r8j6/eks-anywhere-cli-tools:v0.7.2-eks-a-v0.0.0-dev-build.1864"}
+    cluster.go:506: Running shell command [ eksctl anywhere generate clusterconfig main-i-0bd81d308cbab1c17 -p vsphere > cluster.yaml ]
+    cluster.go:506: Running shell command [ eksctl anywhere download artifacts -f main-i-0bd81d308cbab1c17-config/cluster.yaml ]
+Error: downloading artifact for component packages: failed reading local file [public.ecr.aws/l0g8r8j6/eks-anywhere-packages:0.1.6-eks-a-v0.0.0-dev-build.2613]: open public.ecr.aws/l0g8r8j6/eks-anywhere-packages:0.1.6-eks-a-v0.0.0-dev-build.2613: no such file or directory
+    cluster.go:539: Command eksctl anywhere [download artifacts -f main-i-0bd81d308cbab1c17-config/cluster.yaml] failed with error: exit status 255: Error: downloading artifact for component packages: failed reading local file [public.ecr.aws/l0g8r8j6/eks-anywhere-packages:0.1.6-eks-a-v0.0.0-dev-build.2613]: open public.ecr.aws/l0g8r8j6/eks-anywhere-packages:0.1.6-eks-a-v0.0.0-dev-build.2613: no such file or directory
+2022-05-06T15:45:54.977Z	V3	e2e	Cleaning up long running container	{"name": "eksa_1651851949074114233"}
+2022-05-06T15:45:55.089Z	V3	e2e	Logging out from current govc session
+2022-05-06T15:45:55.704Z	V3	e2e	Cleaning up long running container	{"name": "eksa_1651851935652763499"}
+--- FAIL: TestVSphereDownloadArtifacts (20.15s)
+FAIL
+
+DONE 1 tests, 1 failure in 20.279s

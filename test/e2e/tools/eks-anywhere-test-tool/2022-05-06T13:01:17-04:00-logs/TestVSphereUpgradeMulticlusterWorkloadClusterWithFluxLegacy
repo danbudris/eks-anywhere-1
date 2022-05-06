@@ -1,0 +1,650 @@
+2022-05-06T15:44:21.456Z	V4	e2e	Logger init completed	{"vlevel": 4}
+=== RUN   TestVSphereUpgradeMulticlusterWorkloadClusterWithFluxLegacy
+2022-05-06T15:44:21.457Z	V2	e2e	Pulling docker image	{"image": "public.ecr.aws/l0g8r8j6/eks-anywhere-cli-tools:v0.7.2-eks-a-v0.0.0-dev-build.1864"}
+2022-05-06T15:44:31.191Z	V3	e2e	Initializing long running container	{"name": "eksa_1651851861457040114", "image": "public.ecr.aws/l0g8r8j6/eks-anywhere-cli-tools:v0.7.2-eks-a-v0.0.0-dev-build.1864"}
+2022-05-06T15:44:35.860Z	V2	e2e	Pulling docker image	{"image": "public.ecr.aws/l0g8r8j6/eks-anywhere-cli-tools:v0.7.2-eks-a-v0.0.0-dev-build.1864"}
+2022-05-06T15:44:36.839Z	V3	e2e	Initializing long running container	{"name": "eksa_1651851875860471498", "image": "public.ecr.aws/l0g8r8j6/eks-anywhere-cli-tools:v0.7.2-eks-a-v0.0.0-dev-build.1864"}
+2022-05-06T15:44:37.269Z	V2	e2e	Pulling docker image	{"image": "public.ecr.aws/l0g8r8j6/eks-anywhere-cli-tools:v0.7.2-eks-a-v0.0.0-dev-build.1864"}
+2022-05-06T15:44:38.257Z	V3	e2e	Initializing long running container	{"name": "eksa_1651851877269624027", "image": "public.ecr.aws/l0g8r8j6/eks-anywhere-cli-tools:v0.7.2-eks-a-v0.0.0-dev-build.1864"}
+    cluster.go:506: Running shell command [ eksctl anywhere generate clusterconfig main-i-0d94c058dba902e4c -p vsphere > cluster.yaml ]
+    cluster.go:374: Creating cluster main-i-0d94c058dba902e4c
+    cluster.go:506: Running shell command [ eksctl anywhere create cluster -f main-i-0d94c058dba902e4c-config/cluster.yaml -v 4 ]
+2022-05-06T15:44:42.970Z	V4	Logger init completed	{"vlevel": 4}
+2022-05-06T15:44:42.972Z	V0	Warning: The recommended number of control plane nodes is 3 or 5
+2022-05-06T15:44:43.082Z	V0	Warning: VSphereDatacenterConfig configured in insecure mode
+2022-05-06T15:44:43.082Z	V0	Warning: The recommended number of control plane nodes is 3 or 5
+2022-05-06T15:44:43.129Z	V4	Reading bundles manifest	{"url": "https://dev-release-prod-pdx.s3.amazonaws.com/bundle-release.yaml"}
+2022-05-06T15:44:43.248Z	V2	Pulling docker image	{"image": "public.ecr.aws/l0g8r8j6/eks-anywhere-cli-tools:v0.7.2-eks-a-v0.0.0-dev-build.1874"}
+2022-05-06T15:44:49.218Z	V3	Initializing long running container	{"name": "eksa_1651851883248915585", "image": "public.ecr.aws/l0g8r8j6/eks-anywhere-cli-tools:v0.7.2-eks-a-v0.0.0-dev-build.1874"}
+2022-05-06T15:44:51.903Z	V4	Checking validity of Github Access Token environment variable	{"env var": "EKSA_GITHUB_TOKEN"}
+2022-05-06T15:44:52.226Z	V0	Checking Github Access Token permissions
+2022-05-06T15:44:52.226Z	V0	✅ Github personal access token has the required repo permissions
+2022-05-06T15:44:52.226Z	V4	Task start	{"task_name": "setup-validate"}
+2022-05-06T15:44:52.226Z	V0	Performing setup and validations
+2022-05-06T15:44:52.226Z	V0	Warning: VSphereDatacenterConfig configured in insecure mode
+2022-05-06T15:44:52.250Z	V0	✅ Connected to server
+2022-05-06T15:44:52.596Z	V0	✅ Authenticated to vSphere
+2022-05-06T15:44:52.999Z	V0	✅ Datacenter validated
+2022-05-06T15:44:53.395Z	V0	✅ Network validated
+2022-05-06T15:44:55.223Z	V0	✅ Datastore validated
+2022-05-06T15:44:55.541Z	V0	✅ Folder validated
+2022-05-06T15:44:55.923Z	V0	✅ Resource pool validated
+2022-05-06T15:44:56.285Z	V0	✅ Datastore validated
+2022-05-06T15:44:56.636Z	V0	✅ Folder validated
+2022-05-06T15:44:57.014Z	V0	✅ Resource pool validated
+2022-05-06T15:44:57.766Z	V0	✅ Control plane and Workload templates validated
+2022-05-06T15:45:01.012Z	V0	✅ Vsphere Provider setup is valid
+2022-05-06T15:45:01.128Z	V0	✅ Flux path
+2022-05-06T15:45:01.128Z	V0	✅ Validate certificate for registry mirror
+2022-05-06T15:45:01.128Z	V0	✅ Create preflight validations pass
+2022-05-06T15:45:01.128Z	V4	Task finished	{"task_name": "setup-validate", "duration": "8.90215499s"}
+2022-05-06T15:45:01.128Z	V4	----------------------------------
+2022-05-06T15:45:01.128Z	V4	Task start	{"task_name": "bootstrap-cluster-init"}
+2022-05-06T15:45:01.128Z	V0	Creating new bootstrap cluster
+2022-05-06T15:45:01.129Z	V4	Creating kind cluster	{"name": "main-i-0d94c058dba902e4c-eks-a-cluster", "kubeconfig": "main-i-0d94c058dba902e4c/generated/main-i-0d94c058dba902e4c.kind.kubeconfig"}
+2022-05-06T15:46:13.470Z	V4	Applying extra objects	{"cluster": "main-i-0d94c058dba902e4c", "resources": ["core-dns-clusterrole"]}
+2022-05-06T15:46:14.003Z	V0	Provider specific pre-capi-install-setup on bootstrap cluster
+2022-05-06T15:46:14.003Z	V0	Installing cluster-api providers on bootstrap cluster
+2022-05-06T15:47:15.753Z	V0	Provider specific post-setup
+2022-05-06T15:47:15.753Z	V4	Task finished	{"task_name": "bootstrap-cluster-init", "duration": "2m14.624305776s"}
+2022-05-06T15:47:15.753Z	V4	----------------------------------
+2022-05-06T15:47:15.753Z	V4	Task start	{"task_name": "workload-cluster-init"}
+2022-05-06T15:47:15.753Z	V0	Creating new workload cluster
+2022-05-06T15:47:18.492Z	V3	Waiting for control plane to be ready
+2022-05-06T15:48:35.183Z	V3	Waiting for workload kubeconfig generation	{"cluster": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:48:35.657Z	V3	Waiting for controlplane and worker machines to be ready
+2022-05-06T15:48:36.082Z	V4	Nodes are not ready yet	{"total": 2, "ready": 0, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:48:36.460Z	V4	Nodes are not ready yet	{"total": 2, "ready": 0, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:48:38.916Z	V4	Nodes are not ready yet	{"total": 2, "ready": 0, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:48:41.346Z	V4	Nodes are not ready yet	{"total": 2, "ready": 0, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:48:43.669Z	V4	Nodes are not ready yet	{"total": 2, "ready": 0, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:48:46.072Z	V4	Nodes are not ready yet	{"total": 2, "ready": 0, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:48:48.471Z	V4	Nodes are not ready yet	{"total": 2, "ready": 0, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:48:50.869Z	V4	Nodes are not ready yet	{"total": 2, "ready": 0, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:48:53.263Z	V4	Nodes are not ready yet	{"total": 2, "ready": 0, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:48:55.659Z	V4	Nodes are not ready yet	{"total": 2, "ready": 0, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:48:58.094Z	V4	Nodes are not ready yet	{"total": 2, "ready": 0, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:49:00.546Z	V4	Nodes are not ready yet	{"total": 2, "ready": 0, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:49:03.034Z	V4	Nodes are not ready yet	{"total": 2, "ready": 0, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:49:05.623Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:49:07.120Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:49:08.573Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:49:09.956Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:49:11.307Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:49:12.737Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:49:14.122Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:49:15.535Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:49:16.999Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:49:18.444Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:49:19.982Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:49:21.466Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:49:22.866Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:49:24.298Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:49:25.677Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:49:27.083Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:49:28.421Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:49:29.791Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:49:31.267Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:49:32.669Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:49:34.123Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:49:35.546Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:49:37.059Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:49:38.454Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:49:39.829Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:49:41.231Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:49:42.626Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:49:44.031Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:49:45.528Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:49:46.905Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:49:48.285Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:49:49.705Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:49:51.127Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:49:52.518Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:49:53.899Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:49:55.298Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:49:56.710Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:49:58.059Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:49:59.479Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:50:00.906Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:50:02.454Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:50:03.875Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:50:05.253Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:50:06.691Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:50:08.061Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:50:09.506Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:50:10.860Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:50:12.272Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:50:13.694Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:50:15.081Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:50:16.669Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:50:18.116Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c"}
+2022-05-06T15:50:19.677Z	V4	Nodes ready	{"total": 2}
+2022-05-06T15:50:19.677Z	V4	Applying extra objects	{"cluster": "main-i-0d94c058dba902e4c", "resources": ["core-dns-clusterrole"]}
+2022-05-06T15:50:21.176Z	V0	Installing networking on workload cluster
+2022-05-06T15:50:23.278Z	V0	Installing storage class on cluster
+2022-05-06T15:50:23.847Z	V0	Installing cluster-api providers on workload cluster
+2022-05-06T15:52:20.507Z	V0	Installing EKS-A secrets on workload cluster
+2022-05-06T15:52:24.062Z	V4	Installing machine health checks on bootstrap cluster
+2022-05-06T15:52:24.733Z	V4	Task finished	{"task_name": "workload-cluster-init", "duration": "5m8.980694482s"}
+2022-05-06T15:52:24.733Z	V4	----------------------------------
+2022-05-06T15:52:24.733Z	V4	Task start	{"task_name": "capi-management-move"}
+2022-05-06T15:52:24.733Z	V0	Moving cluster management from bootstrap to workload cluster
+2022-05-06T15:52:24.733Z	V3	Waiting for management machines to be ready before move
+2022-05-06T15:52:25.199Z	V4	Nodes ready	{"total": 2}
+2022-05-06T15:52:30.843Z	V3	Waiting for control planes to be ready after move
+2022-05-06T15:52:35.794Z	V3	Waiting for workload cluster control plane replicas to be ready after move
+2022-05-06T15:52:36.543Z	V3	Waiting for workload cluster machine deployment replicas to be ready after move
+2022-05-06T15:52:37.154Z	V3	Waiting for machines to be ready after move
+2022-05-06T15:52:37.584Z	V4	Nodes ready	{"total": 2}
+2022-05-06T15:52:37.584Z	V4	Task finished	{"task_name": "capi-management-move", "duration": "12.850902843s"}
+2022-05-06T15:52:37.584Z	V4	----------------------------------
+2022-05-06T15:52:37.584Z	V4	Task start	{"task_name": "eksa-components-install"}
+2022-05-06T15:52:37.584Z	V0	Installing EKS-A custom components (CRD and controller) on workload cluster
+2022-05-06T15:53:05.394Z	V0	Installing EKS-D components on workload cluster
+2022-05-06T15:53:08.520Z	V0	Creating EKS-A CRDs instances on workload cluster
+2022-05-06T15:53:08.526Z	V4	Applying eksa yaml resources to cluster
+2022-05-06T15:53:09.745Z	V1	Applying Bundles to cluster
+2022-05-06T15:53:10.511Z	V4	Applying eksd manifest to cluster
+2022-05-06T15:53:13.853Z	V4	Task finished	{"task_name": "eksa-components-install", "duration": "36.268682777s"}
+2022-05-06T15:53:13.853Z	V4	----------------------------------
+2022-05-06T15:53:13.853Z	V4	Task start	{"task_name": "addon-manager-install"}
+2022-05-06T15:53:13.853Z	V0	Installing AddonManager and GitOps Toolkit on workload cluster
+2022-05-06T15:53:13.853Z	V3	Describing Github repository	{"name": "spacecraft-aws-eks-anywhere-test-20160926-689e-4e80-b421-94980418f0bf-98", "owner": "that-jetpack-guy"}
+2022-05-06T15:53:13.853Z	V3	Describing Github repository	{"name": "spacecraft-aws-eks-anywhere-test-20160926-689e-4e80-b421-94980418f0bf-98", "owner": "that-jetpack-guy"}
+2022-05-06T15:53:13.987Z	V3	Remote Github repo does not exist; will create and initialize	{"repo": "spacecraft-aws-eks-anywhere-test-20160926-689e-4e80-b421-94980418f0bf-98", "owner": "that-jetpack-guy"}
+2022-05-06T15:53:13.987Z	V3	Creating remote Github repo	{"options": {"Name":"spacecraft-aws-eks-anywhere-test-20160926-689e-4e80-b421-94980418f0bf-98","Owner":"that-jetpack-guy","Description":"EKS-A cluster configuration repository","Personal":true,"Privacy":true}}
+2022-05-06T15:53:13.987Z	V3	Attempting to create new Github repo	{"repo": "spacecraft-aws-eks-anywhere-test-20160926-689e-4e80-b421-94980418f0bf-98", "owner": "that-jetpack-guy"}
+2022-05-06T15:53:15.204Z	V3	Successfully created new Github repo	{"repo": "spacecraft-aws-eks-anywhere-test-20160926-689e-4e80-b421-94980418f0bf-98", "owner": "that-jetpack-guy"}
+2022-05-06T15:53:15.205Z	V3	Opening directory	{"directory": "main-i-0d94c058dba902e4c/git/spacecraft-aws-eks-anywhere-test-20160926-689e-4e80-b421-94980418f0bf-98"}
+2022-05-06T15:53:15.205Z	V3	Opening working tree
+2022-05-06T15:53:15.205Z	V3	Generating Commit object...
+2022-05-06T15:53:15.207Z	V3	Committing Object to local repo	{"repo": "main-i-0d94c058dba902e4c/git/spacecraft-aws-eks-anywhere-test-20160926-689e-4e80-b421-94980418f0bf-98"}
+2022-05-06T15:53:15.207Z	V0	Finalized commit and committed to local repository	{"hash": "cf62e3897ccf9186994432e31d51cc3c5ac7bd6e"}
+2022-05-06T15:53:15.207Z	V3	Branch does not exist locally	{"branch": "main"}
+2022-05-06T15:53:15.373Z	V0	Adding cluster configuration files to Git
+2022-05-06T15:53:15.374Z	V3	Generating eks-a cluster manifest files...
+2022-05-06T15:53:15.374Z	V3	Generating eks-a cluster config file...
+2022-05-06T15:53:15.379Z	V3	Generating eks-a kustomization file...
+2022-05-06T15:53:15.379Z	V3	Generating flux custom manifest files...
+2022-05-06T15:53:15.379Z	V3	Generating flux-system kustomization file...
+2022-05-06T15:53:15.379Z	V3	Generating flux-system sync file...
+2022-05-06T15:53:15.379Z	V3	Generating flux-system patch file...
+2022-05-06T15:53:15.379Z	V3	Opening directory	{"directory": "main-i-0d94c058dba902e4c/git/spacecraft-aws-eks-anywhere-test-20160926-689e-4e80-b421-94980418f0bf-98"}
+2022-05-06T15:53:15.379Z	V3	Opening working tree
+2022-05-06T15:53:15.379Z	V3	Tracking specified files	{"file": "."}
+2022-05-06T15:53:15.390Z	V3	Opening directory	{"directory": "main-i-0d94c058dba902e4c/git/spacecraft-aws-eks-anywhere-test-20160926-689e-4e80-b421-94980418f0bf-98"}
+2022-05-06T15:53:15.390Z	V3	Opening working tree
+2022-05-06T15:53:15.390Z	V3	Generating Commit object...
+2022-05-06T15:53:15.395Z	V3	Committing Object to local repo	{"repo": "main-i-0d94c058dba902e4c/git/spacecraft-aws-eks-anywhere-test-20160926-689e-4e80-b421-94980418f0bf-98"}
+2022-05-06T15:53:15.396Z	V0	Finalized commit and committed to local repository	{"hash": "2db7f19547943bca6cbb62738b0a0b41980d0f5c"}
+2022-05-06T15:53:15.396Z	V3	Pushing to remote	{"repo": "main-i-0d94c058dba902e4c/git/spacecraft-aws-eks-anywhere-test-20160926-689e-4e80-b421-94980418f0bf-98"}
+2022-05-06T15:53:16.129Z	V3	Finished pushing cluster config and flux custom manifest files to git
+2022-05-06T15:53:16.129Z	V4	Checking validity of Github Access Token environment variable	{"env var": "EKSA_GITHUB_TOKEN"}
+2022-05-06T15:54:01.902Z	V3	pulling from remote after Flux Bootstrap to ensure configuration files in local git repository are in sync	{"remote": "origin", "branch": "main"}
+2022-05-06T15:54:01.902Z	V3	Pulling from remote	{"repo": "main-i-0d94c058dba902e4c/git/spacecraft-aws-eks-anywhere-test-20160926-689e-4e80-b421-94980418f0bf-98", "remote": "origin"}
+2022-05-06T15:54:02.214Z	V3	Successfully pulled from remote	{"repo": "main-i-0d94c058dba902e4c/git/spacecraft-aws-eks-anywhere-test-20160926-689e-4e80-b421-94980418f0bf-98", "remote": "origin", "latest commit": "5ec73050e50573560810bdb7a757b74e174ce5e2"}
+2022-05-06T15:54:02.214Z	V4	Task finished	{"task_name": "addon-manager-install", "duration": "48.360843464s"}
+2022-05-06T15:54:02.214Z	V4	----------------------------------
+2022-05-06T15:54:02.214Z	V4	Task start	{"task_name": "write-cluster-config"}
+2022-05-06T15:54:02.214Z	V0	Writing cluster config file
+2022-05-06T15:54:02.217Z	V4	Task finished	{"task_name": "write-cluster-config", "duration": "2.997275ms"}
+2022-05-06T15:54:02.217Z	V4	----------------------------------
+2022-05-06T15:54:02.217Z	V4	Task start	{"task_name": "delete-kind-cluster"}
+2022-05-06T15:54:02.217Z	V0	Deleting bootstrap cluster
+2022-05-06T15:54:03.624Z	V4	Deleting kind cluster	{"name": "main-i-0d94c058dba902e4c-eks-a-cluster"}
+2022-05-06T15:54:05.658Z	V0	🎉 Cluster created!
+2022-05-06T15:54:05.658Z	V4	Task finished	{"task_name": "delete-kind-cluster", "duration": "3.441416881s"}
+2022-05-06T15:54:05.658Z	V4	----------------------------------
+2022-05-06T15:54:05.658Z	V4	Tasks completed	{"duration": "9m13.432292703s"}
+2022-05-06T15:54:05.660Z	V3	Logging out from current govc session
+2022-05-06T15:54:06.438Z	V3	Cleaning up long running container	{"name": "eksa_1651851883248915585"}
+    multicluster.go:38: Running test flow in workload cluster main-i-0d94c058dba902e4c-w-0
+    cluster.go:506: Running shell command [ eksctl anywhere generate clusterconfig main-i-0d94c058dba902e4c-w-0 -p vsphere > cluster.yaml ]
+    cluster.go:374: Creating cluster main-i-0d94c058dba902e4c-w-0
+    cluster.go:506: Running shell command [ eksctl anywhere create cluster -f main-i-0d94c058dba902e4c-config/cluster.yaml -v 4 --kubeconfig main-i-0d94c058dba902e4c/main-i-0d94c058dba902e4c-eks-a-cluster.kubeconfig ]
+2022-05-06T15:54:06.861Z	V4	Logger init completed	{"vlevel": 4}
+2022-05-06T15:54:06.864Z	V0	Warning: The recommended number of control plane nodes is 3 or 5
+2022-05-06T15:54:07.028Z	V0	Warning: VSphereDatacenterConfig configured in insecure mode
+2022-05-06T15:54:07.028Z	V0	Warning: The recommended number of control plane nodes is 3 or 5
+2022-05-06T15:54:07.073Z	V4	Reading bundles manifest	{"url": "https://dev-release-prod-pdx.s3.amazonaws.com/bundle-release.yaml"}
+2022-05-06T15:54:07.192Z	V2	Pulling docker image	{"image": "public.ecr.aws/l0g8r8j6/eks-anywhere-cli-tools:v0.7.2-eks-a-v0.0.0-dev-build.1874"}
+2022-05-06T15:54:08.194Z	V3	Initializing long running container	{"name": "eksa_1651852447192970987", "image": "public.ecr.aws/l0g8r8j6/eks-anywhere-cli-tools:v0.7.2-eks-a-v0.0.0-dev-build.1874"}
+2022-05-06T15:54:08.692Z	V4	Checking validity of Github Access Token environment variable	{"env var": "EKSA_GITHUB_TOKEN"}
+2022-05-06T15:54:08.977Z	V0	Checking Github Access Token permissions
+2022-05-06T15:54:08.977Z	V0	✅ Github personal access token has the required repo permissions
+2022-05-06T15:54:08.977Z	V4	Task start	{"task_name": "setup-validate"}
+2022-05-06T15:54:08.977Z	V0	Performing setup and validations
+2022-05-06T15:54:08.978Z	V0	Warning: VSphereDatacenterConfig configured in insecure mode
+2022-05-06T15:54:09.027Z	V0	✅ Connected to server
+2022-05-06T15:54:09.420Z	V0	✅ Authenticated to vSphere
+2022-05-06T15:54:10.034Z	V0	✅ Datacenter validated
+2022-05-06T15:54:10.507Z	V0	✅ Network validated
+2022-05-06T15:54:12.812Z	V0	✅ Datastore validated
+2022-05-06T15:54:13.168Z	V0	✅ Folder validated
+2022-05-06T15:54:13.575Z	V0	✅ Resource pool validated
+2022-05-06T15:54:14.000Z	V0	✅ Datastore validated
+2022-05-06T15:54:14.407Z	V0	✅ Folder validated
+2022-05-06T15:54:14.838Z	V0	✅ Resource pool validated
+2022-05-06T15:54:15.788Z	V0	✅ Control plane and Workload templates validated
+2022-05-06T15:54:21.224Z	V0	✅ Vsphere Provider setup is valid
+2022-05-06T15:54:21.224Z	V0	✅ Flux path
+2022-05-06T15:54:24.950Z	V0	✅ Validate certificate for registry mirror
+2022-05-06T15:54:24.950Z	V0	✅ Validate cluster name
+2022-05-06T15:54:24.950Z	V0	✅ Validate gitops
+2022-05-06T15:54:24.950Z	V0	✅ Validate identityproviders name
+2022-05-06T15:54:24.950Z	V0	✅ Validate management cluster has eksa crds
+2022-05-06T15:54:24.950Z	V0	✅ Create preflight validations pass
+2022-05-06T15:54:24.950Z	V4	Task finished	{"task_name": "setup-validate", "duration": "15.972354314s"}
+2022-05-06T15:54:24.950Z	V4	----------------------------------
+2022-05-06T15:54:24.950Z	V4	Task start	{"task_name": "bootstrap-cluster-init"}
+2022-05-06T15:54:24.950Z	V4	Task finished	{"task_name": "bootstrap-cluster-init", "duration": "1.162µs"}
+2022-05-06T15:54:24.950Z	V4	----------------------------------
+2022-05-06T15:54:24.950Z	V4	Task start	{"task_name": "workload-cluster-init"}
+2022-05-06T15:54:24.950Z	V0	Creating new workload cluster
+2022-05-06T15:54:30.019Z	V3	Waiting for control plane to be ready
+2022-05-06T15:57:25.710Z	V3	Waiting for workload kubeconfig generation	{"cluster": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:57:26.356Z	V3	Waiting for controlplane and worker machines to be ready
+2022-05-06T15:57:26.804Z	V4	Nodes are not ready yet	{"total": 2, "ready": 0, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:57:27.210Z	V4	Nodes are not ready yet	{"total": 2, "ready": 0, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:57:29.790Z	V4	Nodes are not ready yet	{"total": 2, "ready": 0, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:57:32.173Z	V4	Nodes are not ready yet	{"total": 2, "ready": 0, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:57:34.609Z	V4	Nodes are not ready yet	{"total": 2, "ready": 0, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:57:37.167Z	V4	Nodes are not ready yet	{"total": 2, "ready": 0, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:57:39.589Z	V4	Nodes are not ready yet	{"total": 2, "ready": 0, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:57:42.053Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:57:43.460Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:57:44.941Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:57:46.327Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:57:47.731Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:57:49.220Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:57:50.602Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:57:52.037Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:57:53.481Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:57:54.927Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:57:56.534Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:57:57.922Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:57:59.319Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:58:00.784Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:58:02.209Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:58:03.645Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:58:05.089Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:58:06.525Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:58:07.986Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:58:09.455Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:58:11.147Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:58:12.553Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:58:13.928Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:58:15.337Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:58:16.716Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:58:18.195Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:58:19.643Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:58:21.019Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:58:22.478Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:58:23.875Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:58:25.323Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:58:26.697Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:58:28.117Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:58:29.664Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:58:31.072Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:58:32.621Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:58:34.079Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:58:35.455Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:58:36.842Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:58:38.186Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:58:39.602Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:58:41.005Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:58:42.407Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:58:43.864Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:58:45.269Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:58:46.691Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:58:48.086Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:58:49.492Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:58:50.952Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:58:52.308Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:58:53.754Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:58:55.150Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:58:56.622Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:58:58.091Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:58:59.584Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:59:01.030Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:59:02.588Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:59:04.071Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:59:05.527Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:59:06.991Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:59:08.466Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:59:09.862Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:59:11.302Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-0d94c058dba902e4c-w-0"}
+2022-05-06T15:59:12.710Z	V4	Nodes ready	{"total": 2}
+2022-05-06T15:59:12.710Z	V4	Applying extra objects	{"cluster": "main-i-0d94c058dba902e4c-w-0", "resources": ["core-dns-clusterrole"]}
+2022-05-06T15:59:14.153Z	V0	Installing networking on workload cluster
+2022-05-06T15:59:16.529Z	V0	Installing storage class on cluster
+2022-05-06T15:59:17.059Z	V4	Installing machine health checks on bootstrap cluster
+2022-05-06T15:59:18.059Z	V4	Task finished	{"task_name": "workload-cluster-init", "duration": "4m53.108918376s"}
+2022-05-06T15:59:18.059Z	V4	----------------------------------
+2022-05-06T15:59:18.059Z	V4	Task start	{"task_name": "capi-management-move"}
+2022-05-06T15:59:18.059Z	V4	Task finished	{"task_name": "capi-management-move", "duration": "1.48µs"}
+2022-05-06T15:59:18.059Z	V4	----------------------------------
+2022-05-06T15:59:18.059Z	V4	Task start	{"task_name": "eksa-components-install"}
+2022-05-06T15:59:18.059Z	V0	Creating EKS-A CRDs instances on workload cluster
+2022-05-06T15:59:18.066Z	V4	Applying eksa yaml resources to cluster
+2022-05-06T15:59:19.339Z	V1	Applying Bundles to cluster
+2022-05-06T15:59:20.264Z	V4	Applying eksd manifest to cluster
+2022-05-06T15:59:23.974Z	V4	Task finished	{"task_name": "eksa-components-install", "duration": "5.915057643s"}
+2022-05-06T15:59:23.974Z	V4	----------------------------------
+2022-05-06T15:59:23.974Z	V4	Task start	{"task_name": "addon-manager-install"}
+2022-05-06T15:59:23.974Z	V0	Installing AddonManager and GitOps Toolkit on workload cluster
+2022-05-06T15:59:23.974Z	V3	Describing Github repository	{"name": "spacecraft-aws-eks-anywhere-test-20160926-689e-4e80-b421-94980418f0bf-98", "owner": "that-jetpack-guy"}
+2022-05-06T15:59:23.974Z	V3	Describing Github repository	{"name": "spacecraft-aws-eks-anywhere-test-20160926-689e-4e80-b421-94980418f0bf-98", "owner": "that-jetpack-guy"}
+2022-05-06T15:59:24.178Z	V3	Cloning remote repository
+Enumerating objects: 23, done.
+Counting objects:   4% (1/23)Counting objects:   8% (2/23)Counting objects:  13% (3/23)Counting objects:  17% (4/23)Counting objects:  21% (5/23)Counting objects:  26% (6/23)Counting objects:  30% (7/23)Counting objects:  34% (8/23)Counting objects:  39% (9/23)Counting objects:  43% (10/23)Counting objects:  47% (11/23)Counting objects:  52% (12/23)Counting objects:  56% (13/23)Counting objects:  60% (14/23)Counting objects:  65% (15/23)Counting objects:  69% (16/23)Counting objects:  73% (17/23)Counting objects:  78% (18/23)Counting objects:  82% (19/23)Counting objects:  86% (20/23)Counting objects:  91% (21/23)Counting objects:  95% (22/23)Counting objects: 100% (23/23)Counting objects: 100% (23/23), done.
+Compressing objects:   5% (1/17)Compressing objects:  11% (2/17)Compressing objects:  17% (3/17)Compressing objects:  23% (4/17)Compressing objects:  29% (5/17)Compressing objects:  35% (6/17)Compressing objects:  41% (7/17)Compressing objects:  47% (8/17)Compressing objects:  52% (9/17)Compressing objects:  58% (10/17)Compressing objects:  64% (11/17)Compressing objects:  70% (12/17)Compressing objects:  76% (13/17)Compressing objects:  82% (14/17)Compressing objects:  88% (15/17)Compressing objects:  94% (16/17)Compressing objects: 100% (17/17)Compressing objects: 100% (17/17), done.
+Total 23 (delta 2), reused 21 (delta 0), pack-reused 0
+2022-05-06T15:59:24.518Z	V3	Creating a new branch
+2022-05-06T15:59:24.518Z	V3	Branch already exists locally	{"branch": "main"}
+2022-05-06T15:59:24.779Z	V0	Adding cluster configuration files to Git
+2022-05-06T15:59:24.779Z	V3	Generating eks-a cluster manifest files...
+2022-05-06T15:59:24.779Z	V3	Generating eks-a cluster config file...
+2022-05-06T15:59:24.781Z	V3	Generating eks-a kustomization file...
+2022-05-06T15:59:24.781Z	V3	Skipping flux custom manifest files
+2022-05-06T15:59:24.781Z	V3	Opening directory	{"directory": "main-i-0d94c058dba902e4c-w-0/git/spacecraft-aws-eks-anywhere-test-20160926-689e-4e80-b421-94980418f0bf-98"}
+2022-05-06T15:59:24.782Z	V3	Opening working tree
+2022-05-06T15:59:24.782Z	V3	Tracking specified files	{"file": "."}
+2022-05-06T15:59:24.799Z	V3	Opening directory	{"directory": "main-i-0d94c058dba902e4c-w-0/git/spacecraft-aws-eks-anywhere-test-20160926-689e-4e80-b421-94980418f0bf-98"}
+2022-05-06T15:59:24.799Z	V3	Opening working tree
+2022-05-06T15:59:24.799Z	V3	Generating Commit object...
+2022-05-06T15:59:24.803Z	V3	Committing Object to local repo	{"repo": "main-i-0d94c058dba902e4c-w-0/git/spacecraft-aws-eks-anywhere-test-20160926-689e-4e80-b421-94980418f0bf-98"}
+2022-05-06T15:59:24.803Z	V0	Finalized commit and committed to local repository	{"hash": "47359429310d8ebf536800bb45fd294b48592e43"}
+2022-05-06T15:59:24.803Z	V3	Pushing to remote	{"repo": "main-i-0d94c058dba902e4c-w-0/git/spacecraft-aws-eks-anywhere-test-20160926-689e-4e80-b421-94980418f0bf-98"}
+2022-05-06T15:59:26.393Z	V3	Finished pushing cluster config and flux custom manifest files to git
+2022-05-06T15:59:26.393Z	V3	pulling from remote after Flux Bootstrap to ensure configuration files in local git repository are in sync	{"remote": "origin", "branch": "main"}
+2022-05-06T15:59:26.393Z	V3	Pulling from remote	{"repo": "main-i-0d94c058dba902e4c-w-0/git/spacecraft-aws-eks-anywhere-test-20160926-689e-4e80-b421-94980418f0bf-98", "remote": "origin"}
+2022-05-06T15:59:26.521Z	V3	Local repo already up-to-date	{"repo": "main-i-0d94c058dba902e4c-w-0/git/spacecraft-aws-eks-anywhere-test-20160926-689e-4e80-b421-94980418f0bf-98", "remote": "origin"}
+2022-05-06T15:59:31.526Z	V3	Pulling from remote	{"repo": "main-i-0d94c058dba902e4c-w-0/git/spacecraft-aws-eks-anywhere-test-20160926-689e-4e80-b421-94980418f0bf-98", "remote": "origin"}
+2022-05-06T15:59:31.653Z	V3	Local repo already up-to-date	{"repo": "main-i-0d94c058dba902e4c-w-0/git/spacecraft-aws-eks-anywhere-test-20160926-689e-4e80-b421-94980418f0bf-98", "remote": "origin"}
+2022-05-06T15:59:36.657Z	V3	Pulling from remote	{"repo": "main-i-0d94c058dba902e4c-w-0/git/spacecraft-aws-eks-anywhere-test-20160926-689e-4e80-b421-94980418f0bf-98", "remote": "origin"}
+2022-05-06T15:59:36.796Z	V3	Local repo already up-to-date	{"repo": "main-i-0d94c058dba902e4c-w-0/git/spacecraft-aws-eks-anywhere-test-20160926-689e-4e80-b421-94980418f0bf-98", "remote": "origin"}
+2022-05-06T15:59:41.800Z	V3	Pulling from remote	{"repo": "main-i-0d94c058dba902e4c-w-0/git/spacecraft-aws-eks-anywhere-test-20160926-689e-4e80-b421-94980418f0bf-98", "remote": "origin"}
+2022-05-06T15:59:41.940Z	V3	Local repo already up-to-date	{"repo": "main-i-0d94c058dba902e4c-w-0/git/spacecraft-aws-eks-anywhere-test-20160926-689e-4e80-b421-94980418f0bf-98", "remote": "origin"}
+2022-05-06T15:59:46.942Z	V3	Pulling from remote	{"repo": "main-i-0d94c058dba902e4c-w-0/git/spacecraft-aws-eks-anywhere-test-20160926-689e-4e80-b421-94980418f0bf-98", "remote": "origin"}
+2022-05-06T15:59:47.273Z	V3	Local repo already up-to-date	{"repo": "main-i-0d94c058dba902e4c-w-0/git/spacecraft-aws-eks-anywhere-test-20160926-689e-4e80-b421-94980418f0bf-98", "remote": "origin"}
+2022-05-06T15:59:47.273Z	V-2	error when pulling from remote repository after Flux Bootstrap; ensure local repository is up-to-date with remote (git pull)	{"remote": "origin", "branch": "main", "error": "error pulling from repository main-i-0d94c058dba902e4c-w-0/git/spacecraft-aws-eks-anywhere-test-20160926-689e-4e80-b421-94980418f0bf-98: already up-to-date", "error": "error pulling from repository main-i-0d94c058dba902e4c-w-0/git/spacecraft-aws-eks-anywhere-test-20160926-689e-4e80-b421-94980418f0bf-98: already up-to-date"}
+2022-05-06T15:59:47.273Z	V4	Task finished	{"task_name": "addon-manager-install", "duration": "23.299236769s"}
+2022-05-06T15:59:47.273Z	V4	----------------------------------
+2022-05-06T15:59:47.273Z	V4	Task start	{"task_name": "write-cluster-config"}
+2022-05-06T15:59:47.273Z	V0	Writing cluster config file
+2022-05-06T15:59:47.278Z	V4	Task finished	{"task_name": "write-cluster-config", "duration": "4.847682ms"}
+2022-05-06T15:59:47.278Z	V4	----------------------------------
+2022-05-06T15:59:47.278Z	V4	Task start	{"task_name": "delete-kind-cluster"}
+2022-05-06T15:59:47.278Z	V0	🎉 Cluster created!
+2022-05-06T15:59:47.278Z	V4	Task finished	{"task_name": "delete-kind-cluster", "duration": "9.569µs"}
+2022-05-06T15:59:47.278Z	V4	----------------------------------
+2022-05-06T15:59:47.278Z	V4	Tasks completed	{"duration": "5m38.300873448s"}
+2022-05-06T15:59:47.279Z	V3	Logging out from current govc session
+2022-05-06T15:59:48.158Z	V3	Cleaning up long running container	{"name": "eksa_1651852447192970987"}
+2022-05-06T15:59:48.357Z	V4	e2e	Checking validity of Github Access Token environment variable	{"env var": "EKSA_GITHUB_TOKEN"}
+2022-05-06T15:59:48.671Z	V0	e2e	Checking Github Access Token permissions
+2022-05-06T15:59:48.671Z	V0	e2e	✅ Github personal access token has the required repo permissions
+    flux.go:550: Getting deployments in flux-system namespace...
+    flux.go:576: Successfully validated flux-system deployments are present and ready
+    flux.go:550: Getting deployments in eksa-system namespace...
+    flux.go:576: Successfully validated eksa-system deployments are present and ready
+2022-05-06T15:59:49.665Z	V3	e2e	Opening directory	{"directory": "main-i-0d94c058dba902e4c-w-0/git/spacecraft-aws-eks-anywhere-test-20160926-689e-4e80-b421-94980418f0bf-98"}
+2022-05-06T15:59:49.666Z	V3	e2e	Opening working tree
+2022-05-06T15:59:49.666Z	V3	e2e	Tracking specified files	{"file": "path2/main-i-0d94c058dba902e4c-w-0/eksa-system/eksa-cluster.yaml"}
+2022-05-06T15:59:49.672Z	V3	e2e	Opening directory	{"directory": "main-i-0d94c058dba902e4c-w-0/git/spacecraft-aws-eks-anywhere-test-20160926-689e-4e80-b421-94980418f0bf-98"}
+2022-05-06T15:59:49.672Z	V3	e2e	Opening working tree
+2022-05-06T15:59:49.672Z	V3	e2e	Generating Commit object...
+2022-05-06T15:59:49.676Z	V3	e2e	Committing Object to local repo	{"repo": "main-i-0d94c058dba902e4c-w-0/git/spacecraft-aws-eks-anywhere-test-20160926-689e-4e80-b421-94980418f0bf-98"}
+2022-05-06T15:59:49.677Z	V0	e2e	Finalized commit and committed to local repository	{"hash": "7437d10870c24e0e2675409090470a81a40c0f5f"}
+2022-05-06T15:59:49.677Z	V3	e2e	Pushing to remote	{"repo": "main-i-0d94c058dba902e4c-w-0/git/spacecraft-aws-eks-anywhere-test-20160926-689e-4e80-b421-94980418f0bf-98"}
+    flux.go:199: Successfully updated version controlled cluster configuration
+    flux.go:771: Waiting for worker node group md-0 MachineDeployment to scale to target value 3
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 1
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 1
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:785: Waiting for worker node MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas to scale; target: 3, actual: 4
+    flux.go:202: Error validating worker nodes after updating git repo:  MachineDeployment main-i-0d94c058dba902e4c-w-0-md-0 replicas are not at desired scale; target: 3, actual: 4
+    cluster.go:506: Running shell command [ eksctl anywhere delete cluster main-i-0d94c058dba902e4c-w-0 -v 4 --kubeconfig main-i-0d94c058dba902e4c/main-i-0d94c058dba902e4c-eks-a-cluster.kubeconfig ]
+2022-05-06T16:26:03.926Z	V4	Logger init completed	{"vlevel": 4}
+2022-05-06T16:26:04.115Z	V0	Warning: The recommended number of control plane nodes is 3 or 5
+2022-05-06T16:26:04.118Z	V0	Warning: VSphereDatacenterConfig configured in insecure mode
+2022-05-06T16:26:04.118Z	V0	Warning: The recommended number of control plane nodes is 3 or 5
+2022-05-06T16:26:04.165Z	V4	Reading bundles manifest	{"url": "https://dev-release-prod-pdx.s3.amazonaws.com/bundle-release.yaml"}
+2022-05-06T16:26:04.279Z	V2	Pulling docker image	{"image": "public.ecr.aws/l0g8r8j6/eks-anywhere-cli-tools:v0.7.2-eks-a-v0.0.0-dev-build.1874"}
+2022-05-06T16:26:05.263Z	V3	Initializing long running container	{"name": "eksa_1651854364279960582", "image": "public.ecr.aws/l0g8r8j6/eks-anywhere-cli-tools:v0.7.2-eks-a-v0.0.0-dev-build.1874"}
+2022-05-06T16:26:05.648Z	V4	Checking validity of Github Access Token environment variable	{"env var": "EKSA_GITHUB_TOKEN"}
+2022-05-06T16:26:05.919Z	V0	Checking Github Access Token permissions
+2022-05-06T16:26:05.919Z	V0	✅ Github personal access token has the required repo permissions
+2022-05-06T16:26:05.919Z	V4	Task start	{"task_name": "setup-and-validate"}
+2022-05-06T16:26:05.919Z	V0	Performing provider setup and validations
+2022-05-06T16:26:05.919Z	V4	Task finished	{"task_name": "setup-and-validate", "duration": "33.112µs"}
+2022-05-06T16:26:05.919Z	V4	----------------------------------
+2022-05-06T16:26:05.919Z	V4	Task start	{"task_name": "management-cluster-init"}
+2022-05-06T16:26:05.919Z	V4	Task finished	{"task_name": "management-cluster-init", "duration": "504ns"}
+2022-05-06T16:26:05.919Z	V4	----------------------------------
+2022-05-06T16:26:05.919Z	V4	Task start	{"task_name": "delete-workload-cluster"}
+2022-05-06T16:26:05.919Z	V0	Deleting workload cluster
+2022-05-06T16:26:21.085Z	V4	Task finished	{"task_name": "delete-workload-cluster", "duration": "15.16613386s"}
+2022-05-06T16:26:21.085Z	V4	----------------------------------
+2022-05-06T16:26:21.085Z	V4	Task start	{"task_name": "clean-up-git-repo"}
+2022-05-06T16:26:21.085Z	V0	Clean up Git Repo
+2022-05-06T16:26:21.085Z	V3	Branch already exists locally	{"branch": "main"}
+2022-05-06T16:26:21.420Z	V3	Opening directory	{"directory": "main-i-0d94c058dba902e4c-w-0/git/spacecraft-aws-eks-anywhere-test-20160926-689e-4e80-b421-94980418f0bf-98"}
+2022-05-06T16:26:21.421Z	V3	Opening working tree
+2022-05-06T16:26:21.421Z	V3	Removing specified files	{"file": "path2/main-i-0d94c058dba902e4c-w-0/eksa-system"}
+2022-05-06T16:26:21.421Z	V3	Opening directory	{"directory": "main-i-0d94c058dba902e4c-w-0/git/spacecraft-aws-eks-anywhere-test-20160926-689e-4e80-b421-94980418f0bf-98"}
+2022-05-06T16:26:21.421Z	V3	Opening working tree
+2022-05-06T16:26:21.421Z	V3	Generating Commit object...
+2022-05-06T16:26:21.424Z	V3	Committing Object to local repo	{"repo": "main-i-0d94c058dba902e4c-w-0/git/spacecraft-aws-eks-anywhere-test-20160926-689e-4e80-b421-94980418f0bf-98"}
+2022-05-06T16:26:21.425Z	V0	Finalized commit and committed to local repository	{"hash": "5973eabba260ba51fdd4a1ea727f47afc062fbee"}
+2022-05-06T16:26:21.425Z	V3	Pushing to remote	{"repo": "main-i-0d94c058dba902e4c-w-0/git/spacecraft-aws-eks-anywhere-test-20160926-689e-4e80-b421-94980418f0bf-98"}
+2022-05-06T16:26:21.992Z	V3	Finished cleaning up cluster files in git	{"repository": "spacecraft-aws-eks-anywhere-test-20160926-689e-4e80-b421-94980418f0bf-98"}
+2022-05-06T16:26:21.992Z	V4	Task finished	{"task_name": "clean-up-git-repo", "duration": "906.912123ms"}
+2022-05-06T16:26:21.992Z	V4	----------------------------------
+2022-05-06T16:26:21.992Z	V4	Task start	{"task_name": "kind-cluster-delete"}
+2022-05-06T16:26:21.992Z	V0	Bootstrap cluster information missing - skipping delete kind cluster
+2022-05-06T16:26:21.992Z	V0	🎉 Cluster deleted!
+2022-05-06T16:26:21.992Z	V4	Task finished	{"task_name": "kind-cluster-delete", "duration": "10.045µs"}
+2022-05-06T16:26:21.992Z	V4	----------------------------------
+2022-05-06T16:26:21.992Z	V4	Tasks completed	{"duration": "16.073220023s"}
+2022-05-06T16:26:21.992Z	V3	Logging out from current govc session
+2022-05-06T16:26:22.758Z	V3	Cleaning up long running container	{"name": "eksa_1651854364279960582"}
+    cluster.go:506: Running shell command [ eksctl anywhere delete cluster main-i-0d94c058dba902e4c -v 4 ]
+2022-05-06T16:31:22.996Z	V4	Logger init completed	{"vlevel": 4}
+2022-05-06T16:31:23.112Z	V0	Warning: The recommended number of control plane nodes is 3 or 5
+2022-05-06T16:31:23.116Z	V0	Warning: VSphereDatacenterConfig configured in insecure mode
+2022-05-06T16:31:23.116Z	V0	Warning: The recommended number of control plane nodes is 3 or 5
+2022-05-06T16:31:23.175Z	V4	Reading bundles manifest	{"url": "https://dev-release-prod-pdx.s3.amazonaws.com/bundle-release.yaml"}
+2022-05-06T16:31:23.281Z	V2	Pulling docker image	{"image": "public.ecr.aws/l0g8r8j6/eks-anywhere-cli-tools:v0.7.2-eks-a-v0.0.0-dev-build.1874"}
+2022-05-06T16:31:24.259Z	V3	Initializing long running container	{"name": "eksa_1651854683281931874", "image": "public.ecr.aws/l0g8r8j6/eks-anywhere-cli-tools:v0.7.2-eks-a-v0.0.0-dev-build.1874"}
+2022-05-06T16:31:24.676Z	V4	Checking validity of Github Access Token environment variable	{"env var": "EKSA_GITHUB_TOKEN"}
+2022-05-06T16:31:24.947Z	V0	Checking Github Access Token permissions
+2022-05-06T16:31:24.947Z	V0	✅ Github personal access token has the required repo permissions
+2022-05-06T16:31:24.947Z	V4	Task start	{"task_name": "setup-and-validate"}
+2022-05-06T16:31:24.947Z	V0	Performing provider setup and validations
+2022-05-06T16:31:24.947Z	V4	Task finished	{"task_name": "setup-and-validate", "duration": "33.243µs"}
+2022-05-06T16:31:24.947Z	V4	----------------------------------
+2022-05-06T16:31:24.947Z	V4	Task start	{"task_name": "management-cluster-init"}
+2022-05-06T16:31:24.947Z	V0	Creating management cluster
+2022-05-06T16:31:24.948Z	V4	Creating kind cluster	{"name": "main-i-0d94c058dba902e4c-eks-a-cluster", "kubeconfig": "main-i-0d94c058dba902e4c/generated/main-i-0d94c058dba902e4c.kind.kubeconfig"}
+2022-05-06T16:32:10.177Z	V4	Applying extra objects	{"cluster": "main-i-0d94c058dba902e4c", "resources": ["core-dns-clusterrole"]}
+2022-05-06T16:32:10.733Z	V4	Task finished	{"task_name": "management-cluster-init", "duration": "45.7859519s"}
+2022-05-06T16:32:10.733Z	V4	----------------------------------
+2022-05-06T16:32:10.733Z	V4	Task start	{"task_name": "install-capi"}
+2022-05-06T16:32:10.733Z	V0	Installing cluster-api providers on management cluster
+2022-05-06T16:33:13.308Z	V4	Task finished	{"task_name": "install-capi", "duration": "1m2.575326686s"}
+2022-05-06T16:33:13.308Z	V4	----------------------------------
+2022-05-06T16:33:13.308Z	V4	Task start	{"task_name": "cluster-management-move"}
+2022-05-06T16:33:13.308Z	V0	Moving cluster management from workload cluster
+2022-05-06T16:33:13.309Z	V3	Waiting for management machines to be ready before move
+2022-05-06T16:33:13.920Z	V4	Nodes ready	{"total": 2}
+2022-05-06T16:33:19.925Z	V3	Waiting for control planes to be ready after move
+2022-05-06T16:33:23.017Z	V3	Waiting for workload cluster control plane replicas to be ready after move
+2022-05-06T16:33:23.625Z	V3	Waiting for workload cluster machine deployment replicas to be ready after move
+2022-05-06T16:33:24.245Z	V3	Waiting for machines to be ready after move
+2022-05-06T16:33:24.622Z	V4	Nodes ready	{"total": 2}
+2022-05-06T16:33:24.622Z	V4	Task finished	{"task_name": "cluster-management-move", "duration": "11.313922198s"}
+2022-05-06T16:33:24.622Z	V4	----------------------------------
+2022-05-06T16:33:24.622Z	V4	Task start	{"task_name": "delete-workload-cluster"}
+2022-05-06T16:33:24.622Z	V0	Deleting workload cluster
+2022-05-06T16:33:32.226Z	V4	Task finished	{"task_name": "delete-workload-cluster", "duration": "7.603152332s"}
+2022-05-06T16:33:32.226Z	V4	----------------------------------
+2022-05-06T16:33:32.226Z	V4	Task start	{"task_name": "clean-up-git-repo"}
+2022-05-06T16:33:32.226Z	V0	Clean up Git Repo
+2022-05-06T16:33:32.226Z	V3	Branch already exists locally	{"branch": "main"}
+2022-05-06T16:33:32.658Z	V3	Opening directory	{"directory": "main-i-0d94c058dba902e4c/git/spacecraft-aws-eks-anywhere-test-20160926-689e-4e80-b421-94980418f0bf-98"}
+2022-05-06T16:33:32.659Z	V3	Opening working tree
+2022-05-06T16:33:32.659Z	V3	Removing specified files	{"file": "path2"}
+2022-05-06T16:33:32.659Z	V3	Opening directory	{"directory": "main-i-0d94c058dba902e4c/git/spacecraft-aws-eks-anywhere-test-20160926-689e-4e80-b421-94980418f0bf-98"}
+2022-05-06T16:33:32.659Z	V3	Opening working tree
+2022-05-06T16:33:32.659Z	V3	Generating Commit object...
+2022-05-06T16:33:32.660Z	V3	Committing Object to local repo	{"repo": "main-i-0d94c058dba902e4c/git/spacecraft-aws-eks-anywhere-test-20160926-689e-4e80-b421-94980418f0bf-98"}
+2022-05-06T16:33:32.660Z	V0	Finalized commit and committed to local repository	{"hash": "1efa74cdb9d0517bde4aaf7e4c2f6fdb1cce15d9"}
+2022-05-06T16:33:32.660Z	V3	Pushing to remote	{"repo": "main-i-0d94c058dba902e4c/git/spacecraft-aws-eks-anywhere-test-20160926-689e-4e80-b421-94980418f0bf-98"}
+2022-05-06T16:33:33.194Z	V3	Finished cleaning up cluster files in git	{"repository": "spacecraft-aws-eks-anywhere-test-20160926-689e-4e80-b421-94980418f0bf-98"}
+2022-05-06T16:33:33.194Z	V4	Task finished	{"task_name": "clean-up-git-repo", "duration": "968.806047ms"}
+2022-05-06T16:33:33.194Z	V4	----------------------------------
+2022-05-06T16:33:33.194Z	V4	Task start	{"task_name": "kind-cluster-delete"}
+2022-05-06T16:33:34.898Z	V4	Deleting kind cluster	{"name": "main-i-0d94c058dba902e4c-eks-a-cluster"}
+2022-05-06T16:33:36.957Z	V4	Task finished	{"task_name": "kind-cluster-delete", "duration": "3.762127847s"}
+2022-05-06T16:33:36.957Z	V4	----------------------------------
+2022-05-06T16:33:36.957Z	V4	Tasks completed	{"duration": "2m12.009646191s"}
+2022-05-06T16:33:36.958Z	V3	Logging out from current govc session
+2022-05-06T16:33:37.644Z	V3	Cleaning up long running container	{"name": "eksa_1651854683281931874"}
+2022-05-06T16:33:37.833Z	V4	e2e	Checking validity of Github Access Token environment variable	{"env var": "EKSA_GITHUB_TOKEN"}
+2022-05-06T16:33:38.107Z	V0	e2e	Checking Github Access Token permissions
+2022-05-06T16:33:38.107Z	V0	e2e	✅ Github personal access token has the required repo permissions
+2022-05-06T16:33:38.107Z	V3	e2e	Describing Github repository	{"name": "spacecraft-aws-eks-anywhere-test-20160926-689e-4e80-b421-94980418f0bf-98", "owner": "that-jetpack-guy"}
+2022-05-06T16:33:38.107Z	V3	e2e	Describing Github repository	{"name": "spacecraft-aws-eks-anywhere-test-20160926-689e-4e80-b421-94980418f0bf-98", "owner": "that-jetpack-guy"}
+2022-05-06T16:33:38.251Z	V3	e2e	Deleting Github repository	{"name": "spacecraft-aws-eks-anywhere-test-20160926-689e-4e80-b421-94980418f0bf-98", "owner": "that-jetpack-guy"}
+2022-05-06T16:33:38.580Z	V3	e2e	Cleaning up long running container	{"name": "eksa_1651851877269624027"}
+2022-05-06T16:33:38.766Z	V4	e2e	Checking validity of Github Access Token environment variable	{"env var": "EKSA_GITHUB_TOKEN"}
+2022-05-06T16:33:39.018Z	V0	e2e	Checking Github Access Token permissions
+2022-05-06T16:33:39.018Z	V0	e2e	✅ Github personal access token has the required repo permissions
+2022-05-06T16:33:39.018Z	V3	e2e	Describing Github repository	{"name": "spacecraft-aws-eks-anywhere-test-20160926-689e-4e80-b421-94980418f0bf-98", "owner": "that-jetpack-guy"}
+2022-05-06T16:33:39.018Z	V3	e2e	Describing Github repository	{"name": "spacecraft-aws-eks-anywhere-test-20160926-689e-4e80-b421-94980418f0bf-98", "owner": "that-jetpack-guy"}
+    flux.go:347: Skipped repo deletion: remote repo spacecraft-aws-eks-anywhere-test-20160926-689e-4e80-b421-94980418f0bf-98 does not exist
+2022-05-06T16:33:39.127Z	V3	e2e	Cleaning up long running container	{"name": "eksa_1651851875860471498"}
+2022-05-06T16:33:39.304Z	V3	e2e	Logging out from current govc session
+2022-05-06T16:33:40.083Z	V3	e2e	Cleaning up long running container	{"name": "eksa_1651851861457040114"}
+--- FAIL: TestVSphereUpgradeMulticlusterWorkloadClusterWithFluxLegacy (2958.75s)
+FAIL
+
+DONE 1 tests, 1 failure in 2958.898s
