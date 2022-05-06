@@ -1,8 +1,0 @@
-2022-05-06T15:43:05.647Z	V4	e2e	Logger init completed	{"vlevel": 4}
-=== RUN   TestVSphereKubernetes121UbuntuTo122StackedEtcdUpgrade
-2022-05-06T15:43:05.647Z	V2	e2e	Pulling docker image	{"image": "public.ecr.aws/l0g8r8j6/eks-anywhere-cli-tools:v0.7.2-eks-a-v0.0.0-dev-build.1864"}
-    executables.go:25: Unable initialize executable builder: error during connect: Post "http://%2Fvar%2Frun%2Fdocker.sock/v1.41/images/create?fromImage=public.ecr.aws%2Fl0g8r8j6%2Feks-anywhere-cli-tools&tag=v0.7.2-eks-a-v0.0.0-dev-build.1864": EOF
---- FAIL: TestVSphereKubernetes121UbuntuTo122StackedEtcdUpgrade (1.65s)
-FAIL
-
-DONE 1 tests, 1 failure in 1.721s

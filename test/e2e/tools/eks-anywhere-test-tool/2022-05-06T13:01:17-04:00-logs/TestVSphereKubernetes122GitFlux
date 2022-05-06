@@ -1,264 +1,0 @@
-2022-05-06T15:45:52.532Z	V4	e2e	Logger init completed	{"vlevel": 4}
-=== RUN   TestVSphereKubernetes122GitFlux
-2022-05-06T15:45:52.533Z	V2	e2e	Pulling docker image	{"image": "public.ecr.aws/l0g8r8j6/eks-anywhere-cli-tools:v0.7.2-eks-a-v0.0.0-dev-build.1864"}
-2022-05-06T15:46:02.135Z	V3	e2e	Initializing long running container	{"name": "eksa_1651851952533470043", "image": "public.ecr.aws/l0g8r8j6/eks-anywhere-cli-tools:v0.7.2-eks-a-v0.0.0-dev-build.1864"}
-2022-05-06T15:46:06.566Z	V2	e2e	Pulling docker image	{"image": "public.ecr.aws/l0g8r8j6/eks-anywhere-cli-tools:v0.7.2-eks-a-v0.0.0-dev-build.1864"}
-2022-05-06T15:46:07.572Z	V3	e2e	Initializing long running container	{"name": "eksa_1651851966566944047", "image": "public.ecr.aws/l0g8r8j6/eks-anywhere-cli-tools:v0.7.2-eks-a-v0.0.0-dev-build.1864"}
-    cluster.go:506: Running shell command [ eksctl anywhere generate clusterconfig main-i-03b66b343d08f1cd6 -p vsphere > cluster.yaml ]
-    cluster.go:374: Creating cluster main-i-03b66b343d08f1cd6
-    cluster.go:506: Running shell command [ eksctl anywhere create cluster -f main-i-03b66b343d08f1cd6-config/cluster.yaml -v 4 ]
-2022-05-06T15:46:12.065Z	V4	Logger init completed	{"vlevel": 4}
-2022-05-06T15:46:12.067Z	V0	Warning: The recommended size of an external etcd cluster is 3 or 5
-2022-05-06T15:46:12.194Z	V0	Warning: VSphereDatacenterConfig configured in insecure mode
-2022-05-06T15:46:12.194Z	V0	Warning: The recommended size of an external etcd cluster is 3 or 5
-2022-05-06T15:46:12.194Z	V0	Warning: 'sshKeyAlgorithm' is not set, defaulting to 'ecdsa'
-2022-05-06T15:46:12.239Z	V4	Reading bundles manifest	{"url": "https://dev-release-prod-pdx.s3.amazonaws.com/bundle-release.yaml"}
-2022-05-06T15:46:12.379Z	V2	Pulling docker image	{"image": "public.ecr.aws/l0g8r8j6/eks-anywhere-cli-tools:v0.7.2-eks-a-v0.0.0-dev-build.1874"}
-2022-05-06T15:46:18.760Z	V3	Initializing long running container	{"name": "eksa_1651851972379529342", "image": "public.ecr.aws/l0g8r8j6/eks-anywhere-cli-tools:v0.7.2-eks-a-v0.0.0-dev-build.1874"}
-2022-05-06T15:46:21.454Z	V3	Validating git setup	{"repoUrl": "ssh://git@github.com/that-jetpack-guy/generic-git-spacecraft.git"}
-2022-05-06T15:46:22.181Z	V4	Task start	{"task_name": "setup-validate"}
-2022-05-06T15:46:22.181Z	V0	Performing setup and validations
-2022-05-06T15:46:22.181Z	V0	Warning: VSphereDatacenterConfig configured in insecure mode
-2022-05-06T15:46:22.209Z	V0	✅ Connected to server
-2022-05-06T15:46:22.649Z	V0	✅ Authenticated to vSphere
-2022-05-06T15:46:23.063Z	V0	✅ Datacenter validated
-2022-05-06T15:46:23.447Z	V0	✅ Network validated
-2022-05-06T15:46:26.138Z	V0	✅ Datastore validated
-2022-05-06T15:46:26.485Z	V0	✅ Folder validated
-2022-05-06T15:46:26.846Z	V0	✅ Resource pool validated
-2022-05-06T15:46:27.163Z	V0	✅ Datastore validated
-2022-05-06T15:46:27.528Z	V0	✅ Folder validated
-2022-05-06T15:46:27.948Z	V0	✅ Resource pool validated
-2022-05-06T15:46:28.327Z	V0	✅ Datastore validated
-2022-05-06T15:46:28.693Z	V0	✅ Folder validated
-2022-05-06T15:46:29.062Z	V0	✅ Resource pool validated
-2022-05-06T15:46:29.813Z	V0	✅ Control plane and Workload templates validated
-2022-05-06T15:46:33.383Z	V0	✅ Vsphere Provider setup is valid
-2022-05-06T15:46:33.383Z	V0	✅ Flux path
-2022-05-06T15:46:33.383Z	V0	✅ Validate certificate for registry mirror
-2022-05-06T15:46:33.384Z	V0	✅ Create preflight validations pass
-2022-05-06T15:46:33.384Z	V4	Task finished	{"task_name": "setup-validate", "duration": "11.20213047s"}
-2022-05-06T15:46:33.384Z	V4	----------------------------------
-2022-05-06T15:46:33.384Z	V4	Task start	{"task_name": "bootstrap-cluster-init"}
-2022-05-06T15:46:33.384Z	V0	Creating new bootstrap cluster
-2022-05-06T15:46:33.384Z	V4	Creating kind cluster	{"name": "main-i-03b66b343d08f1cd6-eks-a-cluster", "kubeconfig": "main-i-03b66b343d08f1cd6/generated/main-i-03b66b343d08f1cd6.kind.kubeconfig"}
-2022-05-06T15:47:32.778Z	V0	Provider specific pre-capi-install-setup on bootstrap cluster
-2022-05-06T15:47:32.778Z	V0	Installing cluster-api providers on bootstrap cluster
-2022-05-06T15:49:45.288Z	V0	Provider specific post-setup
-2022-05-06T15:49:45.288Z	V4	Task finished	{"task_name": "bootstrap-cluster-init", "duration": "3m11.904028134s"}
-2022-05-06T15:49:45.288Z	V4	----------------------------------
-2022-05-06T15:49:45.288Z	V4	Task start	{"task_name": "workload-cluster-init"}
-2022-05-06T15:49:45.288Z	V0	Creating new workload cluster
-2022-05-06T15:49:47.729Z	V3	Waiting for external etcd to be ready	{"cluster": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:51:26.393Z	V3	External etcd is ready
-2022-05-06T15:51:26.393Z	V3	Waiting for control plane to be ready
-2022-05-06T15:54:57.945Z	V3	Waiting for workload kubeconfig generation	{"cluster": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:54:58.439Z	V3	Waiting for controlplane and worker machines to be ready
-2022-05-06T15:54:58.825Z	V4	Nodes are not ready yet	{"total": 2, "ready": 0, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:54:59.175Z	V4	Nodes are not ready yet	{"total": 2, "ready": 0, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:55:01.613Z	V4	Nodes are not ready yet	{"total": 2, "ready": 0, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:55:04.024Z	V4	Nodes are not ready yet	{"total": 2, "ready": 0, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:55:06.456Z	V4	Nodes are not ready yet	{"total": 2, "ready": 0, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:55:08.834Z	V4	Nodes are not ready yet	{"total": 2, "ready": 0, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:55:11.237Z	V4	Nodes are not ready yet	{"total": 2, "ready": 0, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:55:13.650Z	V4	Nodes are not ready yet	{"total": 2, "ready": 0, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:55:16.074Z	V4	Nodes are not ready yet	{"total": 2, "ready": 0, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:55:18.567Z	V4	Nodes are not ready yet	{"total": 2, "ready": 0, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:55:20.978Z	V4	Nodes are not ready yet	{"total": 2, "ready": 0, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:55:23.427Z	V4	Nodes are not ready yet	{"total": 2, "ready": 0, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:55:25.829Z	V4	Nodes are not ready yet	{"total": 2, "ready": 0, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:55:28.207Z	V4	Nodes are not ready yet	{"total": 2, "ready": 0, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:55:30.635Z	V4	Nodes are not ready yet	{"total": 2, "ready": 0, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:55:33.037Z	V4	Nodes are not ready yet	{"total": 2, "ready": 0, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:55:35.404Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:55:36.781Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:55:38.119Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:55:39.520Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:55:40.894Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:55:42.304Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:55:43.651Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:55:45.068Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:55:46.460Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:55:47.860Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:55:49.220Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:55:50.634Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:55:52.011Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:55:53.375Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:55:54.767Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:55:56.209Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:55:57.590Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:55:59.039Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:56:00.433Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:56:01.946Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:56:03.443Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:56:04.855Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:56:06.219Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:56:07.639Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:56:09.082Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:56:10.533Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:56:11.912Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:56:13.330Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:56:14.767Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:56:16.147Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:56:17.656Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:56:19.194Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:56:20.592Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:56:21.999Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:56:23.454Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:56:24.897Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:56:26.322Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:56:27.881Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:56:29.268Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:56:30.738Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:56:32.137Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:56:33.539Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:56:34.870Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:56:36.262Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:56:37.639Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:56:39.143Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:56:40.537Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:56:41.909Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:56:43.294Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:56:44.664Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:56:46.046Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:56:47.436Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:56:48.821Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:56:50.183Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:56:51.577Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:56:52.951Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:56:54.355Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:56:55.804Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:56:57.195Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:56:58.612Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:57:00.004Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:57:01.462Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:57:02.900Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:57:04.300Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:57:05.834Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:57:07.205Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:57:08.655Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:57:10.008Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:57:11.425Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:57:12.816Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:57:14.201Z	V4	Nodes are not ready yet	{"total": 2, "ready": 1, "cluster name": "main-i-03b66b343d08f1cd6"}
-2022-05-06T15:57:15.546Z	V4	Nodes ready	{"total": 2}
-2022-05-06T15:57:15.546Z	V0	Installing networking on workload cluster
-2022-05-06T15:57:18.728Z	V0	Installing storage class on cluster
-2022-05-06T15:57:19.184Z	V0	Installing cluster-api providers on workload cluster
-2022-05-06T15:59:31.289Z	V0	Installing EKS-A secrets on workload cluster
-2022-05-06T15:59:35.160Z	V4	Installing machine health checks on bootstrap cluster
-2022-05-06T15:59:35.846Z	V4	Task finished	{"task_name": "workload-cluster-init", "duration": "9m50.558624856s"}
-2022-05-06T15:59:35.846Z	V4	----------------------------------
-2022-05-06T15:59:35.846Z	V4	Task start	{"task_name": "capi-management-move"}
-2022-05-06T15:59:35.846Z	V0	Moving cluster management from bootstrap to workload cluster
-2022-05-06T15:59:35.846Z	V3	Waiting for management machines to be ready before move
-2022-05-06T15:59:36.273Z	V4	Nodes ready	{"total": 2}
-2022-05-06T15:59:45.138Z	V3	Waiting for control planes to be ready after move
-2022-05-06T15:59:48.691Z	V3	Waiting for workload cluster control plane replicas to be ready after move
-2022-05-06T15:59:49.312Z	V3	Waiting for workload cluster machine deployment replicas to be ready after move
-2022-05-06T15:59:49.838Z	V3	Waiting for machines to be ready after move
-2022-05-06T15:59:50.190Z	V4	Nodes ready	{"total": 2}
-2022-05-06T15:59:50.190Z	V4	Task finished	{"task_name": "capi-management-move", "duration": "14.343403446s"}
-2022-05-06T15:59:50.190Z	V4	----------------------------------
-2022-05-06T15:59:50.190Z	V4	Task start	{"task_name": "eksa-components-install"}
-2022-05-06T15:59:50.190Z	V0	Installing EKS-A custom components (CRD and controller) on workload cluster
-2022-05-06T16:00:10.408Z	V0	Installing EKS-D components on workload cluster
-2022-05-06T16:00:13.697Z	V0	Creating EKS-A CRDs instances on workload cluster
-2022-05-06T16:00:13.703Z	V4	Applying eksa yaml resources to cluster
-2022-05-06T16:00:14.793Z	V1	Applying Bundles to cluster
-2022-05-06T16:00:15.591Z	V4	Applying eksd manifest to cluster
-2022-05-06T16:00:19.517Z	V4	Task finished	{"task_name": "eksa-components-install", "duration": "29.327273987s"}
-2022-05-06T16:00:19.517Z	V4	----------------------------------
-2022-05-06T16:00:19.517Z	V4	Task start	{"task_name": "addon-manager-install"}
-2022-05-06T16:00:19.517Z	V0	Installing AddonManager and GitOps Toolkit on workload cluster
-2022-05-06T16:00:19.517Z	V3	Cloning remote repository
-Enumerating objects: 113, done.
-Counting objects:   0% (1/113)Counting objects:   1% (2/113)Counting objects:   2% (3/113)Counting objects:   3% (4/113)Counting objects:   4% (5/113)Counting objects:   5% (6/113)Counting objects:   6% (7/113)Counting objects:   7% (8/113)Counting objects:   8% (10/113)Counting objects:   9% (11/113)Counting objects:  10% (12/113)Counting objects:  11% (13/113)Counting objects:  12% (14/113)Counting objects:  13% (15/113)Counting objects:  14% (16/113)Counting objects:  15% (17/113)Counting objects:  16% (19/113)Counting objects:  17% (20/113)Counting objects:  18% (21/113)Counting objects:  19% (22/113)Counting objects:  20% (23/113)Counting objects:  21% (24/113)Counting objects:  22% (25/113)Counting objects:  23% (26/113)Counting objects:  24% (28/113)Counting objects:  25% (29/113)Counting objects:  26% (30/113)Counting objects:  27% (31/113)Counting objects:  28% (32/113)Counting objects:  29% (33/113)Counting objects:  30% (34/113)Counting objects:  31% (36/113)Counting objects:  32% (37/113)Counting objects:  33% (38/113)Counting objects:  34% (39/113)Counting objects:  35% (40/113)Counting objects:  36% (41/113)Counting objects:  37% (42/113)Counting objects:  38% (43/113)Counting objects:  39% (45/113)Counting objects:  40% (46/113)Counting objects:  41% (47/113)Counting objects:  42% (48/113)Counting objects:  43% (49/113)Counting objects:  44% (50/113)Counting objects:  45% (51/113)Counting objects:  46% (52/113)Counting objects:  47% (54/113)Counting objects:  48% (55/113)Counting objects:  49% (56/113)Counting objects:  50% (57/113)Counting objects:  51% (58/113)Counting objects:  52% (59/113)Counting objects:  53% (60/113)Counting objects:  54% (62/113)Counting objects:  55% (63/113)Counting objects:  56% (64/113)Counting objects:  57% (65/113)Counting objects:  58% (66/113)Counting objects:  59% (67/113)Counting objects:  60% (68/113)Counting objects:  61% (69/113)Counting objects:  62% (71/113)Counting objects:  63% (72/113)Counting objects:  64% (73/113)Counting objects:  65% (74/113)Counting objects:  66% (75/113)Counting objects:  67% (76/113)Counting objects:  68% (77/113)Counting objects:  69% (78/113)Counting objects:  70% (80/113)Counting objects:  71% (81/113)Counting objects:  72% (82/113)Counting objects:  73% (83/113)Counting objects:  74% (84/113)Counting objects:  75% (85/113)Counting objects:  76% (86/113)Counting objects:  77% (88/113)Counting objects:  78% (89/113)Counting objects:  79% (90/113)Counting objects:  80% (91/113)Counting objects:  81% (92/113)Counting objects:  82% (93/113)Counting objects:  83% (94/113)Counting objects:  84% (95/113)Counting objects:  85% (97/113)Counting objects:  86% (98/113)Counting objects:  87% (99/113)Counting objects:  88% (100/113)Counting objects:  89% (101/113)Counting objects:  90% (102/113)Counting objects:  91% (103/113)Counting objects:  92% (104/113)Counting objects:  93% (106/113)Counting objects:  94% (107/113)Counting objects:  95% (108/113)Counting objects:  96% (109/113)Counting objects:  97% (110/113)Counting objects:  98% (111/113)Counting objects:  99% (112/113)Counting objects: 100% (113/113)Counting objects: 100% (113/113), done.
-Compressing objects:   0% (1/101)Compressing objects:   1% (2/101)Compressing objects:   2% (3/101)Compressing objects:   3% (4/101)Compressing objects:   4% (5/101)Compressing objects:   5% (6/101)Compressing objects:   6% (7/101)Compressing objects:   7% (8/101)Compressing objects:   8% (9/101)Compressing objects:   9% (10/101)Compressing objects:  10% (11/101)Compressing objects:  11% (12/101)Compressing objects:  12% (13/101)Compressing objects:  13% (14/101)Compressing objects:  14% (15/101)Compressing objects:  15% (16/101)Compressing objects:  16% (17/101)Compressing objects:  17% (18/101)Compressing objects:  18% (19/101)Compressing objects:  19% (20/101)Compressing objects:  20% (21/101)Compressing objects:  21% (22/101)Compressing objects:  22% (23/101)Compressing objects:  23% (24/101)Compressing objects:  24% (25/101)Compressing objects:  25% (26/101)Compressing objects:  26% (27/101)Compressing objects:  27% (28/101)Compressing objects:  28% (29/101)Compressing objects:  29% (30/101)Compressing objects:  30% (31/101)Compressing objects:  31% (32/101)Compressing objects:  32% (33/101)Compressing objects:  33% (34/101)Compressing objects:  34% (35/101)Compressing objects:  35% (36/101)Compressing objects:  36% (37/101)Compressing objects:  37% (38/101)Compressing objects:  38% (39/101)Compressing objects:  39% (40/101)Compressing objects:  40% (41/101)Compressing objects:  41% (42/101)Compressing objects:  42% (43/101)Compressing objects:  43% (44/101)Compressing objects:  44% (45/101)Compressing objects:  45% (46/101)Compressing objects:  46% (47/101)Compressing objects:  47% (48/101)Compressing objects:  48% (49/101)Compressing objects:  49% (50/101)Compressing objects:  50% (51/101)Compressing objects:  51% (52/101)Compressing objects:  52% (53/101)Compressing objects:  53% (54/101)Compressing objects:  54% (55/101)Compressing objects:  55% (56/101)Compressing objects:  56% (57/101)Compressing objects:  57% (58/101)Compressing objects:  58% (59/101)Compressing objects:  59% (60/101)Compressing objects:  60% (61/101)Compressing objects:  61% (62/101)Compressing objects:  62% (63/101)Compressing objects:  63% (64/101)Compressing objects:  64% (65/101)Compressing objects:  65% (66/101)Compressing objects:  66% (67/101)Compressing objects:  67% (68/101)Compressing objects:  68% (69/101)Compressing objects:  69% (70/101)Compressing objects:  70% (71/101)Compressing objects:  71% (72/101)Compressing objects:  72% (73/101)Compressing objects:  73% (74/101)Compressing objects:  74% (75/101)Compressing objects:  75% (76/101)Compressing objects:  76% (77/101)Compressing objects:  77% (78/101)Compressing objects:  78% (79/101)Compressing objects:  79% (80/101)Compressing objects:  80% (81/101)Compressing objects:  81% (82/101)Compressing objects:  82% (83/101)Compressing objects:  83% (84/101)Compressing objects:  84% (85/101)Compressing objects:  85% (86/101)Compressing objects:  86% (87/101)Compressing objects:  87% (88/101)Compressing objects:  88% (89/101)Compressing objects:  89% (90/101)Compressing objects:  90% (91/101)Compressing objects:  91% (92/101)Compressing objects:  92% (93/101)Compressing objects:  93% (94/101)Compressing objects:  94% (95/101)Compressing objects:  95% (96/101)Compressing objects:  96% (97/101)Compressing objects:  97% (98/101)Compressing objects:  98% (99/101)Compressing objects:  99% (100/101)Compressing objects: 100% (101/101)Compressing objects: 100% (101/101), done.
-Total 113 (delta 21), reused 89 (delta 0), pack-reused 0
-2022-05-06T16:00:20.482Z	V3	Creating a new branch
-2022-05-06T16:00:20.482Z	V3	Branch already exists locally	{"branch": "main"}
-2022-05-06T16:00:21.987Z	V0	Adding cluster configuration files to Git
-2022-05-06T16:00:21.987Z	V3	Generating eks-a cluster manifest files...
-2022-05-06T16:00:21.987Z	V3	Generating eks-a cluster config file...
-2022-05-06T16:00:21.990Z	V3	Generating eks-a kustomization file...
-2022-05-06T16:00:21.990Z	V3	Generating flux custom manifest files...
-2022-05-06T16:00:21.990Z	V3	Generating flux-system kustomization file...
-2022-05-06T16:00:21.991Z	V3	Generating flux-system sync file...
-2022-05-06T16:00:21.992Z	V3	Generating flux-system patch file...
-2022-05-06T16:00:21.992Z	V3	Opening directory	{"directory": "main-i-03b66b343d08f1cd6/git/generic-git-spacecraft"}
-2022-05-06T16:00:21.992Z	V3	Opening working tree
-2022-05-06T16:00:21.992Z	V3	Tracking specified files	{"file": "."}
-2022-05-06T16:00:22.011Z	V3	Opening directory	{"directory": "main-i-03b66b343d08f1cd6/git/generic-git-spacecraft"}
-2022-05-06T16:00:22.012Z	V3	Opening working tree
-2022-05-06T16:00:22.012Z	V3	Generating Commit object...
-2022-05-06T16:00:22.015Z	V3	Committing Object to local repo	{"repo": "main-i-03b66b343d08f1cd6/git/generic-git-spacecraft"}
-2022-05-06T16:00:22.016Z	V0	Finalized commit and committed to local repository	{"hash": "22816501d2cc0dc55bb9d7835c8118b0e78ee445"}
-2022-05-06T16:00:22.016Z	V3	Pushing to remote	{"repo": "main-i-03b66b343d08f1cd6/git/generic-git-spacecraft"}
-2022-05-06T16:00:23.114Z	V3	Finished pushing cluster config and flux custom manifest files to git
-2022-05-06T16:06:06.578Z	V0	❌ Error when installing GitOps toolkits on workload cluster; EKS-A will continue with cluster creation, but GitOps will not be enabled	{"error": "installing generic git gitops: executing flux bootstrap git: ► cloning branch \"main\" from Git repository \"ssh://git@github.com/that-jetpack-guy/generic-git-spacecraft.git\"\n✔ cloned repository\n► generating component manifests\n✔ generated component manifests\n✔ component manifests are up to date\n► installing components in \"default\" namespace\n✗ timeout waiting for: []\n"}
-2022-05-06T16:06:06.578Z	V4	Task finished	{"task_name": "addon-manager-install", "duration": "5m47.060829653s"}
-2022-05-06T16:06:06.578Z	V4	----------------------------------
-2022-05-06T16:06:06.578Z	V4	Task start	{"task_name": "write-cluster-config"}
-2022-05-06T16:06:06.578Z	V0	Writing cluster config file
-2022-05-06T16:06:06.582Z	V4	Task finished	{"task_name": "write-cluster-config", "duration": "3.584391ms"}
-2022-05-06T16:06:06.582Z	V4	----------------------------------
-2022-05-06T16:06:06.582Z	V4	Task start	{"task_name": "delete-kind-cluster"}
-2022-05-06T16:06:06.582Z	V0	Deleting bootstrap cluster
-2022-05-06T16:06:08.054Z	V4	Deleting kind cluster	{"name": "main-i-03b66b343d08f1cd6-eks-a-cluster"}
-2022-05-06T16:06:09.469Z	V0	🎉 Cluster created!
-2022-05-06T16:06:09.469Z	V4	Task finished	{"task_name": "delete-kind-cluster", "duration": "2.887355525s"}
-2022-05-06T16:06:09.469Z	V4	----------------------------------
-2022-05-06T16:06:09.469Z	V4	Tasks completed	{"duration": "19m47.287568136s"}
-2022-05-06T16:06:09.470Z	V3	Logging out from current govc session
-2022-05-06T16:06:10.073Z	V3	Cleaning up long running container	{"name": "eksa_1651851972379529342"}
-    flux.go:550: Getting deployments in flux-system namespace...
-    flux.go:576: Successfully validated flux-system deployments are present and ready
-    flux.go:550: Getting deployments in eksa-system namespace...
-    flux.go:576: Successfully validated eksa-system deployments are present and ready
-    flux.go:586: Updating workerNodeGroupConfiguration count to new value 3
-2022-05-06T16:06:11.441Z	V0	e2e	Warning: VSphereDatacenterConfig configured in insecure mode
-2022-05-06T16:06:11.441Z	V0	e2e	Warning: The recommended size of an external etcd cluster is 3 or 5
-2022-05-06T16:06:11.441Z	V0	e2e	Warning: 'sshKeyAlgorithm' is not set, defaulting to 'ecdsa'
-2022-05-06T16:06:11.490Z	V4	e2e	Reading bundles manifest	{"url": "https://dev-release-prod-pdx.s3.amazonaws.com/bundle-release.yaml"}
-    flux.go:826: writing cluster config to path path2/main-i-03b66b343d08f1cd6/eksa-system/eksa-cluster.yaml
-2022-05-06T16:06:11.610Z	V3	e2e	Opening directory	{"directory": "main-i-03b66b343d08f1cd6/git/generic-git-spacecraft"}
-2022-05-06T16:06:11.610Z	V3	e2e	Opening working tree
-2022-05-06T16:06:11.610Z	V3	e2e	Tracking specified files	{"file": "path2/main-i-03b66b343d08f1cd6/eksa-system/eksa-cluster.yaml"}
-2022-05-06T16:06:11.616Z	V3	e2e	Opening directory	{"directory": "main-i-03b66b343d08f1cd6/git/generic-git-spacecraft"}
-2022-05-06T16:06:11.616Z	V3	e2e	Opening working tree
-2022-05-06T16:06:11.616Z	V3	e2e	Generating Commit object...
-2022-05-06T16:06:11.619Z	V3	e2e	Committing Object to local repo	{"repo": "main-i-03b66b343d08f1cd6/git/generic-git-spacecraft"}
-2022-05-06T16:06:11.619Z	V0	e2e	Finalized commit and committed to local repository	{"hash": "ce2d658bd6f7885e5a7eb2a456ec538bedbc2cdc"}
-2022-05-06T16:06:11.619Z	V3	e2e	Pushing to remote	{"repo": "main-i-03b66b343d08f1cd6/git/generic-git-spacecraft"}
-    flux.go:258: Error validating scaling of Flux managed cluster: pushing: non-fast-forward update: refs/heads/main
-2022-05-06T16:06:12.720Z	V0	e2e	Warning: VSphereDatacenterConfig configured in insecure mode
-2022-05-06T16:06:12.720Z	V0	e2e	Warning: The recommended size of an external etcd cluster is 3 or 5
-2022-05-06T16:06:12.720Z	V0	e2e	Warning: 'sshKeyAlgorithm' is not set, defaulting to 'ecdsa'
-2022-05-06T16:06:12.733Z	V4	e2e	Reading bundles manifest	{"url": "https://dev-release-prod-pdx.s3.amazonaws.com/bundle-release.yaml"}
-    flux.go:826: writing cluster config to path path2/main-i-03b66b343d08f1cd6/eksa-system/eksa-cluster.yaml
-2022-05-06T16:06:12.781Z	V3	e2e	Opening directory	{"directory": "main-i-03b66b343d08f1cd6/git/generic-git-spacecraft"}
-2022-05-06T16:06:12.782Z	V3	e2e	Opening working tree
-2022-05-06T16:06:12.782Z	V3	e2e	Tracking specified files	{"file": "path2/main-i-03b66b343d08f1cd6/eksa-system/eksa-cluster.yaml"}
-2022-05-06T16:06:12.787Z	V3	e2e	Opening directory	{"directory": "main-i-03b66b343d08f1cd6/git/generic-git-spacecraft"}
-2022-05-06T16:06:12.787Z	V3	e2e	Opening working tree
-2022-05-06T16:06:12.787Z	V3	e2e	Generating Commit object...
-2022-05-06T16:06:12.792Z	V3	e2e	Committing Object to local repo	{"repo": "main-i-03b66b343d08f1cd6/git/generic-git-spacecraft"}
-2022-05-06T16:06:12.792Z	V0	e2e	Finalized commit and committed to local repository	{"hash": "8ca26687e7211d28b3e7cdc9e89812fd86580d4e"}
-2022-05-06T16:06:12.792Z	V3	e2e	Pushing to remote	{"repo": "main-i-03b66b343d08f1cd6/git/generic-git-spacecraft"}
-    flux.go:262: Error upgrading worker nodes: pushing: non-fast-forward update: refs/heads/main
-Enumerating objects: 129, done.
-Counting objects:   0% (1/129)Counting objects:   1% (2/129)Counting objects:   2% (3/129)Counting objects:   3% (4/129)Counting objects:   4% (6/129)Counting objects:   5% (7/129)Counting objects:   6% (8/129)Counting objects:   7% (10/129)Counting objects:   8% (11/129)Counting objects:   9% (12/129)Counting objects:  10% (13/129)Counting objects:  11% (15/129)Counting objects:  12% (16/129)Counting objects:  13% (17/129)Counting objects:  14% (19/129)Counting objects:  15% (20/129)Counting objects:  16% (21/129)Counting objects:  17% (22/129)Counting objects:  18% (24/129)Counting objects:  19% (25/129)Counting objects:  20% (26/129)Counting objects:  21% (28/129)Counting objects:  22% (29/129)Counting objects:  23% (30/129)Counting objects:  24% (31/129)Counting objects:  25% (33/129)Counting objects:  26% (34/129)Counting objects:  27% (35/129)Counting objects:  28% (37/129)Counting objects:  29% (38/129)Counting objects:  30% (39/129)Counting objects:  31% (40/129)Counting objects:  32% (42/129)Counting objects:  33% (43/129)Counting objects:  34% (44/129)Counting objects:  35% (46/129)Counting objects:  36% (47/129)Counting objects:  37% (48/129)Counting objects:  38% (50/129)Counting objects:  39% (51/129)Counting objects:  40% (52/129)Counting objects:  41% (53/129)Counting objects:  42% (55/129)Counting objects:  43% (56/129)Counting objects:  44% (57/129)Counting objects:  45% (59/129)Counting objects:  46% (60/129)Counting objects:  47% (61/129)Counting objects:  48% (62/129)Counting objects:  49% (64/129)Counting objects:  50% (65/129)Counting objects:  51% (66/129)Counting objects:  52% (68/129)Counting objects:  53% (69/129)Counting objects:  54% (70/129)Counting objects:  55% (71/129)Counting objects:  56% (73/129)Counting objects:  57% (74/129)Counting objects:  58% (75/129)Counting objects:  59% (77/129)Counting objects:  60% (78/129)Counting objects:  61% (79/129)Counting objects:  62% (80/129)Counting objects:  63% (82/129)Counting objects:  64% (83/129)Counting objects:  65% (84/129)Counting objects:  66% (86/129)Counting objects:  67% (87/129)Counting objects:  68% (88/129)Counting objects:  69% (90/129)Counting objects:  70% (91/129)Counting objects:  71% (92/129)Counting objects:  72% (93/129)Counting objects:  73% (95/129)Counting objects:  74% (96/129)Counting objects:  75% (97/129)Counting objects:  76% (99/129)Counting objects:  77% (100/129)Counting objects:  78% (101/129)Counting objects:  79% (102/129)Counting objects:  80% (104/129)Counting objects:  81% (105/129)Counting objects:  82% (106/129)Counting objects:  83% (108/129)Counting objects:  84% (109/129)Counting objects:  85% (110/129)Counting objects:  86% (111/129)Counting objects:  87% (113/129)Counting objects:  88% (114/129)Counting objects:  89% (115/129)Counting objects:  90% (117/129)Counting objects:  91% (118/129)Counting objects:  92% (119/129)Counting objects:  93% (120/129)Counting objects:  94% (122/129)Counting objects:  95% (123/129)Counting objects:  96% (124/129)Counting objects:  97% (126/129)Counting objects:  98% (127/129)Counting objects:  99% (128/129)Counting objects: 100% (129/129)Counting objects: 100% (129/129), done.
-Compressing objects:   0% (1/114)Compressing objects:   1% (2/114)Compressing objects:   2% (3/114)Compressing objects:   3% (4/114)Compressing objects:   4% (5/114)Compressing objects:   5% (6/114)Compressing objects:   6% (7/114)Compressing objects:   7% (8/114)Compressing objects:   8% (10/114)Compressing objects:   9% (11/114)Compressing objects:  10% (12/114)Compressing objects:  11% (13/114)Compressing objects:  12% (14/114)Compressing objects:  13% (15/114)Compressing objects:  14% (16/114)Compressing objects:  15% (18/114)Compressing objects:  16% (19/114)Compressing objects:  17% (20/114)Compressing objects:  18% (21/114)Compressing objects:  19% (22/114)Compressing objects:  20% (23/114)Compressing objects:  21% (24/114)Compressing objects:  22% (26/114)Compressing objects:  23% (27/114)Compressing objects:  24% (28/114)Compressing objects:  25% (29/114)Compressing objects:  26% (30/114)Compressing objects:  27% (31/114)Compressing objects:  28% (32/114)Compressing objects:  29% (34/114)Compressing objects:  30% (35/114)Compressing objects:  31% (36/114)Compressing objects:  32% (37/114)Compressing objects:  33% (38/114)Compressing objects:  34% (39/114)Compressing objects:  35% (40/114)Compressing objects:  36% (42/114)Compressing objects:  37% (43/114)Compressing objects:  38% (44/114)Compressing objects:  39% (45/114)Compressing objects:  40% (46/114)Compressing objects:  41% (47/114)Compressing objects:  42% (48/114)Compressing objects:  43% (50/114)Compressing objects:  44% (51/114)Compressing objects:  45% (52/114)Compressing objects:  46% (53/114)Compressing objects:  47% (54/114)Compressing objects:  48% (55/114)Compressing objects:  49% (56/114)Compressing objects:  50% (57/114)Compressing objects:  51% (59/114)Compressing objects:  52% (60/114)Compressing objects:  53% (61/114)Compressing objects:  54% (62/114)Compressing objects:  55% (63/114)Compressing objects:  56% (64/114)Compressing objects:  57% (65/114)Compressing objects:  58% (67/114)Compressing objects:  59% (68/114)Compressing objects:  60% (69/114)Compressing objects:  61% (70/114)Compressing objects:  62% (71/114)Compressing objects:  63% (72/114)Compressing objects:  64% (73/114)Compressing objects:  65% (75/114)Compressing objects:  66% (76/114)Compressing objects:  67% (77/114)Compressing objects:  68% (78/114)Compressing objects:  69% (79/114)Compressing objects:  70% (80/114)Compressing objects:  71% (81/114)Compressing objects:  72% (83/114)Compressing objects:  73% (84/114)Compressing objects:  74% (85/114)Compressing objects:  75% (86/114)Compressing objects:  76% (87/114)Compressing objects:  77% (88/114)Compressing objects:  78% (89/114)Compressing objects:  79% (91/114)Compressing objects:  80% (92/114)Compressing objects:  81% (93/114)Compressing objects:  82% (94/114)Compressing objects:  83% (95/114)Compressing objects:  84% (96/114)Compressing objects:  85% (97/114)Compressing objects:  86% (99/114)Compressing objects:  87% (100/114)Compressing objects:  88% (101/114)Compressing objects:  89% (102/114)Compressing objects:  90% (103/114)Compressing objects:  91% (104/114)Compressing objects:  92% (105/114)Compressing objects:  93% (107/114)Compressing objects:  94% (108/114)Compressing objects:  95% (109/114)Compressing objects:  96% (110/114)Compressing objects:  97% (111/114)Compressing objects:  98% (112/114)Compressing objects:  99% (113/114)Compressing objects: 100% (114/114)Compressing objects: 100% (114/114), done.
-Total 129 (delta 25), reused 101 (delta 0), pack-reused 0
-2022-05-06T16:06:14.451Z	V3	e2e	Branch already exists locally	{"branch": "main"}
-    flux.go:456: Error opening file from the newly created repo directory: open main-i-03b66b343d08f1cd6/e2e-validate/generic-git-spacecraft/path2/main-i-03b66b343d08f1cd6/eksa-system/eksa-cluster.yaml: no such file or directory
-    flux.go:459: Error validating the content of github repo: open main-i-03b66b343d08f1cd6/e2e-validate/generic-git-spacecraft/path2/main-i-03b66b343d08f1cd6/eksa-system/eksa-cluster.yaml: no such file or directory
-    flux.go:290: repository directory main-i-03b66b343d08f1cd6/generic-git-spacecraft does not exist; skipping cleanup
-2022-05-06T16:06:15.897Z	V3	e2e	Cleaning up long running container	{"name": "eksa_1651851966566944047"}
-2022-05-06T16:06:16.029Z	V3	e2e	Logging out from current govc session
-2022-05-06T16:06:16.765Z	V3	e2e	Cleaning up long running container	{"name": "eksa_1651851952533470043"}
---- FAIL: TestVSphereKubernetes122GitFlux (1224.39s)
-FAIL
-
-DONE 1 tests, 1 failure in 1224.530s
