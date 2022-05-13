@@ -40,6 +40,7 @@ type E2ESession struct {
 	bundlesOverride     bool
 	requiredFiles       []string
 	branchName          string
+	clusterNamePrefix   string
 }
 
 func newSessionFromConf(conf instanceRunConf) (*E2ESession, error) {
@@ -60,6 +61,7 @@ func newSessionFromConf(conf instanceRunConf) (*E2ESession, error) {
 		bundlesOverride:     conf.bundlesOverride,
 		requiredFiles:       requiredFiles,
 		branchName:          conf.branchName,
+		clusterNamePrefix:   conf.clusterNamePrefix,
 	}
 
 	return e, nil
@@ -146,7 +148,7 @@ func (e *E2ESession) setup(regex string) error {
 		e.testEnvVars[e2etests.BranchNameEnvVar] = e.branchName
 	}
 
-	e.testEnvVars[e2etests.ClusterNameVar] = clusterName(e.branchName, e.instanceId)
+	e.testEnvVars[e2etests.ClusterNameVar] = clusterName(e.clusterNamePrefix, e.branchName, e.instanceId)
 	return nil
 }
 
@@ -217,20 +219,33 @@ func (e *E2ESession) createTestNameFile(testName string) error {
 	return nil
 }
 
-func clusterName(branch string, instanceId string) (clusterName string) {
-	if branch == "" {
+func clusterName(prefix string, branch string, instanceId string) string {
+	if prefix == "" && branch == "" {
 		return instanceId
 	}
-	clusterNameTemplate := "%s-%s"
+
+	b := &strings.Builder{}
+
+	if prefix != "" {
+		b.WriteString(prefix)
+		b.WriteString("-")
+	}
+
+	if branch != "" {
+		b.WriteString(branch)
+		b.WriteString("-")
+	}
+
+	b.WriteString(instanceId)
+
 	forbiddenChars := []string{"."}
-	sanitizedBranch := strings.ToLower(branch)
+	n := strings.ToLower(b.String())
 	for _, char := range forbiddenChars {
-		sanitizedBranch = strings.ReplaceAll(sanitizedBranch, char, "-")
+		n = strings.ReplaceAll(n, char, "-")
 	}
-	clusterName = fmt.Sprintf(clusterNameTemplate, sanitizedBranch, instanceId)
-	if len(clusterName) > 80 {
-		logger.Info("Cluster name is longer than 80 characters; truncating to 80 characters.", "original cluster name", clusterName, "truncated cluster name", clusterName[:80])
-		clusterName = clusterName[:80]
+	if len(n) > 80 {
+		logger.Info("Cluster name is longer than 80 characters; truncating to 80 characters.", "original cluster name", n, "truncated cluster name", n[:80])
+		n = n[:80]
 	}
-	return clusterName
+	return n
 }

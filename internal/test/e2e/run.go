@@ -36,6 +36,7 @@ type ParallelRunConf struct {
 	CleanupVms          bool
 	TestReportFolder    string
 	BranchName          string
+	ClusterNamePrefix   string
 }
 
 type (
@@ -102,7 +103,7 @@ func RunTestsInParallel(conf ParallelRunConf) error {
 			logger.Info("Ec2 instance tests completed successfully", "jobId", r.conf.jobId, "instanceId", r.conf.instanceId, "commandId", r.testCommandResult.CommandId, "tests", r.conf.regex, "status", passedStatus)
 			logResult(r.testCommandResult)
 		}
-		clusterName := clusterName(r.conf.branchName, r.conf.instanceId)
+		clusterName := clusterName(r.conf.clusterNamePrefix, r.conf.branchName, r.conf.instanceId)
 		if conf.CleanupVms {
 			err = CleanUpVsphereTestResources(context.Background(), clusterName)
 			if err != nil {
@@ -120,7 +121,7 @@ func RunTestsInParallel(conf ParallelRunConf) error {
 
 type instanceRunConf struct {
 	amiId, instanceProfileName, storageBucket, jobId, parentJobId, subnetId, regex, instanceId string
-	testReportFolder, branchName                                                               string
+	testReportFolder, clusterNamePrefix, branchName                                            string
 	ipPool                                                                                     networkutils.IPPool
 	bundlesOverride                                                                            bool
 }
@@ -251,6 +252,7 @@ func splitTests(testsList []string, conf ParallelRunConf) []instanceRunConf {
 				bundlesOverride:     conf.BundlesOverride,
 				testReportFolder:    conf.TestReportFolder,
 				branchName:          conf.BranchName,
+				clusterNamePrefix:   conf.ClusterNamePrefix,
 				ipPool:              ips,
 			})
 

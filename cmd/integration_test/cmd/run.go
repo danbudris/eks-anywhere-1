@@ -27,6 +27,7 @@ const (
 	cleanupVmsFlagName         = "cleanup-vms"
 	testReportFolderFlagName   = "test-report-folder"
 	branchNameFlagName         = "branch-name"
+	clusterNamePrefixFlag      = "cluster-name-prefix"
 )
 
 var runE2ECmd = &cobra.Command{
@@ -70,6 +71,7 @@ func init() {
 	runE2ECmd.Flags().Bool(cleanupVmsFlagName, false, "Flag to indicate if VSphere VMs should be cleaned up automatically as tests complete")
 	runE2ECmd.Flags().String(testReportFolderFlagName, "", "Folder destination fo JUnit tests reports")
 	runE2ECmd.Flags().String(branchNameFlagName, "main", "EKS-A origin branch from where the tests are being run")
+	runE2ECmd.Flags().String(clusterNamePrefixFlag, "", "Optional string which prefixes each cluster name in the test run")
 
 	for _, flag := range requiredFlags {
 		if err := runE2ECmd.MarkFlagRequired(flag); err != nil {
@@ -92,6 +94,7 @@ func runE2E(ctx context.Context) error {
 	cleanupVms := viper.GetBool(cleanupVmsFlagName)
 	testReportFolder := viper.GetString(testReportFolderFlagName)
 	branchName := viper.GetString(branchNameFlagName)
+	clusterNamePrefix := viper.GetString(clusterNamePrefixFlag)
 
 	runConf := e2e.ParallelRunConf{
 		MaxInstances:        maxInstances,
@@ -107,6 +110,7 @@ func runE2E(ctx context.Context) error {
 		CleanupVms:          cleanupVms,
 		TestReportFolder:    testReportFolder,
 		BranchName:          branchName,
+		ClusterNamePrefix:   clusterNamePrefix,
 	}
 
 	err := e2e.RunTestsInParallel(runConf)
