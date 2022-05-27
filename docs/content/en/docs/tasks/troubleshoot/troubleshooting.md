@@ -4,6 +4,8 @@ linkTitle: "Troubleshooting"
 weight: 40
 description: >
   Troubleshooting EKS Anywhere clusters
+aliases:
+   - /docs/tasks/troubleshoot/_troubleshooting
 ---
 
 This guide covers some generic troubleshooting techniques and then cover more detailed examples. You may want to search this document for a fragment of the error you are seeing.
@@ -198,8 +200,8 @@ This is likely a [Memory or disk resource problem]({{< relref "#memory-or-disk-r
 ### Generic cluster unavailable
 Troubleshoot more by inspecting bootstrap cluster or workload cluster (depending on the stage of failure) using kubectl commands. 
 ```
-kubectl get pods -A —kubeconfig=<kubeconfig>
-kubectl get nodes -A —kubeconfig=<kubeconfig>
+kubectl get pods -A --kubeconfig=<kubeconfig>
+kubectl get nodes -A --kubeconfig=<kubeconfig>
 kubectl get logs <podname> -n <namespace> --kubeconfig=<kubeconfig>
 ....
 ```
