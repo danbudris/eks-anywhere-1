@@ -4,14 +4,14 @@ import (
 	"context"
 	_ "embed"
 	"fmt"
-	"github.com/aws/eks-anywhere/pkg/git"
-	"github.com/aws/eks-anywhere/pkg/git/gogithub"
-	"github.com/aws/eks-anywhere/pkg/git/providers/github"
 	"path/filepath"
 
 	"github.com/aws/eks-anywhere/pkg/api/v1alpha1"
 	"github.com/aws/eks-anywhere/pkg/filewriter"
+	"github.com/aws/eks-anywhere/pkg/git"
 	gitFactory "github.com/aws/eks-anywhere/pkg/git/factory"
+	"github.com/aws/eks-anywhere/pkg/git/gogithub"
+	"github.com/aws/eks-anywhere/pkg/git/providers/github"
 )
 
 func (e *ClusterE2ETest) NewGitTools(ctx context.Context, cluster *v1alpha1.Cluster, fluxConfig *v1alpha1.FluxConfig, writer filewriter.FileWriter, repoPath string) (*gitFactory.GitTools, error) {
@@ -50,19 +50,19 @@ func (e *ClusterE2ETest) NewGitTools(ctx context.Context, cluster *v1alpha1.Clus
 }
 
 func (e *ClusterE2ETest) TestGithubClient(ctx context.Context, githubToken string, owner string, repository string, personal bool) (git.ProviderClient, error) {
-		auth := git.TokenAuth{Token: githubToken, Username: owner}
-		gogithubOpts := gogithub.Options{Auth: auth}
-		githubProviderClient := gogithub.New(ctx, gogithubOpts)
+	auth := git.TokenAuth{Token: githubToken, Username: owner}
+	gogithubOpts := gogithub.Options{Auth: auth}
+	githubProviderClient := gogithub.New(ctx, gogithubOpts)
 
-		config := &v1alpha1.GithubProviderConfig{
-			Owner:      owner,
-			Repository: repository,
-			Personal:   personal,
-		}
-		provider, err := github.New(githubProviderClient, config, auth)
-		if err != nil {
-			return nil, fmt.Errorf("creating test git provider: %v", err)
-		}
+	config := &v1alpha1.GithubProviderConfig{
+		Owner:      owner,
+		Repository: repository,
+		Personal:   personal,
+	}
+	provider, err := github.New(githubProviderClient, config, auth)
+	if err != nil {
+		return nil, fmt.Errorf("creating test git provider: %v", err)
+	}
 
-		return provider, nil
+	return provider, nil
 }

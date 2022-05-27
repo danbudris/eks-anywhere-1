@@ -359,7 +359,6 @@ func (e *ClusterE2ETest) CleanUpTestGithubRepos() {
 	if err != nil {
 		e.T.Errorf("error while deleting Github repo %s: %v", r.Repository, err)
 	}
-
 }
 
 func (e *ClusterE2ETest) CleanUpGithubRepo() {
