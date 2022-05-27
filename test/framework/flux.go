@@ -50,6 +50,9 @@ var fluxGitRequiredEnvVars = []string{
 	gitKnownHosts,
 	gitPrivateKeyFile,
 	gitRepoSshUrl,
+	gitRepositoryVar,
+	githubUserVar,
+	githubTokenVar,
 }
 
 func WithFluxGit(opts ...api.FluxConfigOpt) ClusterE2ETestOpt {
@@ -72,7 +75,9 @@ func WithFluxGit(opts ...api.FluxConfigOpt) ClusterE2ETestOpt {
 		for _, opt := range opts {
 			opt(e.FluxConfig)
 		}
+		e.setupGithubRepoForTest()
 		e.T.Cleanup(e.CleanUpGitRepo)
+		e.T.Cleanup(e.CleanUpTestGithubRepos)
 	}
 }
 
@@ -322,6 +327,41 @@ func (e *ClusterE2ETest) CleanUpGitRepo() {
 	}
 }
 
+func (e *ClusterE2ETest) CleanUpTestGithubRepo(ctx context.Context, owner, repoName string, providerClient git.ProviderClient) {
+	opts := git.DeleteRepoOpts{Owner: owner, Repository: repoName}
+	repo, err := providerClient.GetRepo(ctx)
+	if err != nil {
+		e.T.Errorf("getting Github repo %s: %v", repoName, err)
+	}
+	if repo == nil {
+		e.T.Logf("Skipped repo deletion: remote repo %s does not exist", repoName)
+		return
+	}
+	err = providerClient.DeleteRepo(ctx, opts)
+	if err != nil {
+		e.T.Errorf("while deleting Github repo %s: %v", repoName, err)
+	}
+}
+
+func (e *ClusterE2ETest) CleanUpTestGithubRepos() {
+	r := e.TestGithubOptions
+	opts := git.DeleteRepoOpts{Owner: r.Owner, Repository: r.Repository}
+	ctx := context.Background()
+	repo, err := e.TestGithubProvider.GetRepo(ctx)
+	if err != nil {
+		e.T.Errorf("getting Github repo %s: %v", r.Repository, err)
+	}
+	if repo == nil {
+		e.T.Logf("Skipped repo deletion: remote repo %s does not exist", r.Repository)
+		return
+	}
+	err = e.TestGithubProvider.DeleteRepo(ctx, opts)
+	if err != nil {
+		e.T.Errorf("error while deleting Github repo %s: %v", r.Repository, err)
+	}
+
+}
+
 func (e *ClusterE2ETest) CleanUpGithubRepo() {
 	c := e.clusterConfig()
 	writer, err := filewriter.NewWriter(e.cluster().Name)
@@ -357,6 +397,20 @@ func (e *ClusterE2ETest) CleanUpGithubRepo() {
 type providerConfig struct {
 	datacenterConfig providers.DatacenterConfig
 	machineConfigs   []providers.MachineConfig
+}
+
+func (e *ClusterE2ETest) setupGithubRepoForTest() {
+	e.TestGithubOptions = &v1alpha1.GithubProviderConfig{
+		Owner:      os.Getenv(githubUserVar),
+		Repository: os.Getenv(gitRepositoryVar),
+		Personal:   true,
+	}
+
+	g, err := e.TestGithubClient(context.Background(), os.Getenv(githubTokenVar), e.TestGithubOptions.Owner, e.TestGithubOptions.Repository, e.TestGithubOptions.Personal)
+	if err != nil {
+		e.T.Fatalf("couldn't create Github client for test setup: %v", err)
+	}
+	e.TestGithubProvider = g
 }
 
 func (e *ClusterE2ETest) validateInitialFluxState(ctx context.Context) error {

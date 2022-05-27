@@ -63,6 +63,8 @@ type ClusterE2ETest struct {
 	KubectlClient          *executables.Kubectl
 	GitProvider            git.ProviderClient
 	GitClient              git.Client
+	TestGithubOptions      *v1alpha1.GithubProviderConfig
+	TestGithubProvider     git.ProviderClient
 	HelmInstallConfig      *HelmInstallConfig
 	GitWriter              filewriter.FileWriter
 	OIDCConfig             *v1alpha1.OIDCConfig
