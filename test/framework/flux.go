@@ -399,9 +399,10 @@ type providerConfig struct {
 }
 
 func (e *ClusterE2ETest) setupGithubRepoForTest() {
+	e.T.Logf("Creating Github repo for test setup...")
 	e.TestGithubOptions = &v1alpha1.GithubProviderConfig{
 		Owner:      os.Getenv(githubUserVar),
-		Repository: os.Getenv(gitRepositoryVar),
+		Repository: fmt.Sprintf("%s-%s", e.T.Name(), e.getJobIdFromEnv()),
 		Personal:   true,
 	}
 
