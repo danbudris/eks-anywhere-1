@@ -565,6 +565,12 @@ func (fc *fluxForCluster) setupProviderRepository(ctx context.Context) error {
 		var repoEmptyErr *git.RepositoryIsEmptyError
 		if errors.As(err, &repoEmptyErr) {
 			logger.V(3).Info("remote repository is empty and can't be cloned; will initialize locally")
+
+			// git requires at least one commit in the repo to branch from
+			if err = fc.gitTools.Client.Commit("initializing repository"); err != nil {
+				return fmt.Errorf("initializing repository: %v", err)
+			}
+
 			if err = fc.initializeLocalRepository(); err != nil {
 				return &ConfigVersionControlFailedError{err}
 			}
@@ -629,11 +635,6 @@ func (fc *fluxForCluster) initializeLocalRepository() error {
 	err := fc.gitTools.Client.Init()
 	if err != nil {
 		return fmt.Errorf("could not initialize repo: %w", err)
-	}
-
-	// git requires at least one commit in the repo to branch from
-	if err = fc.gitTools.Client.Commit("initializing repository"); err != nil {
-		return fmt.Errorf("initializing repository: %v", err)
 	}
 
 	if err = fc.gitTools.Client.Branch(fc.branch()); err != nil {

@@ -237,7 +237,6 @@ func TestFluxAddonClientInstallGitOpsNoPrexistingRepo(t *testing.T) {
 			m.gitProvider.EXPECT().CreateRepo(ctx, createRepoOpts).Return(&returnRepo, nil)
 
 			m.gitClient.EXPECT().Init().Return(nil)
-			m.gitClient.EXPECT().Commit(gomock.Any()).Return(nil)
 			m.gitClient.EXPECT().Branch(b).Return(nil)
 			m.gitClient.EXPECT().Add(path.Dir(tt.expectedClusterConfigGitPath)).Return(nil)
 			m.gitClient.EXPECT().Commit(test.OfType("string")).Return(nil)
